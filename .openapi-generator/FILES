@@ -1,0 +1,11 @@
+.gitignore
+.travis.yml
+README.md
+git_push.sh
+shard.yml
+spec/spec_helper.cr
+src/openapi_client.cr
+src/openapi_client/api/default_api.cr
+src/openapi_client/api_client.cr
+src/openapi_client/api_error.cr
+src/openapi_client/configuration.cr
