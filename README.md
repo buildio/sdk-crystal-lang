@@ -20,7 +20,7 @@ Add the following to shard.yaml
 ```yaml
 dependencies:
   openapi_client:
-    github: GIT_USER_ID/GIT_REPO_ID
+    github: buildio/sdk-crystal-lang
     version: ~> 1.0.0
 ```
 
