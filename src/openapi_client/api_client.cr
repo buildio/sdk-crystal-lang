@@ -59,6 +59,7 @@ module OpenAPIClient
     # @param [Hash] query_params Query parameters
     # @param [String] auth_names Authentication scheme name
     def update_params_for_auth!(header_params, query_params, auth_names)
+      auth_names = ["Bearer"] if auth_names.empty?
       auth_names.each do |auth_name|
         auth_setting = @config.auth_settings[auth_name]
         next unless auth_setting
