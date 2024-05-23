@@ -55,7 +55,7 @@ module OpenAPIClient
       return_type = nil
 
       # auth_names
-      auth_names = [] of String
+      auth_names = ["bearer", "oauth2"]
 
       data, status_code, headers = @api_client.call_api(:GET,
                                                         local_var_path,
@@ -112,7 +112,7 @@ module OpenAPIClient
       return_type = nil
 
       # auth_names
-      auth_names = [] of String
+      auth_names = ["bearer", "oauth2"]
 
       data, status_code, headers = @api_client.call_api(:PATCH,
                                                         local_var_path,
@@ -161,7 +161,7 @@ module OpenAPIClient
       return_type = nil
 
       # auth_names
-      auth_names = [] of String
+      auth_names = ["bearer", "oauth2"]
 
       data, status_code, headers = @api_client.call_api(:GET,
                                                         local_var_path,
@@ -216,7 +216,7 @@ module OpenAPIClient
       return_type = nil
 
       # auth_names
-      auth_names = [] of String
+      auth_names = ["bearer", "oauth2"]
 
       data, status_code, headers = @api_client.call_api(:POST,
                                                         local_var_path,
@@ -271,7 +271,7 @@ module OpenAPIClient
       return_type = nil
 
       # auth_names
-      auth_names = [] of String
+      auth_names = ["bearer", "oauth2"]
 
       data, status_code, headers = @api_client.call_api(:DELETE,
                                                         local_var_path,
@@ -326,7 +326,7 @@ module OpenAPIClient
       return_type = nil
 
       # auth_names
-      auth_names = [] of String
+      auth_names = ["bearer", "oauth2"]
 
       data, status_code, headers = @api_client.call_api(:GET,
                                                         local_var_path,
@@ -377,7 +377,7 @@ module OpenAPIClient
       return_type = "ApiV1MeGet200Response"
 
       # auth_names
-      auth_names = [] of String
+      auth_names = ["bearer", "oauth2"]
 
       data, status_code, headers = @api_client.call_api(:GET,
                                                         local_var_path,
@@ -392,6 +392,58 @@ module OpenAPIClient
         Log.debug {"API called: DefaultApi#api_v1_me_get\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
       end
       return ApiV1MeGet200Response.from_json(data), status_code, headers
+    end
+
+    # kubernetes oidc-login
+    # @return [nil]
+    def api_v1_oidc_login_get(region : String?)
+      api_v1_oidc_login_get_with_http_info(region)
+      nil
+    end
+
+    # kubernetes oidc-login
+    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
+    def api_v1_oidc_login_get_with_http_info(region : String?)
+      if @api_client.config.debugging
+        Log.debug {"Calling API: DefaultApi.api_v1_oidc_login_get ..."}
+      end
+      # resource path
+      local_var_path = "/api/v1/oidc_login"
+
+      # query parameters
+      query_params = Hash(String, String).new
+      query_params["region"] = region.to_s unless region.nil?
+
+      # header parameters
+      header_params = Hash(String, String).new
+      # HTTP header "Accept" (if needed)
+      header_params["Accept"] = @api_client.select_header_accept(["application/json"])
+
+      # form parameters
+      form_params = Hash(Symbol, (String | ::File)).new
+
+      # http body (model)
+      post_body = nil
+
+      # return_type
+      return_type = nil
+
+      # auth_names
+      auth_names = ["openIdConnect", "api_key", "bearer", "oauth2"]
+
+      data, status_code, headers = @api_client.call_api(:GET,
+                                                        local_var_path,
+                                                        :"DefaultApi.api_v1_oidc_login_get",
+                                                        return_type,
+                                                        post_body,
+                                                        auth_names,
+                                                        header_params,
+                                                        query_params,
+                                                        form_params)
+      if @api_client.config.debugging
+        Log.debug {"API called: DefaultApi#api_v1_oidc_login_get\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
+      end
+      return nil, status_code, headers
     end
   end
 end

@@ -218,13 +218,19 @@ module OpenAPIClient
     # Returns Auth Settings hash for api client.
     def auth_settings
       Hash{
-        "Bearer" => {
+        "bearer" => {
+          type: "bearer",
+          in: "header",
+          key: "Authorization",
+          value: "Bearer #{access_token}"
+        },
+        "api_key" => {
           type: "api_key",
           in: "header",
           key: "Authorization",
           value: api_key_with_prefix(:Authorization)
         },
-        "Oauth2" => {
+        "oauth2" => {
           type: "oauth2",
           in: "header",
           key: "Authorization",
