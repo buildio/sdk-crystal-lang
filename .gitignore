@@ -13,6 +13,7 @@
 
 /tmp/
 
-openapi_client
+/openapi_client
 tags
 
+ *.sw?
