@@ -395,14 +395,14 @@ module OpenAPIClient
     end
 
     # kubernetes oidc-login
-    # @return [nil]
+    # @return [ApiV1OidcLoginGet200Response]
     def api_v1_oidc_login_get(region : String?)
-      api_v1_oidc_login_get_with_http_info(region)
-      nil
+      data, _status_code, _headers = api_v1_oidc_login_get_with_http_info(region)
+      data
     end
 
     # kubernetes oidc-login
-    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
+    # @return [Array<(ApiV1OidcLoginGet200Response, Integer, Hash)>] ApiV1OidcLoginGet200Response data, response status code and response headers
     def api_v1_oidc_login_get_with_http_info(region : String?)
       if @api_client.config.debugging
         Log.debug {"Calling API: DefaultApi.api_v1_oidc_login_get ..."}
@@ -426,10 +426,10 @@ module OpenAPIClient
       post_body = nil
 
       # return_type
-      return_type = nil
+      return_type = "ApiV1OidcLoginGet200Response"
 
       # auth_names
-      auth_names = ["openIdConnect", "api_key", "bearer", "oauth2"]
+      auth_names = ["api_key", "bearer", "oauth2"]
 
       data, status_code, headers = @api_client.call_api(:GET,
                                                         local_var_path,
@@ -443,7 +443,7 @@ module OpenAPIClient
       if @api_client.config.debugging
         Log.debug {"API called: DefaultApi#api_v1_oidc_login_get\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
       end
-      return nil, status_code, headers
+      return ApiV1OidcLoginGet200Response.from_json(data), status_code, headers
     end
   end
 end
