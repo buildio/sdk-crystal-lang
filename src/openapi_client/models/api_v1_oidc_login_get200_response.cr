@@ -23,15 +23,15 @@ module OpenAPIClient
     @[JSON::Field(key: "apiVersion", type: String, nillable: false, emit_null: false)]
     property api_version : String
 
-    @[JSON::Field(key: "spec", type: Object, nillable: false, emit_null: false)]
-    property spec : Object
+    @[JSON::Field(key: "spec", type: ApiV1OidcLoginGet200ResponseSpec, nillable: false, emit_null: false)]
+    property spec : ApiV1OidcLoginGet200ResponseSpec
 
-    @[JSON::Field(key: "status", type: Object, nillable: false, emit_null: false)]
-    property status : Object
+    @[JSON::Field(key: "status", type: ApiV1OidcLoginGet200ResponseStatus, nillable: false, emit_null: false)]
+    property status : ApiV1OidcLoginGet200ResponseStatus
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@kind : String, @api_version : String, @spec : Object, @status : Object)
+    def initialize(@kind : String, @api_version : String, @spec : ApiV1OidcLoginGet200ResponseSpec, @status : ApiV1OidcLoginGet200ResponseStatus)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?

@@ -3,7 +3,8 @@
 README.md
 git_push.sh
 shard.yml
-spec/models/api_v1_oidc_login_get200_response_spec.cr
+spec/models/api_v1_oidc_login_get200_response_spec_spec.cr
+spec/models/api_v1_oidc_login_get200_response_status_spec.cr
 spec/spec_helper.cr
 src/openapi_client.cr
 src/openapi_client/api/default_api.cr
@@ -12,3 +13,5 @@ src/openapi_client/api_error.cr
 src/openapi_client/configuration.cr
 src/openapi_client/models/api_v1_me_get200_response.cr
 src/openapi_client/models/api_v1_oidc_login_get200_response.cr
+src/openapi_client/models/api_v1_oidc_login_get200_response_spec.cr
+src/openapi_client/models/api_v1_oidc_login_get200_response_status.cr
