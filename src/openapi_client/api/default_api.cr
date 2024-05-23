@@ -408,7 +408,7 @@ module OpenAPIClient
         Log.debug {"Calling API: DefaultApi.api_v1_oidc_login_get ..."}
       end
       # resource path
-      local_var_path = "/api/v1/oidc_login"
+      local_var_path = "/api/v1/oidc-login"
 
       # query parameters
       query_params = Hash(String, String).new
