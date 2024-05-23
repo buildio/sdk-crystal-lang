@@ -92,7 +92,7 @@ describe "DefaultApi" do
   # unit tests for api_v1_me_get
   # identity
   # @param [Hash] opts the optional parameters
-  # @return [nil]
+  # @return [ApiV1MeGet200Response]
   describe "api_v1_me_get test" do
     it "should work" do
       # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
