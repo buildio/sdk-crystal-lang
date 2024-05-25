@@ -448,118 +448,6 @@ module OpenAPIClient
       return ApiV1OidcLoginGet200Response.from_json(data), status_code, headers
     end
 
-    # list all teams
-    # List all teams
-    # @return [Array(ApiV1TeamsGet200ResponseInner)]
-    def api_v1_teams_get()
-      data, _status_code, _headers = api_v1_teams_get_with_http_info()
-      data
-    end
-
-    # list all teams
-    # List all teams
-    # @return [Array<(Array(ApiV1TeamsGet200ResponseInner), Integer, Hash)>] Array(ApiV1TeamsGet200ResponseInner) data, response status code and response headers
-    def api_v1_teams_get_with_http_info()
-      if @api_client.config.debugging
-        Log.debug {"Calling API: DefaultApi.api_v1_teams_get ..."}
-      end
-      # resource path
-      local_var_path = "/api/v1/teams"
-
-      # query parameters
-      query_params = Hash(String, String).new
-
-      # header parameters
-      header_params = Hash(String, String).new
-      # HTTP header "Accept" (if needed)
-      header_params["Accept"] = @api_client.select_header_accept(["application/json"])
-
-      # form parameters
-      form_params = Hash(Symbol, (String | ::File)).new
-
-      # http body (model)
-      post_body = nil
-
-      # return_type
-      return_type = "Array(ApiV1TeamsGet200ResponseInner)"
-
-      # auth_names
-      auth_names = ["bearer", "oauth2"]
-
-      data, status_code, headers = @api_client.call_api(:GET,
-                                                        local_var_path,
-                                                        :"DefaultApi.api_v1_teams_get",
-                                                        return_type,
-                                                        post_body,
-                                                        auth_names,
-                                                        header_params,
-                                                        query_params,
-                                                        form_params)
-      if @api_client.config.debugging
-        Log.debug {"API called: DefaultApi#api_v1_teams_get\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
-      end
-      return Array(ApiV1TeamsGet200ResponseInner).from_json(data), status_code, headers
-    end
-
-    # show team
-    # Show a team
-    # @param id [String] 
-    # @return [ApiV1TeamsGet200ResponseInner]
-    def api_v1_teams_id_get(id : String)
-      data, _status_code, _headers = api_v1_teams_id_get_with_http_info(id)
-      data
-    end
-
-    # show team
-    # Show a team
-    # @param id [String] 
-    # @return [Array<(ApiV1TeamsGet200ResponseInner, Integer, Hash)>] ApiV1TeamsGet200ResponseInner data, response status code and response headers
-    def api_v1_teams_id_get_with_http_info(id : String)
-      if @api_client.config.debugging
-        Log.debug {"Calling API: DefaultApi.api_v1_teams_id_get ..."}
-      end
-      # verify the required parameter "id" is set
-      if @api_client.config.client_side_validation && id.nil?
-        raise ArgumentError.new("Missing the required parameter 'id' when calling DefaultApi.api_v1_teams_id_get")
-      end
-      # resource path
-      local_var_path = "/api/v1/teams/{id}".sub("{" + "id" + "}", URI.encode_path(id.to_s))
-
-      # query parameters
-      query_params = Hash(String, String).new
-
-      # header parameters
-      header_params = Hash(String, String).new
-      # HTTP header "Accept" (if needed)
-      header_params["Accept"] = @api_client.select_header_accept(["application/json"])
-
-      # form parameters
-      form_params = Hash(Symbol, (String | ::File)).new
-
-      # http body (model)
-      post_body = nil
-
-      # return_type
-      return_type = "ApiV1TeamsGet200ResponseInner"
-
-      # auth_names
-      auth_names = ["bearer", "oauth2"]
-
-      data, status_code, headers = @api_client.call_api(:GET,
-                                                        local_var_path,
-                                                        :"DefaultApi.api_v1_teams_id_get",
-                                                        return_type,
-                                                        post_body,
-                                                        auth_names,
-                                                        header_params,
-                                                        query_params,
-                                                        form_params)
-      if @api_client.config.debugging
-        Log.debug {"API called: DefaultApi#api_v1_teams_id_get\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
-      end
-      return ApiV1TeamsGet200ResponseInner.from_json(data), status_code, headers
-    end
-
     # show app
     # @param id [String] app id or name
     # @return [App]
@@ -618,6 +506,7 @@ module OpenAPIClient
     end
 
     # list apps
+    # List all apps
     # @return [Array(App)]
     def apps()
       data, _status_code, _headers = apps_with_http_info()
@@ -625,6 +514,7 @@ module OpenAPIClient
     end
 
     # list apps
+    # List all apps
     # @return [Array<(Array(App), Integer, Hash)>] Array(App) data, response status code and response headers
     def apps_with_http_info()
       if @api_client.config.debugging
@@ -666,6 +556,118 @@ module OpenAPIClient
         Log.debug {"API called: DefaultApi#apps\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
       end
       return Array(App).from_json(data), status_code, headers
+    end
+
+    # show team
+    # Show a team
+    # @param id [String] Team name or ID
+    # @return [Team]
+    def team(id : String)
+      data, _status_code, _headers = team_with_http_info(id)
+      data
+    end
+
+    # show team
+    # Show a team
+    # @param id [String] Team name or ID
+    # @return [Array<(Team, Integer, Hash)>] Team data, response status code and response headers
+    def team_with_http_info(id : String)
+      if @api_client.config.debugging
+        Log.debug {"Calling API: DefaultApi.team ..."}
+      end
+      # verify the required parameter "id" is set
+      if @api_client.config.client_side_validation && id.nil?
+        raise ArgumentError.new("Missing the required parameter 'id' when calling DefaultApi.team")
+      end
+      # resource path
+      local_var_path = "/api/v1/teams/{id}".sub("{" + "id" + "}", URI.encode_path(id.to_s))
+
+      # query parameters
+      query_params = Hash(String, String).new
+
+      # header parameters
+      header_params = Hash(String, String).new
+      # HTTP header "Accept" (if needed)
+      header_params["Accept"] = @api_client.select_header_accept(["application/json"])
+
+      # form parameters
+      form_params = Hash(Symbol, (String | ::File)).new
+
+      # http body (model)
+      post_body = nil
+
+      # return_type
+      return_type = "Team"
+
+      # auth_names
+      auth_names = ["bearer", "oauth2"]
+
+      data, status_code, headers = @api_client.call_api(:GET,
+                                                        local_var_path,
+                                                        :"DefaultApi.team",
+                                                        return_type,
+                                                        post_body,
+                                                        auth_names,
+                                                        header_params,
+                                                        query_params,
+                                                        form_params)
+      if @api_client.config.debugging
+        Log.debug {"API called: DefaultApi#team\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
+      end
+      return Team.from_json(data), status_code, headers
+    end
+
+    # list all teams
+    # List all teams
+    # @return [Array(Team)]
+    def teams()
+      data, _status_code, _headers = teams_with_http_info()
+      data
+    end
+
+    # list all teams
+    # List all teams
+    # @return [Array<(Array(Team), Integer, Hash)>] Array(Team) data, response status code and response headers
+    def teams_with_http_info()
+      if @api_client.config.debugging
+        Log.debug {"Calling API: DefaultApi.teams ..."}
+      end
+      # resource path
+      local_var_path = "/api/v1/teams"
+
+      # query parameters
+      query_params = Hash(String, String).new
+
+      # header parameters
+      header_params = Hash(String, String).new
+      # HTTP header "Accept" (if needed)
+      header_params["Accept"] = @api_client.select_header_accept(["application/json"])
+
+      # form parameters
+      form_params = Hash(Symbol, (String | ::File)).new
+
+      # http body (model)
+      post_body = nil
+
+      # return_type
+      return_type = "Array(Team)"
+
+      # auth_names
+      auth_names = ["bearer", "oauth2"]
+
+      data, status_code, headers = @api_client.call_api(:GET,
+                                                        local_var_path,
+                                                        :"DefaultApi.teams",
+                                                        return_type,
+                                                        post_body,
+                                                        auth_names,
+                                                        header_params,
+                                                        query_params,
+                                                        form_params)
+      if @api_client.config.debugging
+        Log.debug {"API called: DefaultApi#teams\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
+      end
+      return Array(Team).from_json(data), status_code, headers
     end
   end
 end

@@ -13,32 +13,31 @@ require "json"
 require "time"
 
 module OpenAPIClient
-  class ApiV1TeamsGet200ResponseInner
+  class Team
     include JSON::Serializable
 
-    # Required properties
-    @[JSON::Field(key: "id", type: String, nillable: false, emit_null: false)]
-    property id : String
-
-    @[JSON::Field(key: "name", type: String, nillable: false, emit_null: false)]
-    property name : String
-
-    @[JSON::Field(key: "personal", type: Bool, nillable: false, emit_null: false)]
-    property personal : Bool
-
-    @[JSON::Field(key: "created_at", type: String, nillable: false, emit_null: false)]
-    property created_at : String
-
-    @[JSON::Field(key: "updated_at", type: String, nillable: false, emit_null: false)]
-    property updated_at : String
-
     # Optional properties
+    @[JSON::Field(key: "id", type: String?, nillable: true, emit_null: false)]
+    property id : String?
+
+    @[JSON::Field(key: "name", type: String?, nillable: true, emit_null: false)]
+    property name : String?
+
     @[JSON::Field(key: "description", type: String?, nillable: true, emit_null: false)]
     property description : String?
 
+    @[JSON::Field(key: "personal", type: Bool?, nillable: true, emit_null: false)]
+    property personal : Bool?
+
+    @[JSON::Field(key: "created_at", type: String?, nillable: true, emit_null: false)]
+    property created_at : String?
+
+    @[JSON::Field(key: "updated_at", type: String?, nillable: true, emit_null: false)]
+    property updated_at : String?
+
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@id : String, @name : String, @personal : Bool, @created_at : String, @updated_at : String, @description : String?)
+    def initialize(@id : String?, @name : String?, @description : String?, @personal : Bool?, @created_at : String?, @updated_at : String?)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?

@@ -112,29 +112,6 @@ describe "DefaultApi" do
     end
   end
 
-  # unit tests for api_v1_teams_get
-  # list all teams
-  # List all teams
-  # @param [Hash] opts the optional parameters
-  # @return [Array(ApiV1TeamsGet200ResponseInner)]
-  describe "api_v1_teams_get test" do
-    it "should work" do
-      # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
-    end
-  end
-
-  # unit tests for api_v1_teams_id_get
-  # show team
-  # Show a team
-  # @param id 
-  # @param [Hash] opts the optional parameters
-  # @return [ApiV1TeamsGet200ResponseInner]
-  describe "api_v1_teams_id_get test" do
-    it "should work" do
-      # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
-    end
-  end
-
   # unit tests for app
   # show app
   # @param id app id or name
@@ -148,9 +125,33 @@ describe "DefaultApi" do
 
   # unit tests for apps
   # list apps
+  # List all apps
   # @param [Hash] opts the optional parameters
   # @return [Array(App)]
   describe "apps test" do
+    it "should work" do
+      # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
+    end
+  end
+
+  # unit tests for team
+  # show team
+  # Show a team
+  # @param id Team name or ID
+  # @param [Hash] opts the optional parameters
+  # @return [Team]
+  describe "team test" do
+    it "should work" do
+      # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
+    end
+  end
+
+  # unit tests for teams
+  # list all teams
+  # List all teams
+  # @param [Hash] opts the optional parameters
+  # @return [Array(Team)]
+  describe "teams test" do
     it "should work" do
       # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
     end
