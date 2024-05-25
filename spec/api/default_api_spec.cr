@@ -139,7 +139,7 @@ describe "DefaultApi" do
   # show app
   # @param id app id or name
   # @param [Hash] opts the optional parameters
-  # @return [Object]
+  # @return [App]
   describe "app test" do
     it "should work" do
       # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
@@ -149,7 +149,7 @@ describe "DefaultApi" do
   # unit tests for apps
   # list apps
   # @param [Hash] opts the optional parameters
-  # @return [Array(Object)]
+  # @return [Array(App)]
   describe "apps test" do
     it "should work" do
       # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html

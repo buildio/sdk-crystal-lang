@@ -562,7 +562,7 @@ module OpenAPIClient
 
     # show app
     # @param id [String] app id or name
-    # @return [Object]
+    # @return [App]
     def app(id : String)
       data, _status_code, _headers = app_with_http_info(id)
       data
@@ -570,7 +570,7 @@ module OpenAPIClient
 
     # show app
     # @param id [String] app id or name
-    # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
+    # @return [Array<(App, Integer, Hash)>] App data, response status code and response headers
     def app_with_http_info(id : String)
       if @api_client.config.debugging
         Log.debug {"Calling API: DefaultApi.app ..."}
@@ -597,7 +597,7 @@ module OpenAPIClient
       post_body = nil
 
       # return_type
-      return_type = "Object"
+      return_type = "App"
 
       # auth_names
       auth_names = ["bearer", "oauth2"]
@@ -614,18 +614,18 @@ module OpenAPIClient
       if @api_client.config.debugging
         Log.debug {"API called: DefaultApi#app\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
       end
-      return Object.from_json(data), status_code, headers
+      return App.from_json(data), status_code, headers
     end
 
     # list apps
-    # @return [Array(Object)]
+    # @return [Array(App)]
     def apps()
       data, _status_code, _headers = apps_with_http_info()
       data
     end
 
     # list apps
-    # @return [Array<(Array(Object), Integer, Hash)>] Array(Object) data, response status code and response headers
+    # @return [Array<(Array(App), Integer, Hash)>] Array(App) data, response status code and response headers
     def apps_with_http_info()
       if @api_client.config.debugging
         Log.debug {"Calling API: DefaultApi.apps ..."}
@@ -648,7 +648,7 @@ module OpenAPIClient
       post_body = nil
 
       # return_type
-      return_type = "Array(Object)"
+      return_type = "Array(App)"
 
       # auth_names
       auth_names = ["bearer", "oauth2"]
@@ -665,7 +665,7 @@ module OpenAPIClient
       if @api_client.config.debugging
         Log.debug {"API called: DefaultApi#apps\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
       end
-      return Array(Object).from_json(data), status_code, headers
+      return Array(App).from_json(data), status_code, headers
     end
   end
 end

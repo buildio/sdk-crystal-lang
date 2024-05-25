@@ -11,6 +11,11 @@ spec/models/api_v1_oidc_login_get200_response_spec.cr
 spec/models/api_v1_oidc_login_get200_response_spec_spec.cr
 spec/models/api_v1_oidc_login_get200_response_status_spec.cr
 spec/models/api_v1_teams_get200_response_inner_spec.cr
+spec/models/app_buildpacks_inner_spec.cr
+spec/models/app_formation_value_spec.cr
+spec/models/app_pipeline_spec.cr
+spec/models/app_spec.cr
+spec/models/app_team_spec.cr
 spec/spec_helper.cr
 src/openapi_client.cr
 src/openapi_client/api/default_api.cr
@@ -24,3 +29,8 @@ src/openapi_client/models/api_v1_oidc_login_get200_response.cr
 src/openapi_client/models/api_v1_oidc_login_get200_response_spec.cr
 src/openapi_client/models/api_v1_oidc_login_get200_response_status.cr
 src/openapi_client/models/api_v1_teams_get200_response_inner.cr
+src/openapi_client/models/app.cr
+src/openapi_client/models/app_buildpacks_inner.cr
+src/openapi_client/models/app_formation_value.cr
+src/openapi_client/models/app_pipeline.cr
+src/openapi_client/models/app_team.cr
