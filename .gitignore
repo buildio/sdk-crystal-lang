@@ -15,5 +15,6 @@
 
 /openapi_client
 tags
+tags.lock
 
  *.sw?
