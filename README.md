@@ -37,3 +37,7 @@ Run the tests:
 ```shell
 crystal spec
 ```
+
+## Build
+
+openapi-generator generate -g crystal -i ~/Projects/antimony/swagger/v1/swagger.yaml -o . --skip-validate-spec --git-host github.com --git-repo-id sdk-crystal-lang --git-user-id buildio --additional-properties=moduleName=Build,shardName=build-client; git checkout shard.yml .gitignore
