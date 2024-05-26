@@ -1,4 +1,4 @@
-# openapi_client
+# build-client
 
 The Crystal module for the Build.io API V1
 
@@ -19,7 +19,7 @@ Add the following to shard.yaml
 
 ```yaml
 dependencies:
-  openapi_client:
+  build-client:
     github: buildio/sdk-crystal-lang
     version: ~> 1.0.0
 ```
