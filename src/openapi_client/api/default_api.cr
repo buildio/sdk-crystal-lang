@@ -290,59 +290,6 @@ module OpenAPIClient
       return ApiV1MeGet200Response.from_json(data), status_code, headers
     end
 
-    # list all namespaces
-    # List all namespaces
-    # @return [Array(ApiV1NamespacesGet200ResponseInner)]
-    def api_v1_namespaces_get()
-      data, _status_code, _headers = api_v1_namespaces_get_with_http_info()
-      data
-    end
-
-    # list all namespaces
-    # List all namespaces
-    # @return [Array<(Array(ApiV1NamespacesGet200ResponseInner), Integer, Hash)>] Array(ApiV1NamespacesGet200ResponseInner) data, response status code and response headers
-    def api_v1_namespaces_get_with_http_info()
-      if @api_client.config.debugging
-        Log.debug {"Calling API: DefaultApi.api_v1_namespaces_get ..."}
-      end
-      # resource path
-      local_var_path = "/api/v1/namespaces"
-
-      # query parameters
-      query_params = Hash(String, String).new
-
-      # header parameters
-      header_params = Hash(String, String).new
-      # HTTP header "Accept" (if needed)
-      header_params["Accept"] = @api_client.select_header_accept(["application/json"])
-
-      # form parameters
-      form_params = Hash(Symbol, (String | ::File)).new
-
-      # http body (model)
-      post_body = nil
-
-      # return_type
-      return_type = "Array(ApiV1NamespacesGet200ResponseInner)"
-
-      # auth_names
-      auth_names = ["bearer", "oauth2"]
-
-      data, status_code, headers = @api_client.call_api(:GET,
-                                                        local_var_path,
-                                                        :"DefaultApi.api_v1_namespaces_get",
-                                                        return_type,
-                                                        post_body,
-                                                        auth_names,
-                                                        header_params,
-                                                        query_params,
-                                                        form_params)
-      if @api_client.config.debugging
-        Log.debug {"API called: DefaultApi#api_v1_namespaces_get\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
-      end
-      return Array(ApiV1NamespacesGet200ResponseInner).from_json(data), status_code, headers
-    end
-
     # create a namespace
     # Create a namespace
     # @return [nil]
@@ -556,6 +503,118 @@ module OpenAPIClient
         Log.debug {"API called: DefaultApi#apps\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
       end
       return Array(App).from_json(data), status_code, headers
+    end
+
+    # show namespace
+    # Show a namespace
+    # @param id [String] Namespace name or ID
+    # @return [Namespace]
+    def namespace(id : String)
+      data, _status_code, _headers = namespace_with_http_info(id)
+      data
+    end
+
+    # show namespace
+    # Show a namespace
+    # @param id [String] Namespace name or ID
+    # @return [Array<(Namespace, Integer, Hash)>] Namespace data, response status code and response headers
+    def namespace_with_http_info(id : String)
+      if @api_client.config.debugging
+        Log.debug {"Calling API: DefaultApi.namespace ..."}
+      end
+      # verify the required parameter "id" is set
+      if @api_client.config.client_side_validation && id.nil?
+        raise ArgumentError.new("Missing the required parameter 'id' when calling DefaultApi.namespace")
+      end
+      # resource path
+      local_var_path = "/api/v1/namespaces/{id}".sub("{" + "id" + "}", URI.encode_path(id.to_s))
+
+      # query parameters
+      query_params = Hash(String, String).new
+
+      # header parameters
+      header_params = Hash(String, String).new
+      # HTTP header "Accept" (if needed)
+      header_params["Accept"] = @api_client.select_header_accept(["application/json"])
+
+      # form parameters
+      form_params = Hash(Symbol, (String | ::File)).new
+
+      # http body (model)
+      post_body = nil
+
+      # return_type
+      return_type = "Namespace"
+
+      # auth_names
+      auth_names = ["bearer", "oauth2"]
+
+      data, status_code, headers = @api_client.call_api(:GET,
+                                                        local_var_path,
+                                                        :"DefaultApi.namespace",
+                                                        return_type,
+                                                        post_body,
+                                                        auth_names,
+                                                        header_params,
+                                                        query_params,
+                                                        form_params)
+      if @api_client.config.debugging
+        Log.debug {"API called: DefaultApi#namespace\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
+      end
+      return Namespace.from_json(data), status_code, headers
+    end
+
+    # list all namespaces
+    # List all namespaces
+    # @return [Array(Namespace)]
+    def namespaces()
+      data, _status_code, _headers = namespaces_with_http_info()
+      data
+    end
+
+    # list all namespaces
+    # List all namespaces
+    # @return [Array<(Array(Namespace), Integer, Hash)>] Array(Namespace) data, response status code and response headers
+    def namespaces_with_http_info()
+      if @api_client.config.debugging
+        Log.debug {"Calling API: DefaultApi.namespaces ..."}
+      end
+      # resource path
+      local_var_path = "/api/v1/namespaces"
+
+      # query parameters
+      query_params = Hash(String, String).new
+
+      # header parameters
+      header_params = Hash(String, String).new
+      # HTTP header "Accept" (if needed)
+      header_params["Accept"] = @api_client.select_header_accept(["application/json"])
+
+      # form parameters
+      form_params = Hash(Symbol, (String | ::File)).new
+
+      # http body (model)
+      post_body = nil
+
+      # return_type
+      return_type = "Array(Namespace)"
+
+      # auth_names
+      auth_names = ["bearer", "oauth2"]
+
+      data, status_code, headers = @api_client.call_api(:GET,
+                                                        local_var_path,
+                                                        :"DefaultApi.namespaces",
+                                                        return_type,
+                                                        post_body,
+                                                        auth_names,
+                                                        header_params,
+                                                        query_params,
+                                                        form_params)
+      if @api_client.config.debugging
+        Log.debug {"API called: DefaultApi#namespaces\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
+      end
+      return Array(Namespace).from_json(data), status_code, headers
     end
 
     # show team
