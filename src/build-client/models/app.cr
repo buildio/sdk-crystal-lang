@@ -16,16 +16,23 @@ module Build
   class App
     include JSON::Serializable
 
+    # Required properties
+    @[JSON::Field(key: "id", type: String, nillable: false, emit_null: false)]
+    property id : String
+
+    @[JSON::Field(key: "name", type: String, nillable: false, emit_null: false)]
+    property name : String
+
+    @[JSON::Field(key: "team", type: AppTeam, nillable: false, emit_null: false)]
+    property team : AppTeam
+
+    @[JSON::Field(key: "stack", type: String, nillable: false, emit_null: false)]
+    property stack : String
+
+    @[JSON::Field(key: "region", type: String, nillable: false, emit_null: false)]
+    property region : String
+
     # Optional properties
-    @[JSON::Field(key: "id", type: String?, nillable: true, emit_null: false)]
-    property id : String?
-
-    @[JSON::Field(key: "name", type: String?, nillable: true, emit_null: false)]
-    property name : String?
-
-    @[JSON::Field(key: "team", type: AppTeam?, nillable: true, emit_null: false)]
-    property team : AppTeam?
-
     @[JSON::Field(key: "pipeline", type: AppPipeline?, nillable: true, emit_null: false)]
     property pipeline : AppPipeline?
 
@@ -52,12 +59,6 @@ module Build
 
     @[JSON::Field(key: "formation", type: Hash(String, AppFormationValue)?, nillable: true, emit_null: false)]
     property formation : Hash(String, AppFormationValue)?
-
-    @[JSON::Field(key: "stack", type: String?, nillable: true, emit_null: false)]
-    property stack : String?
-
-    @[JSON::Field(key: "region", type: String?, nillable: true, emit_null: false)]
-    property region : String?
 
     @[JSON::Field(key: "buildpacks", type: Array(AppBuildpacksInner)?, nillable: true, emit_null: false)]
     property buildpacks : Array(AppBuildpacksInner)?
@@ -97,7 +98,7 @@ module Build
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@id : String?, @name : String?, @team : AppTeam?, @pipeline : AppPipeline?, @dns_refreshed_at : String?, @builds_count : Int32?, @deployments_count : Int32?, @slugs_count : Int32?, @current_build_id : String?, @current_image_id : String?, @current_deployment_id : String?, @formation : Hash(String, AppFormationValue)?, @stack : String?, @region : String?, @buildpacks : Array(AppBuildpacksInner)?, @description : String?, @pipeline_stage : String?, @policy_allow_websockets : Bool?, @policy_response_timeout : Int32?, @policy_max_connections : Int32?, @policy_erosion_resistance_seconds : Int32?, @policy_share_process_namespace : Bool?, @policy_temporary_self_signed : Bool?, @created_at : String?, @updated_at : String?, @deleted_at : String?)
+    def initialize(@id : String, @name : String, @team : AppTeam, @stack : String, @region : String, @pipeline : AppPipeline?, @dns_refreshed_at : String?, @builds_count : Int32?, @deployments_count : Int32?, @slugs_count : Int32?, @current_build_id : String?, @current_image_id : String?, @current_deployment_id : String?, @formation : Hash(String, AppFormationValue)?, @buildpacks : Array(AppBuildpacksInner)?, @description : String?, @pipeline_stage : String?, @policy_allow_websockets : Bool?, @policy_response_timeout : Int32?, @policy_max_connections : Int32?, @policy_erosion_resistance_seconds : Int32?, @policy_share_process_namespace : Bool?, @policy_temporary_self_signed : Bool?, @created_at : String?, @updated_at : String?, @deleted_at : String?)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
