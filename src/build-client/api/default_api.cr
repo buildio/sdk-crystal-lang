@@ -455,15 +455,15 @@ module Build
 
     # create a namespace
     # Create a namespace
-    # @return [nil]
+    # @return [Namespace]
     def create_namespace(create_namespace_request : CreateNamespaceRequest?)
-      create_namespace_with_http_info(create_namespace_request)
-      nil
+      data, _status_code, _headers = create_namespace_with_http_info(create_namespace_request)
+      data
     end
 
     # create a namespace
     # Create a namespace
-    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
+    # @return [Array<(Namespace, Integer, Hash)>] Namespace data, response status code and response headers
     def create_namespace_with_http_info(create_namespace_request : CreateNamespaceRequest?)
       if @api_client.config.debugging
         Log.debug {"Calling API: DefaultApi.create_namespace ..."}
@@ -476,6 +476,8 @@ module Build
 
       # header parameters
       header_params = Hash(String, String).new
+      # HTTP header "Accept" (if needed)
+      header_params["Accept"] = @api_client.select_header_accept(["application/json"])
       # HTTP header "Content-Type"
       header_params["Content-Type"] = @api_client.select_header_content_type(["application/json"])
 
@@ -486,7 +488,7 @@ module Build
       post_body = create_namespace_request.to_json
 
       # return_type
-      return_type = nil
+      return_type = "Namespace"
 
       # auth_names
       auth_names = ["bearer", "oauth2"]
@@ -503,7 +505,7 @@ module Build
       if @api_client.config.debugging
         Log.debug {"API called: DefaultApi#create_namespace\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
       end
-      return nil, status_code, headers
+      return Namespace.from_json(data), status_code, headers
     end
 
     # show namespace
