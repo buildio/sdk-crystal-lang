@@ -13,26 +13,26 @@ require "json"
 require "time"
 
 module Build
-  class ApiV1NamespacesPostRequest
+  class CreateNamespaceRequest
     include JSON::Serializable
 
     # Required properties
     @[JSON::Field(key: "name", type: String, nillable: false, emit_null: false)]
     property name : String
 
-    @[JSON::Field(key: "team_id", type: String, nillable: false, emit_null: false)]
-    property team_id : String
-
-    @[JSON::Field(key: "region", type: String, nillable: false, emit_null: false)]
-    property region : String
-
     # Optional properties
     @[JSON::Field(key: "description", type: String?, nillable: true, emit_null: false)]
     property description : String?
 
+    @[JSON::Field(key: "team_id", type: String?, nillable: true, emit_null: false)]
+    property team_id : String?
+
+    @[JSON::Field(key: "region", type: String?, nillable: true, emit_null: false)]
+    property region : String?
+
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@name : String, @team_id : String, @region : String, @description : String?)
+    def initialize(@name : String, @description : String?, @team_id : String?, @region : String?)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?

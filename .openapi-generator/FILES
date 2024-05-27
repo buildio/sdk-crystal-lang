@@ -3,6 +3,7 @@
 README.md
 git_push.sh
 shard.yml
+spec/models/create_namespace_request_spec.cr
 spec/spec_helper.cr
 src/build-client.cr
 src/build-client/api/default_api.cr
@@ -10,7 +11,6 @@ src/build-client/api_client.cr
 src/build-client/api_error.cr
 src/build-client/configuration.cr
 src/build-client/models/api_v1_me_get200_response.cr
-src/build-client/models/api_v1_namespaces_post_request.cr
 src/build-client/models/api_v1_oidc_login_get200_response.cr
 src/build-client/models/api_v1_oidc_login_get200_response_spec.cr
 src/build-client/models/api_v1_oidc_login_get200_response_status.cr
@@ -19,6 +19,7 @@ src/build-client/models/app_buildpacks_inner.cr
 src/build-client/models/app_formation_value.cr
 src/build-client/models/app_pipeline.cr
 src/build-client/models/app_team.cr
+src/build-client/models/create_namespace_request.cr
 src/build-client/models/namespace.cr
 src/build-client/models/namespace_actor.cr
 src/build-client/models/team.cr

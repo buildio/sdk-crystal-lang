@@ -290,59 +290,6 @@ module Build
       return ApiV1MeGet200Response.from_json(data), status_code, headers
     end
 
-    # create a namespace
-    # Create a namespace
-    # @return [nil]
-    def api_v1_namespaces_post(api_v1_namespaces_post_request : ApiV1NamespacesPostRequest?)
-      api_v1_namespaces_post_with_http_info(api_v1_namespaces_post_request)
-      nil
-    end
-
-    # create a namespace
-    # Create a namespace
-    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
-    def api_v1_namespaces_post_with_http_info(api_v1_namespaces_post_request : ApiV1NamespacesPostRequest?)
-      if @api_client.config.debugging
-        Log.debug {"Calling API: DefaultApi.api_v1_namespaces_post ..."}
-      end
-      # resource path
-      local_var_path = "/api/v1/namespaces"
-
-      # query parameters
-      query_params = Hash(String, String).new
-
-      # header parameters
-      header_params = Hash(String, String).new
-      # HTTP header "Content-Type"
-      header_params["Content-Type"] = @api_client.select_header_content_type(["application/json"])
-
-      # form parameters
-      form_params = Hash(Symbol, (String | ::File)).new
-
-      # http body (model)
-      post_body = api_v1_namespaces_post_request.to_json
-
-      # return_type
-      return_type = nil
-
-      # auth_names
-      auth_names = ["bearer", "oauth2"]
-
-      data, status_code, headers = @api_client.call_api(:POST,
-                                                        local_var_path,
-                                                        :"DefaultApi.api_v1_namespaces_post",
-                                                        return_type,
-                                                        post_body,
-                                                        auth_names,
-                                                        header_params,
-                                                        query_params,
-                                                        form_params)
-      if @api_client.config.debugging
-        Log.debug {"API called: DefaultApi#api_v1_namespaces_post\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
-      end
-      return nil, status_code, headers
-    end
-
     # kubernetes oidc-login
     # @return [ApiV1OidcLoginGet200Response]
     def api_v1_oidc_login_get(region : String?)
@@ -504,6 +451,59 @@ module Build
         Log.debug {"API called: DefaultApi#apps\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
       end
       return Array(App).from_json(data), status_code, headers
+    end
+
+    # create a namespace
+    # Create a namespace
+    # @return [nil]
+    def create_namespace(create_namespace_request : CreateNamespaceRequest?)
+      create_namespace_with_http_info(create_namespace_request)
+      nil
+    end
+
+    # create a namespace
+    # Create a namespace
+    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
+    def create_namespace_with_http_info(create_namespace_request : CreateNamespaceRequest?)
+      if @api_client.config.debugging
+        Log.debug {"Calling API: DefaultApi.create_namespace ..."}
+      end
+      # resource path
+      local_var_path = "/api/v1/namespaces"
+
+      # query parameters
+      query_params = Hash(String, String).new
+
+      # header parameters
+      header_params = Hash(String, String).new
+      # HTTP header "Content-Type"
+      header_params["Content-Type"] = @api_client.select_header_content_type(["application/json"])
+
+      # form parameters
+      form_params = Hash(Symbol, (String | ::File)).new
+
+      # http body (model)
+      post_body = create_namespace_request.to_json
+
+      # return_type
+      return_type = nil
+
+      # auth_names
+      auth_names = ["bearer", "oauth2"]
+
+      data, status_code, headers = @api_client.call_api(:POST,
+                                                        local_var_path,
+                                                        :"DefaultApi.create_namespace",
+                                                        return_type,
+                                                        post_body,
+                                                        auth_names,
+                                                        header_params,
+                                                        query_params,
+                                                        form_params)
+      if @api_client.config.debugging
+        Log.debug {"API called: DefaultApi#create_namespace\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
+      end
+      return nil, status_code, headers
     end
 
     # show namespace
