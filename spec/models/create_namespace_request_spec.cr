@@ -29,13 +29,13 @@ describe Build::CreateNamespaceRequest do
     end
   end
 
-  describe "test attribute 'description'" do
+  describe "test attribute 'team_id'" do
     it "should work" do
       # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
     end
   end
 
-  describe "test attribute 'team_id'" do
+  describe "test attribute 'description'" do
     it "should work" do
       # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
     end

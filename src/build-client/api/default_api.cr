@@ -456,15 +456,15 @@ module Build
     # create a namespace
     # Create a namespace
     # @return [Namespace]
-    def create_namespace(body : Object?)
-      data, _status_code, _headers = create_namespace_with_http_info(body)
+    def create_namespace(create_namespace_request : CreateNamespaceRequest?)
+      data, _status_code, _headers = create_namespace_with_http_info(create_namespace_request)
       data
     end
 
     # create a namespace
     # Create a namespace
     # @return [Array<(Namespace, Integer, Hash)>] Namespace data, response status code and response headers
-    def create_namespace_with_http_info(body : Object?)
+    def create_namespace_with_http_info(create_namespace_request : CreateNamespaceRequest?)
       if @api_client.config.debugging
         Log.debug {"Calling API: DefaultApi.create_namespace ..."}
       end
@@ -485,7 +485,7 @@ module Build
       form_params = Hash(Symbol, (String | ::File)).new
 
       # http body (model)
-      post_body = body.to_json
+      post_body = create_namespace_request.to_json
 
       # return_type
       return_type = "Namespace"
