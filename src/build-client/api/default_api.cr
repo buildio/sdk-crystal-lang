@@ -132,15 +132,15 @@ module Build
     # create build
     # @param id [String] app id or name
     # @return [nil]
-    def api_v1_apps_id_builds_post(id : String)
-      api_v1_apps_id_builds_post_with_http_info(id)
+    def api_v1_apps_id_builds_post(id : String, api_v1_apps_id_builds_post_request : ApiV1AppsIdBuildsPostRequest?)
+      api_v1_apps_id_builds_post_with_http_info(id, api_v1_apps_id_builds_post_request)
       nil
     end
 
     # create build
     # @param id [String] app id or name
     # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
-    def api_v1_apps_id_builds_post_with_http_info(id : String)
+    def api_v1_apps_id_builds_post_with_http_info(id : String, api_v1_apps_id_builds_post_request : ApiV1AppsIdBuildsPostRequest?)
       if @api_client.config.debugging
         Log.debug {"Calling API: DefaultApi.api_v1_apps_id_builds_post ..."}
       end
@@ -156,12 +156,14 @@ module Build
 
       # header parameters
       header_params = Hash(String, String).new
+      # HTTP header "Content-Type"
+      header_params["Content-Type"] = @api_client.select_header_content_type(["application/json"])
 
       # form parameters
       form_params = Hash(Symbol, (String | ::File)).new
 
       # http body (model)
-      post_body = nil
+      post_body = api_v1_apps_id_builds_post_request.to_json
 
       # return_type
       return_type = nil

@@ -50,6 +50,7 @@ describe "DefaultApi" do
   # create build
   # @param id app id or name
   # @param [Hash] opts the optional parameters
+  # @option opts [ApiV1AppsIdBuildsPostRequest] :api_v1_apps_id_builds_post_request 
   # @return [nil]
   describe "api_v1_apps_id_builds_post test" do
     it "should work" do
