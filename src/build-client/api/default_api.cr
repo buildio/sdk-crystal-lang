@@ -455,24 +455,18 @@ module Build
 
     # create a namespace
     # Create a namespace
-    # @param body [Object] Namespace name
     # @return [Namespace]
-    def create_namespace(body : Object)
+    def create_namespace(body : Object?)
       data, _status_code, _headers = create_namespace_with_http_info(body)
       data
     end
 
     # create a namespace
     # Create a namespace
-    # @param body [Object] Namespace name
     # @return [Array<(Namespace, Integer, Hash)>] Namespace data, response status code and response headers
-    def create_namespace_with_http_info(body : Object)
+    def create_namespace_with_http_info(body : Object?)
       if @api_client.config.debugging
         Log.debug {"Calling API: DefaultApi.create_namespace ..."}
-      end
-      # verify the required parameter "body" is set
-      if @api_client.config.client_side_validation && body.nil?
-        raise ArgumentError.new("Missing the required parameter 'body' when calling DefaultApi.create_namespace")
       end
       # resource path
       local_var_path = "/api/v1/namespaces"
