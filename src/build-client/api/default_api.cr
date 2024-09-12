@@ -345,15 +345,15 @@ module Build
 
     # list all config-vars
     # @param app_id_or_name [String] app id or name
-    # @return [nil]
+    # @return [ConfigVars200Response]
     def config_vars(app_id_or_name : String)
-      config_vars_with_http_info(app_id_or_name)
-      nil
+      data, _status_code, _headers = config_vars_with_http_info(app_id_or_name)
+      data
     end
 
     # list all config-vars
     # @param app_id_or_name [String] app id or name
-    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
+    # @return [Array<(ConfigVars200Response, Integer, Hash)>] ConfigVars200Response data, response status code and response headers
     def config_vars_with_http_info(app_id_or_name : String)
       if @api_client.config.debugging
         Log.debug {"Calling API: DefaultApi.config_vars ..."}
@@ -370,6 +370,8 @@ module Build
 
       # header parameters
       header_params = Hash(String, String).new
+      # HTTP header "Accept" (if needed)
+      header_params["Accept"] = @api_client.select_header_accept(["application/json"])
 
       # form parameters
       form_params = Hash(Symbol, (String | ::File)).new
@@ -378,7 +380,7 @@ module Build
       post_body = nil
 
       # return_type
-      return_type = nil
+      return_type = "ConfigVars200Response"
 
       # auth_names
       auth_names = ["bearer", "oauth2"]
@@ -395,7 +397,7 @@ module Build
       if @api_client.config.debugging
         Log.debug {"API called: DefaultApi#config_vars\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
       end
-      return nil, status_code, headers
+      return ConfigVars200Response.from_json(data), status_code, headers
     end
 
     # create a namespace
