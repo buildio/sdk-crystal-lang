@@ -19,7 +19,6 @@ src/build-client/models/app_buildpacks_inner.cr
 src/build-client/models/app_formation_value.cr
 src/build-client/models/app_pipeline.cr
 src/build-client/models/app_team.cr
-src/build-client/models/config_vars200_response.cr
 src/build-client/models/create_namespace_request.cr
 src/build-client/models/namespace.cr
 src/build-client/models/namespace_actor.cr

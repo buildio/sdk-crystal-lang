@@ -345,7 +345,7 @@ module Build
 
     # list all config-vars
     # @param app_id_or_name [String] app id or name
-    # @return [ConfigVars200Response]
+    # @return [Hash(String, String)]
     def config_vars(app_id_or_name : String)
       data, _status_code, _headers = config_vars_with_http_info(app_id_or_name)
       data
@@ -353,7 +353,7 @@ module Build
 
     # list all config-vars
     # @param app_id_or_name [String] app id or name
-    # @return [Array<(ConfigVars200Response, Integer, Hash)>] ConfigVars200Response data, response status code and response headers
+    # @return [Array<(Hash(String, String), Integer, Hash)>] Hash(String, String) data, response status code and response headers
     def config_vars_with_http_info(app_id_or_name : String)
       if @api_client.config.debugging
         Log.debug {"Calling API: DefaultApi.config_vars ..."}
@@ -380,7 +380,7 @@ module Build
       post_body = nil
 
       # return_type
-      return_type = "ConfigVars200Response"
+      return_type = "Hash(String, String)"
 
       # auth_names
       auth_names = ["bearer", "oauth2"]
@@ -397,7 +397,7 @@ module Build
       if @api_client.config.debugging
         Log.debug {"API called: DefaultApi#config_vars\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
       end
-      return ConfigVars200Response.from_json(data), status_code, headers
+      return Hash(String, String).from_json(data), status_code, headers
     end
 
     # create a namespace
