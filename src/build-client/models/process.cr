@@ -13,28 +13,28 @@ require "json"
 require "time"
 
 module Build
-  class Dyno
+  class Process
     include JSON::Serializable
 
     # Required properties
-    @[JSON::Field(key: "type", type: String, nillable: false, emit_null: false)]
-    property _type : String
+    @[JSON::Field(key: "index", type: Int32, nillable: false, emit_null: false)]
+    property index : Int32
 
-    @[JSON::Field(key: "quantity", type: Int32, nillable: false, emit_null: false)]
-    property quantity : Int32
+    @[JSON::Field(key: "status", type: String, nillable: false, emit_null: false)]
+    property status : String
 
-    @[JSON::Field(key: "size", type: String, nillable: false, emit_null: false)]
-    property size : String
+    @[JSON::Field(key: "started_at", type: String, nillable: false, emit_null: false)]
+    property started_at : String
 
-    @[JSON::Field(key: "display", type: String, nillable: false, emit_null: false)]
-    property display : String
+    @[JSON::Field(key: "restarts", type: Int32, nillable: false, emit_null: false)]
+    property restarts : Int32
 
-    @[JSON::Field(key: "processes", type: Array(Process), nillable: false, emit_null: false)]
-    property processes : Array(Process)
+    @[JSON::Field(key: "restarted_at", type: String, nillable: false, emit_null: false)]
+    property restarted_at : String
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@_type : String, @quantity : Int32, @size : String, @display : String, @processes : Array(Process))
+    def initialize(@index : Int32, @status : String, @started_at : String, @restarts : Int32, @restarted_at : String)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -55,11 +55,11 @@ module Build
     def ==(o)
       return true if self.same?(o)
       self.class == o.class &&
-          _type == o._type &&
-          quantity == o.quantity &&
-          size == o.size &&
-          display == o.display &&
-          processes == o.processes
+          index == o.index &&
+          status == o.status &&
+          started_at == o.started_at &&
+          restarts == o.restarts &&
+          restarted_at == o.restarted_at
     end
 
     # @see the `==` method
@@ -71,7 +71,7 @@ module Build
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [_type, quantity, size, display, processes].hash
+      [index, status, started_at, restarts, restarted_at].hash
     end
 
     # Builds the object from hash
