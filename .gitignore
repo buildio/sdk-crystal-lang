@@ -12,3 +12,5 @@
 /shard.lock
 
 /tmp/
+tags
+tags.*

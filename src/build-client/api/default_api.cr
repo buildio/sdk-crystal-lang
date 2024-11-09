@@ -459,15 +459,15 @@ module Build
 
     # list dynos
     # @param id [String] app id or name
-    # @return [nil]
+    # @return [Array(Dyno)]
     def list_dynos(id : String)
-      list_dynos_with_http_info(id)
-      nil
+      data, _status_code, _headers = list_dynos_with_http_info(id)
+      data
     end
 
     # list dynos
     # @param id [String] app id or name
-    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
+    # @return [Array<(Array(Dyno), Integer, Hash)>] Array(Dyno) data, response status code and response headers
     def list_dynos_with_http_info(id : String)
       if @api_client.config.debugging
         Log.debug {"Calling API: DefaultApi.list_dynos ..."}
@@ -484,6 +484,8 @@ module Build
 
       # header parameters
       header_params = Hash(String, String).new
+      # HTTP header "Accept" (if needed)
+      header_params["Accept"] = @api_client.select_header_accept(["application/json"])
 
       # form parameters
       form_params = Hash(Symbol, (String | ::File)).new
@@ -492,7 +494,7 @@ module Build
       post_body = nil
 
       # return_type
-      return_type = nil
+      return_type = "Array(Dyno)"
 
       # auth_names
       auth_names = ["bearer", "oauth2"]
@@ -509,7 +511,7 @@ module Build
       if @api_client.config.debugging
         Log.debug {"API called: DefaultApi#list_dynos\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
       end
-      return nil, status_code, headers
+      return Array(Dyno).from_json(data), status_code, headers
     end
 
     # show namespace
