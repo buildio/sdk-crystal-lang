@@ -12,9 +12,3 @@
 /shard.lock
 
 /tmp/
-
-/openapi_client
-tags
-tags.lock
-
- *.sw?
