@@ -26,15 +26,16 @@ module Build
     @[JSON::Field(key: "started_at", type: String, nillable: false, emit_null: false)]
     property started_at : String
 
-    @[JSON::Field(key: "restarts", type: Int32, nillable: false, emit_null: false)]
-    property restarts : Int32
+    # Optional properties
+    @[JSON::Field(key: "restarts", type: Int32?, nillable: true, emit_null: false)]
+    property restarts : Int32?
 
-    @[JSON::Field(key: "restarted_at", type: String, nillable: false, emit_null: false)]
-    property restarted_at : String
+    @[JSON::Field(key: "restarted_at", type: String?, nillable: true, emit_null: false)]
+    property restarted_at : String?
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@index : Int32, @status : String, @started_at : String, @restarts : Int32, @restarted_at : String)
+    def initialize(@index : Int32, @status : String, @started_at : String, @restarts : Int32?, @restarted_at : String?)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
