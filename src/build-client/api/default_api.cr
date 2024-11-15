@@ -345,6 +345,59 @@ module Build
       return Hash(String, String).from_json(data), status_code, headers
     end
 
+    # create app
+    # @return [Object]
+    def create_app(create_app_request : CreateAppRequest?)
+      data, _status_code, _headers = create_app_with_http_info(create_app_request)
+      data
+    end
+
+    # create app
+    # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
+    def create_app_with_http_info(create_app_request : CreateAppRequest?)
+      if @api_client.config.debugging
+        Log.debug {"Calling API: DefaultApi.create_app ..."}
+      end
+      # resource path
+      local_var_path = "/api/v1/apps"
+
+      # query parameters
+      query_params = Hash(String, String).new
+
+      # header parameters
+      header_params = Hash(String, String).new
+      # HTTP header "Accept" (if needed)
+      header_params["Accept"] = @api_client.select_header_accept(["application/json"])
+      # HTTP header "Content-Type"
+      header_params["Content-Type"] = @api_client.select_header_content_type(["application/json"])
+
+      # form parameters
+      form_params = Hash(Symbol, (String | ::File)).new
+
+      # http body (model)
+      post_body = create_app_request.to_json
+
+      # return_type
+      return_type = "Object"
+
+      # auth_names
+      auth_names = ["bearer", "oauth2"]
+
+      data, status_code, headers = @api_client.call_api(:POST,
+                                                        local_var_path,
+                                                        :"DefaultApi.create_app",
+                                                        return_type,
+                                                        post_body,
+                                                        auth_names,
+                                                        header_params,
+                                                        query_params,
+                                                        form_params)
+      if @api_client.config.debugging
+        Log.debug {"API called: DefaultApi#create_app\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
+      end
+      return Object.from_json(data), status_code, headers
+    end
+
     # create a namespace
     # Create a namespace
     # @return [Namespace]

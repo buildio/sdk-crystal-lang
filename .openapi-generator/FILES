@@ -19,6 +19,7 @@ src/build-client/models/app_buildpacks_inner.cr
 src/build-client/models/app_formation_value.cr
 src/build-client/models/app_pipeline.cr
 src/build-client/models/app_team.cr
+src/build-client/models/create_app_request.cr
 src/build-client/models/create_namespace_request.cr
 src/build-client/models/dyno.cr
 src/build-client/models/namespace.cr
