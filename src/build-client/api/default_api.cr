@@ -346,14 +346,14 @@ module Build
     end
 
     # create app
-    # @return [Object]
+    # @return [App]
     def create_app(create_app_request : CreateAppRequest?)
       data, _status_code, _headers = create_app_with_http_info(create_app_request)
       data
     end
 
     # create app
-    # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
+    # @return [Array<(App, Integer, Hash)>] App data, response status code and response headers
     def create_app_with_http_info(create_app_request : CreateAppRequest?)
       if @api_client.config.debugging
         Log.debug {"Calling API: DefaultApi.create_app ..."}
@@ -378,7 +378,7 @@ module Build
       post_body = create_app_request.to_json
 
       # return_type
-      return_type = "Object"
+      return_type = "App"
 
       # auth_names
       auth_names = ["bearer", "oauth2"]
@@ -395,7 +395,7 @@ module Build
       if @api_client.config.debugging
         Log.debug {"API called: DefaultApi#create_app\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
       end
-      return Object.from_json(data), status_code, headers
+      return App.from_json(data), status_code, headers
     end
 
     # create a namespace
