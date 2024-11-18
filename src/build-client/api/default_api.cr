@@ -798,7 +798,7 @@ module Build
     # set or update config-vars
     # @param app_id_or_name [String] app id or name
     # @return [nil]
-    def set_config_vars(app_id_or_name : String, request_body : Hash(String, String)?)
+    def set_config_vars(app_id_or_name : String, request_body : Hash(String, SetConfigVarsRequestValue)?)
       set_config_vars_with_http_info(app_id_or_name, request_body)
       nil
     end
@@ -806,7 +806,7 @@ module Build
     # set or update config-vars
     # @param app_id_or_name [String] app id or name
     # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
-    def set_config_vars_with_http_info(app_id_or_name : String, request_body : Hash(String, String)?)
+    def set_config_vars_with_http_info(app_id_or_name : String, request_body : Hash(String, SetConfigVarsRequestValue)?)
       if @api_client.config.debugging
         Log.debug {"Calling API: DefaultApi.set_config_vars ..."}
       end

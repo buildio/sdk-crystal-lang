@@ -25,4 +25,5 @@ src/build-client/models/dyno.cr
 src/build-client/models/namespace.cr
 src/build-client/models/namespace_actor.cr
 src/build-client/models/process.cr
+src/build-client/models/set_config_vars_request_value.cr
 src/build-client/models/team.cr
