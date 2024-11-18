@@ -453,6 +453,63 @@ module Build
       return Namespace.from_json(data), status_code, headers
     end
 
+    # delete config-vars
+    # @param app_id_or_name [String] app id or name
+    # @return [nil]
+    def delete_config_vars(app_id_or_name : String, request_body : Array(String)?)
+      delete_config_vars_with_http_info(app_id_or_name, request_body)
+      nil
+    end
+
+    # delete config-vars
+    # @param app_id_or_name [String] app id or name
+    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
+    def delete_config_vars_with_http_info(app_id_or_name : String, request_body : Array(String)?)
+      if @api_client.config.debugging
+        Log.debug {"Calling API: DefaultApi.delete_config_vars ..."}
+      end
+      # verify the required parameter "app_id_or_name" is set
+      if @api_client.config.client_side_validation && app_id_or_name.nil?
+        raise ArgumentError.new("Missing the required parameter 'app_id_or_name' when calling DefaultApi.delete_config_vars")
+      end
+      # resource path
+      local_var_path = "/api/v1/apps/{app_id_or_name}/config-vars".sub("{" + "app_id_or_name" + "}", URI.encode_path(app_id_or_name.to_s))
+
+      # query parameters
+      query_params = Hash(String, String).new
+
+      # header parameters
+      header_params = Hash(String, String).new
+      # HTTP header "Content-Type"
+      header_params["Content-Type"] = @api_client.select_header_content_type(["application/json"])
+
+      # form parameters
+      form_params = Hash(Symbol, (String | ::File)).new
+
+      # http body (model)
+      post_body = request_body.to_json
+
+      # return_type
+      return_type = nil
+
+      # auth_names
+      auth_names = ["bearer", "oauth2"]
+
+      data, status_code, headers = @api_client.call_api(:DELETE,
+                                                        local_var_path,
+                                                        :"DefaultApi.delete_config_vars",
+                                                        return_type,
+                                                        post_body,
+                                                        auth_names,
+                                                        header_params,
+                                                        query_params,
+                                                        form_params)
+      if @api_client.config.debugging
+        Log.debug {"API called: DefaultApi#delete_config_vars\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
+      end
+      return nil, status_code, headers
+    end
+
     # delete a namespace
     # Delete a namespace
     # @param namespace_id_or_name [String] Namespace name or ID
@@ -798,7 +855,7 @@ module Build
     # set or update config-vars
     # @param app_id_or_name [String] app id or name
     # @return [nil]
-    def set_config_vars(app_id_or_name : String, request_body : Hash(String, SetConfigVarsRequestValue)?)
+    def set_config_vars(app_id_or_name : String, request_body : Hash(String, String)?)
       set_config_vars_with_http_info(app_id_or_name, request_body)
       nil
     end
@@ -806,7 +863,7 @@ module Build
     # set or update config-vars
     # @param app_id_or_name [String] app id or name
     # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
-    def set_config_vars_with_http_info(app_id_or_name : String, request_body : Hash(String, SetConfigVarsRequestValue)?)
+    def set_config_vars_with_http_info(app_id_or_name : String, request_body : Hash(String, String)?)
       if @api_client.config.debugging
         Log.debug {"Calling API: DefaultApi.set_config_vars ..."}
       end
