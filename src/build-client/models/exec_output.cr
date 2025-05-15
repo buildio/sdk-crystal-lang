@@ -14,20 +14,17 @@ require "yaml"
 require "time"
 
 module Build
-  class ApiV1OidcLoginGet200ResponseStatus
+  class ExecOutput
     include JSON::Serializable
     include YAML::Serializable
 
-    # Optional properties
-    @[JSON::Field(key: "expirationTimestamp", type: String?, nillable: true, emit_null: false)]
-    property expiration_timestamp : String?
-
-    @[JSON::Field(key: "token", type: String?, nillable: true, emit_null: false)]
-    property token : String?
+    # Required properties
+    @[JSON::Field(key: "output", type: String, nillable: false, emit_null: false)]
+    property output : String
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@expiration_timestamp : String?, @token : String?)
+    def initialize(@output : String)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -48,8 +45,7 @@ module Build
     def ==(other)
       return true if self.same?(other)
       self.class == other.class &&
-          expiration_timestamp == other.expiration_timestamp &&
-          token == other.token
+          output == other.output
     end
 
     # @see the `==` method
@@ -61,7 +57,7 @@ module Build
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [expiration_timestamp, token].hash
+      [output].hash
     end
 
     # Builds the object from hash

@@ -3,6 +3,7 @@
 README.md
 git_push.sh
 shard.yml
+spec/models/exec_output_spec.cr
 spec/spec_helper.cr
 src/build-client.cr
 src/build-client/api/default_api.cr
@@ -22,6 +23,7 @@ src/build-client/models/app_team.cr
 src/build-client/models/create_app_request.cr
 src/build-client/models/create_namespace_request.cr
 src/build-client/models/dyno.cr
+src/build-client/models/exec_output.cr
 src/build-client/models/namespace.cr
 src/build-client/models/namespace_actor.cr
 src/build-client/models/process.cr
