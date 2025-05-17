@@ -616,17 +616,19 @@ module Build
     # exec into dyno
     # @param app_id_or_name [String] app id or name
     # @param dyno [String] dyno name
-    # @return [ExecOutput]
-    def exec_dyno(app_id_or_name : String, dyno : String)
-      data, _status_code, _headers = exec_dyno_with_http_info(app_id_or_name, dyno)
+    # @param exec_dyno_request [ExecDynoRequest] 
+    # @return [ExecDyno200Response]
+    def exec_dyno(app_id_or_name : String, dyno : String, exec_dyno_request : ExecDynoRequest)
+      data, _status_code, _headers = exec_dyno_with_http_info(app_id_or_name, dyno, exec_dyno_request)
       data
     end
 
     # exec into dyno
     # @param app_id_or_name [String] app id or name
     # @param dyno [String] dyno name
-    # @return [Array<(ExecOutput, Integer, Hash)>] ExecOutput data, response status code and response headers
-    def exec_dyno_with_http_info(app_id_or_name : String, dyno : String)
+    # @param exec_dyno_request [ExecDynoRequest] 
+    # @return [Array<(ExecDyno200Response, Integer, Hash)>] ExecDyno200Response data, response status code and response headers
+    def exec_dyno_with_http_info(app_id_or_name : String, dyno : String, exec_dyno_request : ExecDynoRequest)
       if @api_client.config.debugging
         Log.debug {"Calling API: DefaultApi.exec_dyno ..."}
       end
@@ -637,6 +639,10 @@ module Build
       # verify the required parameter "dyno" is set
       if @api_client.config.client_side_validation && dyno.nil?
         raise ArgumentError.new("Missing the required parameter 'dyno' when calling DefaultApi.exec_dyno")
+      end
+      # verify the required parameter "exec_dyno_request" is set
+      if @api_client.config.client_side_validation && exec_dyno_request.nil?
+        raise ArgumentError.new("Missing the required parameter 'exec_dyno_request' when calling DefaultApi.exec_dyno")
       end
       # resource path
       local_var_path = "/api/v1/apps/{app_id_or_name}/dynos/{dyno}/exec".sub("{" + "app_id_or_name" + "}", URI.encode_path(app_id_or_name.to_s)).sub("{" + "dyno" + "}", URI.encode_path(dyno.to_s))
@@ -651,15 +657,17 @@ module Build
       header_params = Hash(String, String).new
       # HTTP header "Accept" (if needed)
       header_params["Accept"] = @api_client.select_header_accept(["application/json"])
+      # HTTP header "Content-Type"
+      header_params["Content-Type"] = @api_client.select_header_content_type(["application/json"])
 
       # form parameters
       form_params = Hash(Symbol, (String | ::File)).new
 
       # http body (model)
-      post_body = nil
+      post_body = exec_dyno_request.to_json
 
       # return_type
-      return_type = "ExecOutput"
+      return_type = "ExecDyno200Response"
 
       # auth_names
       auth_names = ["bearer", "oauth2"]
@@ -677,7 +685,7 @@ module Build
       if @api_client.config.debugging
         Log.debug {"API called: DefaultApi#exec_dyno\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
       end
-      return ExecOutput.from_json(data), status_code, headers
+      return ExecDyno200Response.from_json(data), status_code, headers
     end
 
     # list dynos
