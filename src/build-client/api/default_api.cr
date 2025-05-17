@@ -616,19 +616,17 @@ module Build
     # exec into dyno
     # @param app_id_or_name [String] app id or name
     # @param dyno [String] dyno name
-    # @param command [String] command to run inside the dyno
     # @return [ExecOutput]
-    def exec_dyno(app_id_or_name : String, dyno : String, command : String)
-      data, _status_code, _headers = exec_dyno_with_http_info(app_id_or_name, dyno, command)
+    def exec_dyno(app_id_or_name : String, dyno : String)
+      data, _status_code, _headers = exec_dyno_with_http_info(app_id_or_name, dyno)
       data
     end
 
     # exec into dyno
     # @param app_id_or_name [String] app id or name
     # @param dyno [String] dyno name
-    # @param command [String] command to run inside the dyno
     # @return [Array<(ExecOutput, Integer, Hash)>] ExecOutput data, response status code and response headers
-    def exec_dyno_with_http_info(app_id_or_name : String, dyno : String, command : String)
+    def exec_dyno_with_http_info(app_id_or_name : String, dyno : String)
       if @api_client.config.debugging
         Log.debug {"Calling API: DefaultApi.exec_dyno ..."}
       end
@@ -640,10 +638,6 @@ module Build
       if @api_client.config.client_side_validation && dyno.nil?
         raise ArgumentError.new("Missing the required parameter 'dyno' when calling DefaultApi.exec_dyno")
       end
-      # verify the required parameter "command" is set
-      if @api_client.config.client_side_validation && command.nil?
-        raise ArgumentError.new("Missing the required parameter 'command' when calling DefaultApi.exec_dyno")
-      end
       # resource path
       local_var_path = "/api/v1/apps/{app_id_or_name}/dynos/{dyno}/exec".sub("{" + "app_id_or_name" + "}", URI.encode_path(app_id_or_name.to_s)).sub("{" + "dyno" + "}", URI.encode_path(dyno.to_s))
 
@@ -652,7 +646,6 @@ module Build
 
       # query parameters
       query_params = Hash(String, String).new
-      query_params["command"] = command.to_s unless command.nil?
 
       # header parameters
       header_params = Hash(String, String).new
