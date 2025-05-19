@@ -17,199 +17,27 @@ module Build
     def initialize(api_client = ApiClient.default)
       @api_client = api_client
     end
-    # create build
-    # @param id [String] app id or name
-    # @return [nil]
-    def api_v1_apps_id_builds_post(id : String, api_v1_apps_id_builds_post_request : ApiV1AppsIdBuildsPostRequest? = nil)
-      api_v1_apps_id_builds_post_with_http_info(id, api_v1_apps_id_builds_post_request)
-      nil
-    end
-
-    # create build
-    # @param id [String] app id or name
-    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
-    def api_v1_apps_id_builds_post_with_http_info(id : String, api_v1_apps_id_builds_post_request : ApiV1AppsIdBuildsPostRequest? = nil)
-      if @api_client.config.debugging
-        Log.debug {"Calling API: DefaultApi.api_v1_apps_id_builds_post ..."}
-      end
-      # verify the required parameter "id" is set
-      if @api_client.config.client_side_validation && id.nil?
-        raise ArgumentError.new("Missing the required parameter 'id' when calling DefaultApi.api_v1_apps_id_builds_post")
-      end
-      # resource path
-      local_var_path = "/api/v1/apps/{id}/builds".sub("{" + "id" + "}", URI.encode_path(id.to_s))
-
-      # cookie parameters
-      cookie_params = Hash(String, String).new
-
-      # query parameters
-      query_params = Hash(String, String).new
-
-      # header parameters
-      header_params = Hash(String, String).new
-      # HTTP header "Content-Type"
-      header_params["Content-Type"] = @api_client.select_header_content_type(["application/json"])
-
-      # form parameters
-      form_params = Hash(Symbol, (String | ::File)).new
-
-      # http body (model)
-      post_body = api_v1_apps_id_builds_post_request.to_json
-
-      # return_type
-      return_type = nil
-
-      # auth_names
-      auth_names = ["bearer", "oauth2"]
-
-      data, status_code, headers = @api_client.call_api(:POST,
-                                                        local_var_path,
-                                                        :"DefaultApi.api_v1_apps_id_builds_post",
-                                                        return_type,
-                                                        post_body,
-                                                        auth_names,
-                                                        header_params,
-                                                        query_params,
-                                                        cookie_params,
-                                                        form_params)
-      if @api_client.config.debugging
-        Log.debug {"API called: DefaultApi#api_v1_apps_id_builds_post\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
-      end
-      return nil, status_code, headers
-    end
-
-    # identity
-    # @return [ApiV1MeGet200Response]
-    def api_v1_me_get()
-      data, _status_code, _headers = api_v1_me_get_with_http_info()
-      data
-    end
-
-    # identity
-    # @return [Array<(ApiV1MeGet200Response, Integer, Hash)>] ApiV1MeGet200Response data, response status code and response headers
-    def api_v1_me_get_with_http_info()
-      if @api_client.config.debugging
-        Log.debug {"Calling API: DefaultApi.api_v1_me_get ..."}
-      end
-      # resource path
-      local_var_path = "/api/v1/me"
-
-      # cookie parameters
-      cookie_params = Hash(String, String).new
-
-      # query parameters
-      query_params = Hash(String, String).new
-
-      # header parameters
-      header_params = Hash(String, String).new
-      # HTTP header "Accept" (if needed)
-      header_params["Accept"] = @api_client.select_header_accept(["application/json"])
-
-      # form parameters
-      form_params = Hash(Symbol, (String | ::File)).new
-
-      # http body (model)
-      post_body = nil
-
-      # return_type
-      return_type = "ApiV1MeGet200Response"
-
-      # auth_names
-      auth_names = ["bearer", "oauth2"]
-
-      data, status_code, headers = @api_client.call_api(:GET,
-                                                        local_var_path,
-                                                        :"DefaultApi.api_v1_me_get",
-                                                        return_type,
-                                                        post_body,
-                                                        auth_names,
-                                                        header_params,
-                                                        query_params,
-                                                        cookie_params,
-                                                        form_params)
-      if @api_client.config.debugging
-        Log.debug {"API called: DefaultApi#api_v1_me_get\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
-      end
-      return ApiV1MeGet200Response.from_json(data), status_code, headers
-    end
-
-    # kubernetes oidc-login
-    # @return [ApiV1OidcLoginGet200Response]
-    def api_v1_oidc_login_get(region : String? = nil)
-      data, _status_code, _headers = api_v1_oidc_login_get_with_http_info(region)
-      data
-    end
-
-    # kubernetes oidc-login
-    # @return [Array<(ApiV1OidcLoginGet200Response, Integer, Hash)>] ApiV1OidcLoginGet200Response data, response status code and response headers
-    def api_v1_oidc_login_get_with_http_info(region : String? = nil)
-      if @api_client.config.debugging
-        Log.debug {"Calling API: DefaultApi.api_v1_oidc_login_get ..."}
-      end
-      # resource path
-      local_var_path = "/api/v1/oidc-login"
-
-      # cookie parameters
-      cookie_params = Hash(String, String).new
-
-      # query parameters
-      query_params = Hash(String, String).new
-      query_params["region"] = region.to_s unless region.nil?
-
-      # header parameters
-      header_params = Hash(String, String).new
-      # HTTP header "Accept" (if needed)
-      header_params["Accept"] = @api_client.select_header_accept(["application/json"])
-
-      # form parameters
-      form_params = Hash(Symbol, (String | ::File)).new
-
-      # http body (model)
-      post_body = nil
-
-      # return_type
-      return_type = "ApiV1OidcLoginGet200Response"
-
-      # auth_names
-      auth_names = ["api_key", "bearer", "oauth2"]
-
-      data, status_code, headers = @api_client.call_api(:GET,
-                                                        local_var_path,
-                                                        :"DefaultApi.api_v1_oidc_login_get",
-                                                        return_type,
-                                                        post_body,
-                                                        auth_names,
-                                                        header_params,
-                                                        query_params,
-                                                        cookie_params,
-                                                        form_params)
-      if @api_client.config.debugging
-        Log.debug {"API called: DefaultApi#api_v1_oidc_login_get\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
-      end
-      return ApiV1OidcLoginGet200Response.from_json(data), status_code, headers
-    end
-
     # show app
-    # @param id [String] app id or name
+    # @param app_id_or_name [String] app id or name
     # @return [App]
-    def app(id : String)
-      data, _status_code, _headers = app_with_http_info(id)
+    def app(app_id_or_name : String)
+      data, _status_code, _headers = app_with_http_info(app_id_or_name)
       data
     end
 
     # show app
-    # @param id [String] app id or name
+    # @param app_id_or_name [String] app id or name
     # @return [Array<(App, Integer, Hash)>] App data, response status code and response headers
-    def app_with_http_info(id : String)
+    def app_with_http_info(app_id_or_name : String)
       if @api_client.config.debugging
         Log.debug {"Calling API: DefaultApi.app ..."}
       end
-      # verify the required parameter "id" is set
-      if @api_client.config.client_side_validation && id.nil?
-        raise ArgumentError.new("Missing the required parameter 'id' when calling DefaultApi.app")
+      # verify the required parameter "app_id_or_name" is set
+      if @api_client.config.client_side_validation && app_id_or_name.nil?
+        raise ArgumentError.new("Missing the required parameter 'app_id_or_name' when calling DefaultApi.app")
       end
       # resource path
-      local_var_path = "/api/v1/apps/{id}".sub("{" + "id" + "}", URI.encode_path(id.to_s))
+      local_var_path = "/api/v1/apps/{app_id_or_name}".sub("{" + "app_id_or_name" + "}", URI.encode_path(app_id_or_name.to_s))
 
       # cookie parameters
       cookie_params = Hash(String, String).new
@@ -426,6 +254,67 @@ module Build
       return App.from_json(data), status_code, headers
     end
 
+    # create build
+    # @param app_id_or_name [String] app id or name
+    # @return [nil]
+    def create_build(app_id_or_name : String, create_build_request : CreateBuildRequest? = nil)
+      create_build_with_http_info(app_id_or_name, create_build_request)
+      nil
+    end
+
+    # create build
+    # @param app_id_or_name [String] app id or name
+    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
+    def create_build_with_http_info(app_id_or_name : String, create_build_request : CreateBuildRequest? = nil)
+      if @api_client.config.debugging
+        Log.debug {"Calling API: DefaultApi.create_build ..."}
+      end
+      # verify the required parameter "app_id_or_name" is set
+      if @api_client.config.client_side_validation && app_id_or_name.nil?
+        raise ArgumentError.new("Missing the required parameter 'app_id_or_name' when calling DefaultApi.create_build")
+      end
+      # resource path
+      local_var_path = "/api/v1/apps/{app_id_or_name}/builds".sub("{" + "app_id_or_name" + "}", URI.encode_path(app_id_or_name.to_s))
+
+      # cookie parameters
+      cookie_params = Hash(String, String).new
+
+      # query parameters
+      query_params = Hash(String, String).new
+
+      # header parameters
+      header_params = Hash(String, String).new
+      # HTTP header "Content-Type"
+      header_params["Content-Type"] = @api_client.select_header_content_type(["application/json"])
+
+      # form parameters
+      form_params = Hash(Symbol, (String | ::File)).new
+
+      # http body (model)
+      post_body = create_build_request.to_json
+
+      # return_type
+      return_type = nil
+
+      # auth_names
+      auth_names = ["bearer", "oauth2"]
+
+      data, status_code, headers = @api_client.call_api(:POST,
+                                                        local_var_path,
+                                                        :"DefaultApi.create_build",
+                                                        return_type,
+                                                        post_body,
+                                                        auth_names,
+                                                        header_params,
+                                                        query_params,
+                                                        cookie_params,
+                                                        form_params)
+      if @api_client.config.debugging
+        Log.debug {"API called: DefaultApi#create_build\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
+      end
+      return nil, status_code, headers
+    end
+
     # create a namespace
     # Create a namespace
     # @return [Namespace]
@@ -616,19 +505,19 @@ module Build
     # exec into dyno
     # @param app_id_or_name [String] app id or name
     # @param dyno [String] dyno name
-    # @param exec_dyno_request [ExecDynoRequest] 
-    # @return [ExecDyno200Response]
-    def exec_dyno(app_id_or_name : String, dyno : String, exec_dyno_request : ExecDynoRequest)
-      data, _status_code, _headers = exec_dyno_with_http_info(app_id_or_name, dyno, exec_dyno_request)
+    # @param dyno_exec_request [DynoExecRequest] 
+    # @return [DynoExecResponse]
+    def exec_dyno(app_id_or_name : String, dyno : String, dyno_exec_request : DynoExecRequest)
+      data, _status_code, _headers = exec_dyno_with_http_info(app_id_or_name, dyno, dyno_exec_request)
       data
     end
 
     # exec into dyno
     # @param app_id_or_name [String] app id or name
     # @param dyno [String] dyno name
-    # @param exec_dyno_request [ExecDynoRequest] 
-    # @return [Array<(ExecDyno200Response, Integer, Hash)>] ExecDyno200Response data, response status code and response headers
-    def exec_dyno_with_http_info(app_id_or_name : String, dyno : String, exec_dyno_request : ExecDynoRequest)
+    # @param dyno_exec_request [DynoExecRequest] 
+    # @return [Array<(DynoExecResponse, Integer, Hash)>] DynoExecResponse data, response status code and response headers
+    def exec_dyno_with_http_info(app_id_or_name : String, dyno : String, dyno_exec_request : DynoExecRequest)
       if @api_client.config.debugging
         Log.debug {"Calling API: DefaultApi.exec_dyno ..."}
       end
@@ -640,9 +529,9 @@ module Build
       if @api_client.config.client_side_validation && dyno.nil?
         raise ArgumentError.new("Missing the required parameter 'dyno' when calling DefaultApi.exec_dyno")
       end
-      # verify the required parameter "exec_dyno_request" is set
-      if @api_client.config.client_side_validation && exec_dyno_request.nil?
-        raise ArgumentError.new("Missing the required parameter 'exec_dyno_request' when calling DefaultApi.exec_dyno")
+      # verify the required parameter "dyno_exec_request" is set
+      if @api_client.config.client_side_validation && dyno_exec_request.nil?
+        raise ArgumentError.new("Missing the required parameter 'dyno_exec_request' when calling DefaultApi.exec_dyno")
       end
       # resource path
       local_var_path = "/api/v1/apps/{app_id_or_name}/dynos/{dyno}/exec".sub("{" + "app_id_or_name" + "}", URI.encode_path(app_id_or_name.to_s)).sub("{" + "dyno" + "}", URI.encode_path(dyno.to_s))
@@ -664,10 +553,10 @@ module Build
       form_params = Hash(Symbol, (String | ::File)).new
 
       # http body (model)
-      post_body = exec_dyno_request.to_json
+      post_body = dyno_exec_request.to_json
 
       # return_type
-      return_type = "ExecDyno200Response"
+      return_type = "DynoExecResponse"
 
       # auth_names
       auth_names = ["bearer", "oauth2"]
@@ -685,7 +574,7 @@ module Build
       if @api_client.config.debugging
         Log.debug {"API called: DefaultApi#exec_dyno\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
       end
-      return ExecDyno200Response.from_json(data), status_code, headers
+      return DynoExecResponse.from_json(data), status_code, headers
     end
 
     # list dynos
@@ -747,6 +636,61 @@ module Build
         Log.debug {"API called: DefaultApi#list_dynos\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
       end
       return Array(Dyno).from_json(data), status_code, headers
+    end
+
+    # identity
+    # @return [MeResponse]
+    def me()
+      data, _status_code, _headers = me_with_http_info()
+      data
+    end
+
+    # identity
+    # @return [Array<(MeResponse, Integer, Hash)>] MeResponse data, response status code and response headers
+    def me_with_http_info()
+      if @api_client.config.debugging
+        Log.debug {"Calling API: DefaultApi.me ..."}
+      end
+      # resource path
+      local_var_path = "/api/v1/me"
+
+      # cookie parameters
+      cookie_params = Hash(String, String).new
+
+      # query parameters
+      query_params = Hash(String, String).new
+
+      # header parameters
+      header_params = Hash(String, String).new
+      # HTTP header "Accept" (if needed)
+      header_params["Accept"] = @api_client.select_header_accept(["application/json"])
+
+      # form parameters
+      form_params = Hash(Symbol, (String | ::File)).new
+
+      # http body (model)
+      post_body = nil
+
+      # return_type
+      return_type = "MeResponse"
+
+      # auth_names
+      auth_names = ["bearer", "oauth2"]
+
+      data, status_code, headers = @api_client.call_api(:GET,
+                                                        local_var_path,
+                                                        :"DefaultApi.me",
+                                                        return_type,
+                                                        post_body,
+                                                        auth_names,
+                                                        header_params,
+                                                        query_params,
+                                                        cookie_params,
+                                                        form_params)
+      if @api_client.config.debugging
+        Log.debug {"API called: DefaultApi#me\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
+      end
+      return MeResponse.from_json(data), status_code, headers
     end
 
     # show namespace
@@ -867,6 +811,62 @@ module Build
         Log.debug {"API called: DefaultApi#namespaces\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
       end
       return Array(Namespace).from_json(data), status_code, headers
+    end
+
+    # kubernetes oidc-login
+    # @return [OidcLoginResponse]
+    def oidc_login(region : String? = nil)
+      data, _status_code, _headers = oidc_login_with_http_info(region)
+      data
+    end
+
+    # kubernetes oidc-login
+    # @return [Array<(OidcLoginResponse, Integer, Hash)>] OidcLoginResponse data, response status code and response headers
+    def oidc_login_with_http_info(region : String? = nil)
+      if @api_client.config.debugging
+        Log.debug {"Calling API: DefaultApi.oidc_login ..."}
+      end
+      # resource path
+      local_var_path = "/api/v1/oidc-login"
+
+      # cookie parameters
+      cookie_params = Hash(String, String).new
+
+      # query parameters
+      query_params = Hash(String, String).new
+      query_params["region"] = region.to_s unless region.nil?
+
+      # header parameters
+      header_params = Hash(String, String).new
+      # HTTP header "Accept" (if needed)
+      header_params["Accept"] = @api_client.select_header_accept(["application/json"])
+
+      # form parameters
+      form_params = Hash(Symbol, (String | ::File)).new
+
+      # http body (model)
+      post_body = nil
+
+      # return_type
+      return_type = "OidcLoginResponse"
+
+      # auth_names
+      auth_names = ["api_key", "bearer", "oauth2"]
+
+      data, status_code, headers = @api_client.call_api(:GET,
+                                                        local_var_path,
+                                                        :"DefaultApi.oidc_login",
+                                                        return_type,
+                                                        post_body,
+                                                        auth_names,
+                                                        header_params,
+                                                        query_params,
+                                                        cookie_params,
+                                                        form_params)
+      if @api_client.config.debugging
+        Log.debug {"API called: DefaultApi#oidc_login\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
+      end
+      return OidcLoginResponse.from_json(data), status_code, headers
     end
 
     # restart all dynos

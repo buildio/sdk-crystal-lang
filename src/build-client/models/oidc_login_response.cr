@@ -14,41 +14,26 @@ require "yaml"
 require "time"
 
 module Build
-  class Namespace
+  class OidcLoginResponse
     include JSON::Serializable
     include YAML::Serializable
 
-    # Optional properties
-    @[JSON::Field(key: "id", type: String?, nillable: true, emit_null: false)]
-    property id : String?
+    # Required properties
+    @[JSON::Field(key: "kind", type: String, nillable: false, emit_null: false)]
+    property kind : String
 
-    @[JSON::Field(key: "name", type: String?, nillable: true, emit_null: false)]
-    property name : String?
+    @[JSON::Field(key: "apiVersion", type: String, nillable: false, emit_null: false)]
+    property api_version : String
 
-    @[JSON::Field(key: "team", type: NamespaceTeam?, nillable: true, emit_null: false)]
-    property team : NamespaceTeam?
+    @[JSON::Field(key: "spec", type: OidcLoginResponseSpec, nillable: false, emit_null: false)]
+    property spec : OidcLoginResponseSpec
 
-    @[JSON::Field(key: "description", type: String?, nillable: true, emit_null: false)]
-    property description : String?
-
-    @[JSON::Field(key: "state", type: String?, nillable: true, emit_null: false)]
-    property state : String?
-
-    @[JSON::Field(key: "region", type: String?, nillable: true, emit_null: false)]
-    property region : String?
-
-    @[JSON::Field(key: "actor", type: NamespaceActor?, nillable: true, emit_null: false)]
-    property actor : NamespaceActor?
-
-    @[JSON::Field(key: "created_at", type: String?, nillable: true, emit_null: false)]
-    property created_at : String?
-
-    @[JSON::Field(key: "updated_at", type: String?, nillable: true, emit_null: false)]
-    property updated_at : String?
+    @[JSON::Field(key: "status", type: OidcLoginResponseStatus, nillable: false, emit_null: false)]
+    property status : OidcLoginResponseStatus
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@id : String?, @name : String?, @team : NamespaceTeam?, @description : String?, @state : String?, @region : String?, @actor : NamespaceActor?, @created_at : String?, @updated_at : String?)
+    def initialize(@kind : String, @api_version : String, @spec : OidcLoginResponseSpec, @status : OidcLoginResponseStatus)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -69,15 +54,10 @@ module Build
     def ==(other)
       return true if self.same?(other)
       self.class == other.class &&
-          id == other.id &&
-          name == other.name &&
-          team == other.team &&
-          description == other.description &&
-          state == other.state &&
-          region == other.region &&
-          actor == other.actor &&
-          created_at == other.created_at &&
-          updated_at == other.updated_at
+          kind == other.kind &&
+          api_version == other.api_version &&
+          spec == other.spec &&
+          status == other.status
     end
 
     # @see the `==` method
@@ -89,7 +69,7 @@ module Build
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, name, team, description, state, region, actor, created_at, updated_at].hash
+      [kind, api_version, spec, status].hash
     end
 
     # Builds the object from hash

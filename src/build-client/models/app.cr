@@ -62,8 +62,8 @@ module Build
     @[JSON::Field(key: "formation", type: Hash(String, AppFormationValue)?, nillable: true, emit_null: false)]
     property formation : Hash(String, AppFormationValue)?
 
-    @[JSON::Field(key: "buildpacks", type: Array(AppBuildpacksInner)?, nillable: true, emit_null: false)]
-    property buildpacks : Array(AppBuildpacksInner)?
+    @[JSON::Field(key: "buildpacks", type: Array(AppBuildpack)?, nillable: true, emit_null: false)]
+    property buildpacks : Array(AppBuildpack)?
 
     @[JSON::Field(key: "description", type: String?, nillable: true, emit_null: false)]
     property description : String?
@@ -100,7 +100,7 @@ module Build
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@id : String, @name : String, @team : AppTeam, @stack : String, @region : String, @pipeline : AppPipeline?, @dns_refreshed_at : String?, @builds_count : Int32?, @deployments_count : Int32?, @slugs_count : Int32?, @current_build_id : String?, @current_image_id : String?, @current_deployment_id : String?, @formation : Hash(String, AppFormationValue)?, @buildpacks : Array(AppBuildpacksInner)?, @description : String?, @pipeline_stage : String?, @policy_allow_websockets : Bool?, @policy_response_timeout : Int32?, @policy_max_connections : Int32?, @policy_erosion_resistance_seconds : Int32?, @policy_share_process_namespace : Bool?, @policy_temporary_self_signed : Bool?, @created_at : String?, @updated_at : String?, @deleted_at : String?)
+    def initialize(@id : String, @name : String, @team : AppTeam, @stack : String, @region : String, @pipeline : AppPipeline?, @dns_refreshed_at : String?, @builds_count : Int32?, @deployments_count : Int32?, @slugs_count : Int32?, @current_build_id : String?, @current_image_id : String?, @current_deployment_id : String?, @formation : Hash(String, AppFormationValue)?, @buildpacks : Array(AppBuildpack)?, @description : String?, @pipeline_stage : String?, @policy_allow_websockets : Bool?, @policy_response_timeout : Int32?, @policy_max_connections : Int32?, @policy_erosion_resistance_seconds : Int32?, @policy_share_process_namespace : Bool?, @policy_temporary_self_signed : Bool?, @created_at : String?, @updated_at : String?, @deleted_at : String?)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
