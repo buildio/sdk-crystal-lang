@@ -13,19 +13,16 @@ require "json"
 require "time"
 
 module Build
-  class NamespaceTeam
+  class Error
     include JSON::Serializable
 
-    # Optional properties
-    @[JSON::Field(key: "id", type: String?, nillable: true, emit_null: false)]
-    property id : String?
-
-    @[JSON::Field(key: "name", type: String?, nillable: true, emit_null: false)]
-    property name : String?
+    # Required properties
+    @[JSON::Field(key: "error", type: String, nillable: false, emit_null: false)]
+    property error : String
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@id : String?, @name : String?)
+    def initialize(@error : String)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -46,8 +43,7 @@ module Build
     def ==(o)
       return true if self.same?(o)
       self.class == o.class &&
-          id == o.id &&
-          name == o.name
+          error == o.error
     end
 
     # @see the `==` method
@@ -59,7 +55,7 @@ module Build
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, name].hash
+      [error].hash
     end
 
     # Builds the object from hash
