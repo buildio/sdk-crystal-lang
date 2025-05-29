@@ -17,12 +17,22 @@ module Build
     include JSON::Serializable
 
     # Required properties
-    @[JSON::Field(key: "error", type: String, nillable: false, emit_null: false)]
-    property error : String
+    # Machine-readable error code
+    @[JSON::Field(key: "code", type: String, nillable: false, emit_null: false)]
+    property code : String
+
+    # Optional properties
+    # Human-readable error message
+    @[JSON::Field(key: "message", type: String?, nillable: true, emit_null: false)]
+    property message : String?
+
+    # Additional error details (optional)
+    @[JSON::Field(key: "details", type: Hash(String, Object)?, nillable: true, emit_null: false)]
+    property details : Hash(String, Object)?
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@error : String)
+    def initialize(@code : String, @message : String?, @details : Hash(String, Object)?)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -43,7 +53,9 @@ module Build
     def ==(o)
       return true if self.same?(o)
       self.class == o.class &&
-          error == o.error
+          code == o.code &&
+          message == o.message &&
+          details == o.details
     end
 
     # @see the `==` method
@@ -55,7 +67,7 @@ module Build
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [error].hash
+      [code, message, details].hash
     end
 
     # Builds the object from hash

@@ -13,46 +13,19 @@ require "json"
 require "time"
 
 module Build
-  class CreateReviewAppRequest
+  class PipelineTeam
     include JSON::Serializable
 
-    # Required properties
-    # Branch to build the review app from
-    @[JSON::Field(key: "branch", type: String, nillable: false, emit_null: false)]
-    property branch : String
-
-    # Pull request number
-    @[JSON::Field(key: "pull_request_number", type: Int32, nillable: false, emit_null: false)]
-    property pull_request_number : Int32
-
     # Optional properties
-    # URL to the source code archive
-    @[JSON::Field(key: "source_blob_url", type: String?, nillable: true, emit_null: false)]
-    property source_blob_url : String?
+    @[JSON::Field(key: "id", type: String?, nillable: true, emit_null: false)]
+    property id : String?
 
-    # Title of the pull request
-    @[JSON::Field(key: "title", type: String?, nillable: true, emit_null: false)]
-    property title : String?
-
-    # Description of the pull request
-    @[JSON::Field(key: "description", type: String?, nillable: true, emit_null: false)]
-    property description : String?
-
-    # GitHub repository stub (owner/repo)
-    @[JSON::Field(key: "github_repo", type: String?, nillable: true, emit_null: false)]
-    property github_repo : String?
-
-    # Stack to use for the app (e.g., heroku-24, heroku-22)
-    @[JSON::Field(key: "stack", type: String?, nillable: true, emit_null: false)]
-    property stack : String?
-
-    # Environment variables for the app
-    @[JSON::Field(key: "environment", type: Hash(String, String)?, nillable: true, emit_null: false)]
-    property environment : Hash(String, String)?
+    @[JSON::Field(key: "name", type: String?, nillable: true, emit_null: false)]
+    property name : String?
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@branch : String, @pull_request_number : Int32, @source_blob_url : String?, @title : String?, @description : String?, @github_repo : String?, @stack : String?, @environment : Hash(String, String)?)
+    def initialize(@id : String?, @name : String?)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -73,14 +46,8 @@ module Build
     def ==(o)
       return true if self.same?(o)
       self.class == o.class &&
-          branch == o.branch &&
-          pull_request_number == o.pull_request_number &&
-          source_blob_url == o.source_blob_url &&
-          title == o.title &&
-          description == o.description &&
-          github_repo == o.github_repo &&
-          stack == o.stack &&
-          environment == o.environment
+          id == o.id &&
+          name == o.name
     end
 
     # @see the `==` method
@@ -92,7 +59,7 @@ module Build
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [branch, pull_request_number, source_blob_url, title, description, github_repo, stack, environment].hash
+      [id, name].hash
     end
 
     # Builds the object from hash

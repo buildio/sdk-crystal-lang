@@ -3,12 +3,14 @@
 README.md
 git_push.sh
 shard.yml
-spec/api/review_apps_api_spec.cr
-spec/models/create_review_app_request_spec.cr
-spec/models/error_spec.cr
+spec/api/pipelines_api_spec.cr
+spec/models/pipeline_spec.cr
+spec/models/pipeline_team_spec.cr
+spec/models/validation_errors_spec.cr
 spec/spec_helper.cr
 src/build-client.cr
 src/build-client/api/default_api.cr
+src/build-client/api/pipelines_api.cr
 src/build-client/api/review_apps_api.cr
 src/build-client/api_client.cr
 src/build-client/api_error.cr
@@ -33,5 +35,8 @@ src/build-client/models/namespace_team.cr
 src/build-client/models/oidc_login_response.cr
 src/build-client/models/oidc_login_response_spec.cr
 src/build-client/models/oidc_login_response_status.cr
+src/build-client/models/pipeline.cr
+src/build-client/models/pipeline_team.cr
 src/build-client/models/process.cr
 src/build-client/models/team.cr
+src/build-client/models/validation_errors.cr

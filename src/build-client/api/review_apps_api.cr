@@ -39,7 +39,7 @@ module Build
         raise ArgumentError.new("Missing the required parameter 'pipeline_id' when calling ReviewAppsApi.create_review_app")
       end
       # resource path
-      local_var_path = "/api/v1/pipelines/{pipeline_id}/review_apps".sub("{" + "pipeline_id" + "}", URI.encode_path(pipeline_id.to_s))
+      local_var_path = "/api/v1/pipelines/{pipeline_id}/review-apps".sub("{" + "pipeline_id" + "}", URI.encode_path(pipeline_id.to_s))
 
       # query parameters
       query_params = Hash(String, String).new
@@ -100,7 +100,7 @@ module Build
         raise ArgumentError.new("Missing the required parameter 'id' when calling ReviewAppsApi.delete_review_app")
       end
       # resource path
-      local_var_path = "/api/v1/review_apps/{id}".sub("{" + "id" + "}", URI.encode_path(id.to_s))
+      local_var_path = "/api/v1/review-apps/{id}".sub("{" + "id" + "}", URI.encode_path(id.to_s))
 
       # query parameters
       query_params = Hash(String, String).new
@@ -157,7 +157,7 @@ module Build
         raise ArgumentError.new("Missing the required parameter 'id' when calling ReviewAppsApi.get_review_app")
       end
       # resource path
-      local_var_path = "/api/v1/review_apps/{id}".sub("{" + "id" + "}", URI.encode_path(id.to_s))
+      local_var_path = "/api/v1/review-apps/{id}".sub("{" + "id" + "}", URI.encode_path(id.to_s))
 
       # query parameters
       query_params = Hash(String, String).new
@@ -275,7 +275,7 @@ module Build
         raise ArgumentError.new("Missing the required parameter 'pipeline_id' when calling ReviewAppsApi.list_review_apps")
       end
       # resource path
-      local_var_path = "/api/v1/pipelines/{pipeline_id}/review_apps".sub("{" + "pipeline_id" + "}", URI.encode_path(pipeline_id.to_s))
+      local_var_path = "/api/v1/pipelines/{pipeline_id}/review-apps".sub("{" + "pipeline_id" + "}", URI.encode_path(pipeline_id.to_s))
 
       # query parameters
       query_params = Hash(String, String).new
