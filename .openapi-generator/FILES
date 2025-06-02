@@ -6,8 +6,6 @@ shard.yml
 spec/spec_helper.cr
 src/build-client.cr
 src/build-client/api/default_api.cr
-src/build-client/api/pipelines_api.cr
-src/build-client/api/review_apps_api.cr
 src/build-client/api_client.cr
 src/build-client/api_error.cr
 src/build-client/configuration.cr
@@ -19,7 +17,6 @@ src/build-client/models/app_team.cr
 src/build-client/models/create_app_request.cr
 src/build-client/models/create_build_request.cr
 src/build-client/models/create_namespace_request.cr
-src/build-client/models/create_review_app_request.cr
 src/build-client/models/dyno.cr
 src/build-client/models/dyno_exec_request.cr
 src/build-client/models/dyno_exec_response.cr
@@ -32,8 +29,6 @@ src/build-client/models/namespace_team.cr
 src/build-client/models/oidc_login_response.cr
 src/build-client/models/oidc_login_response_spec.cr
 src/build-client/models/oidc_login_response_status.cr
-src/build-client/models/pipeline.cr
-src/build-client/models/pipeline_team.cr
 src/build-client/models/process.cr
 src/build-client/models/team.cr
 src/build-client/models/validation_errors.cr
