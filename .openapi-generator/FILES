@@ -3,7 +3,7 @@
 README.md
 git_push.sh
 shard.yml
-spec/models/exec_output_spec.cr
+spec/models/error_response_spec.cr
 spec/spec_helper.cr
 src/build-client.cr
 src/build-client/api/default_api.cr
@@ -24,7 +24,7 @@ src/build-client/models/create_review_app_request.cr
 src/build-client/models/dyno.cr
 src/build-client/models/dyno_exec_request.cr
 src/build-client/models/dyno_exec_response.cr
-src/build-client/models/error.cr
+src/build-client/models/error_response.cr
 src/build-client/models/exec_output.cr
 src/build-client/models/me_response.cr
 src/build-client/models/namespace.cr
