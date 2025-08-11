@@ -25,6 +25,7 @@ spec/models/namespace_team_spec.cr
 spec/models/oidc_login_response_spec.cr
 spec/models/oidc_login_response_spec_spec.cr
 spec/models/oidc_login_response_status_spec.cr
+spec/models/pipeline_environments_inner_spec.cr
 spec/models/pipeline_spec.cr
 spec/models/pipeline_team_spec.cr
 spec/models/process_spec.cr
@@ -58,6 +59,7 @@ src/build-client/models/oidc_login_response.cr
 src/build-client/models/oidc_login_response_spec.cr
 src/build-client/models/oidc_login_response_status.cr
 src/build-client/models/pipeline.cr
+src/build-client/models/pipeline_environments_inner.cr
 src/build-client/models/pipeline_team.cr
 src/build-client/models/process.cr
 src/build-client/models/team.cr

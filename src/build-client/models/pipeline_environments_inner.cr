@@ -14,33 +14,43 @@ require "yaml"
 require "time"
 
 module Build
-  class Pipeline
+  class PipelineEnvironmentsInner
     include JSON::Serializable
     include YAML::Serializable
 
-    # Required properties
-    @[JSON::Field(key: "id", type: String, nillable: false, emit_null: false)]
-    property id : String
-
-    @[JSON::Field(key: "name", type: String, nillable: false, emit_null: false)]
-    property name : String
-
-    @[JSON::Field(key: "team", type: PipelineTeam, nillable: false, emit_null: false)]
-    property team : PipelineTeam
-
     # Optional properties
-    @[JSON::Field(key: "environments", type: Array(PipelineEnvironmentsInner)?, nillable: true, emit_null: false)]
-    property environments : Array(PipelineEnvironmentsInner)?
+    @[JSON::Field(key: "id", type: String?, nillable: true, emit_null: false)]
+    property id : String?
 
-    @[JSON::Field(key: "created_at", type: String?, nillable: true, emit_null: false)]
-    property created_at : String?
+    @[JSON::Field(key: "kind", type: String?, nillable: true, emit_null: false)]
+    property kind : String?
 
-    @[JSON::Field(key: "updated_at", type: String?, nillable: true, emit_null: false)]
-    property updated_at : String?
+    class EnumAttributeValidator
+      getter datatype : String
+      getter allowable_values : Array(String)
+
+      def initialize(datatype, allowable_values)
+        @datatype = datatype
+        @allowable_values = allowable_values.map do |value|
+          case datatype.to_s
+          when /Integer/i
+            value.to_i
+          when /Float/i
+            value.to_f
+          else
+            value
+          end
+        end
+      end
+
+      def valid?(value)
+        !value || allowable_values.includes?(value)
+      end
+    end
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@id : String, @name : String, @team : PipelineTeam, @environments : Array(PipelineEnvironmentsInner)?, @created_at : String?, @updated_at : String?)
+    def initialize(@id : String?, @kind : String?)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -53,7 +63,19 @@ module Build
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
+      kind_validator = EnumAttributeValidator.new("String", ["ra", "ci", "ai"])
+      return false unless kind_validator.valid?(@kind)
       true
+    end
+
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] kind Object to be assigned
+    def kind=(kind)
+      validator = EnumAttributeValidator.new("String", ["ra", "ci", "ai"])
+      unless validator.valid?(kind)
+        raise ArgumentError.new("invalid value for \"kind\", must be one of #{validator.allowable_values}.")
+      end
+      @kind = kind
     end
 
     # Checks equality by comparing each attribute.
@@ -62,11 +84,7 @@ module Build
       return true if self.same?(other)
       self.class == other.class &&
           id == other.id &&
-          name == other.name &&
-          team == other.team &&
-          environments == other.environments &&
-          created_at == other.created_at &&
-          updated_at == other.updated_at
+          kind == other.kind
     end
 
     # @see the `==` method
@@ -78,7 +96,7 @@ module Build
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, name, team, environments, created_at, updated_at].hash
+      [id, kind].hash
     end
 
     # Builds the object from hash

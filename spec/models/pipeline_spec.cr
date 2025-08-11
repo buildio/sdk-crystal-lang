@@ -39,6 +39,12 @@ Spectator.describe Build::Pipeline do
     end
   end
 
+  describe "test attribute 'environments'" do
+    skip "should work" do
+      # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
+    end
+  end
+
   describe "test attribute 'created_at'" do
     skip "should work" do
       # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
