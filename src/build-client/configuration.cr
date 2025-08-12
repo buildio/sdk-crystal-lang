@@ -130,7 +130,7 @@ module Build
     # Create a new `Configuration`.
     def initialize
       @scheme = "https"
-      @host = "app.build.io"
+      @host = "devhost.antimony.io"
       @base_path = ""
       @server_index = 0
       @server_operation_index = {} of Symbol => String
@@ -248,7 +248,7 @@ module Build
           variables: {
             "defaultHost": {
                 description: "No description provided",
-                default_value: "app.build.io",
+                default_value: "devhost.antimony.io",
               }
             }
         }

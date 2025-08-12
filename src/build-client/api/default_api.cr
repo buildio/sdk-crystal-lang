@@ -19,15 +19,15 @@ module Build
     end
     # get environment config-vars (e.g. pipeline RA env)
     # @param id [String] Environment ID
-    # @return [nil]
+    # @return [Hash(String, String)]
     def api_v1_environments_id_get(id : String)
-      api_v1_environments_id_get_with_http_info(id)
-      nil
+      data, _status_code, _headers = api_v1_environments_id_get_with_http_info(id)
+      data
     end
 
     # get environment config-vars (e.g. pipeline RA env)
     # @param id [String] Environment ID
-    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
+    # @return [Array<(Hash(String, String), Integer, Hash)>] Hash(String, String) data, response status code and response headers
     def api_v1_environments_id_get_with_http_info(id : String)
       if @api_client.config.debugging
         Log.debug {"Calling API: DefaultApi.api_v1_environments_id_get ..."}
@@ -57,7 +57,7 @@ module Build
       post_body = nil
 
       # return_type
-      return_type = nil
+      return_type = "Hash(String, String)"
 
       # auth_names
       auth_names = ["bearer", "oauth2"]
@@ -75,7 +75,7 @@ module Build
       if @api_client.config.debugging
         Log.debug {"API called: DefaultApi#api_v1_environments_id_get\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
       end
-      return nil, status_code, headers
+      return Hash(String, String).from_json(data), status_code, headers
     end
 
     # delete environment config-var

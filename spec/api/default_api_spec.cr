@@ -25,7 +25,7 @@ Spectator.describe "DefaultApi" do
   # get environment config-vars (e.g. pipeline RA env)
   # @param id Environment ID
   # @param [Hash] opts the optional parameters
-  # @return [nil]
+  # @return [Hash(String, String)]
   describe "api_v1_environments_id_get test" do
     skip "should work" do
       # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
