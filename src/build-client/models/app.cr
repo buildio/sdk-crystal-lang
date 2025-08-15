@@ -101,9 +101,12 @@ module Build
     @[JSON::Field(key: "branch", type: String?, nillable: true, emit_null: false)]
     property branch : String?
 
+    @[JSON::Field(key: "environment_id", type: String?, nillable: true, emit_null: false)]
+    property environment_id : String?
+
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@id : String, @name : String, @team : AppTeam, @stack : String, @region : String, @pipeline : AppPipeline?, @dns_refreshed_at : String?, @builds_count : Int32?, @deployments_count : Int32?, @slugs_count : Int32?, @current_build_id : String?, @current_image_id : String?, @current_deployment_id : String?, @formation : Hash(String, AppFormationValue)?, @buildpacks : Array(AppBuildpack)?, @description : String?, @pipeline_stage : String?, @policy_allow_websockets : Bool?, @policy_response_timeout : Int32?, @policy_max_connections : Int32?, @policy_erosion_resistance_seconds : Int32?, @policy_share_process_namespace : Bool?, @policy_temporary_self_signed : Bool?, @created_at : String?, @updated_at : String?, @deleted_at : String?, @branch : String?)
+    def initialize(@id : String, @name : String, @team : AppTeam, @stack : String, @region : String, @pipeline : AppPipeline?, @dns_refreshed_at : String?, @builds_count : Int32?, @deployments_count : Int32?, @slugs_count : Int32?, @current_build_id : String?, @current_image_id : String?, @current_deployment_id : String?, @formation : Hash(String, AppFormationValue)?, @buildpacks : Array(AppBuildpack)?, @description : String?, @pipeline_stage : String?, @policy_allow_websockets : Bool?, @policy_response_timeout : Int32?, @policy_max_connections : Int32?, @policy_erosion_resistance_seconds : Int32?, @policy_share_process_namespace : Bool?, @policy_temporary_self_signed : Bool?, @created_at : String?, @updated_at : String?, @deleted_at : String?, @branch : String?, @environment_id : String?)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -150,7 +153,8 @@ module Build
           created_at == other.created_at &&
           updated_at == other.updated_at &&
           deleted_at == other.deleted_at &&
-          branch == other.branch
+          branch == other.branch &&
+          environment_id == other.environment_id
     end
 
     # @see the `==` method
@@ -162,7 +166,7 @@ module Build
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, name, team, pipeline, dns_refreshed_at, builds_count, deployments_count, slugs_count, current_build_id, current_image_id, current_deployment_id, formation, stack, region, buildpacks, description, pipeline_stage, policy_allow_websockets, policy_response_timeout, policy_max_connections, policy_erosion_resistance_seconds, policy_share_process_namespace, policy_temporary_self_signed, created_at, updated_at, deleted_at, branch].hash
+      [id, name, team, pipeline, dns_refreshed_at, builds_count, deployments_count, slugs_count, current_build_id, current_image_id, current_deployment_id, formation, stack, region, buildpacks, description, pipeline_stage, policy_allow_websockets, policy_response_timeout, policy_max_connections, policy_erosion_resistance_seconds, policy_share_process_namespace, policy_temporary_self_signed, created_at, updated_at, deleted_at, branch, environment_id].hash
     end
 
     # Builds the object from hash

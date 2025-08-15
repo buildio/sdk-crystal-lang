@@ -183,4 +183,10 @@ Spectator.describe Build::App do
     end
   end
 
+  describe "test attribute 'environment_id'" do
+    skip "should work" do
+      # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
+    end
+  end
+
 end
