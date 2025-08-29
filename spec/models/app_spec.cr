@@ -177,6 +177,12 @@ Spectator.describe Build::App do
     end
   end
 
+  describe "test attribute 'web_url'" do
+    skip "should work" do
+      # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
+    end
+  end
+
   describe "test attribute 'branch'" do
     skip "should work" do
       # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
