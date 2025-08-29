@@ -4,6 +4,7 @@ README.md
 git_push.sh
 shard.yml
 spec/api/default_api_spec.cr
+spec/api/domains_api_spec.cr
 spec/api/pipelines_api_spec.cr
 spec/models/app_buildpack_spec.cr
 spec/models/app_formation_value_spec.cr
@@ -12,7 +13,11 @@ spec/models/app_spec.cr
 spec/models/app_team_spec.cr
 spec/models/create_app_request_spec.cr
 spec/models/create_build_request_spec.cr
+spec/models/create_domain_request_spec.cr
 spec/models/create_namespace_request_spec.cr
+spec/models/domain_app_spec.cr
+spec/models/domain_sni_endpoint_spec.cr
+spec/models/domain_spec.cr
 spec/models/dyno_exec_request_spec.cr
 spec/models/dyno_exec_response_spec.cr
 spec/models/dyno_spec.cr
@@ -30,10 +35,12 @@ spec/models/pipeline_spec.cr
 spec/models/pipeline_team_spec.cr
 spec/models/process_spec.cr
 spec/models/team_spec.cr
+spec/models/update_domain_request_spec.cr
 spec/models/validation_errors_spec.cr
 spec/spec_helper.cr
 src/build-client.cr
 src/build-client/api/default_api.cr
+src/build-client/api/domains_api.cr
 src/build-client/api/pipelines_api.cr
 src/build-client/api_client.cr
 src/build-client/api_error.cr
@@ -45,7 +52,11 @@ src/build-client/models/app_pipeline.cr
 src/build-client/models/app_team.cr
 src/build-client/models/create_app_request.cr
 src/build-client/models/create_build_request.cr
+src/build-client/models/create_domain_request.cr
 src/build-client/models/create_namespace_request.cr
+src/build-client/models/domain.cr
+src/build-client/models/domain_app.cr
+src/build-client/models/domain_sni_endpoint.cr
 src/build-client/models/dyno.cr
 src/build-client/models/dyno_exec_request.cr
 src/build-client/models/dyno_exec_response.cr
@@ -63,4 +74,5 @@ src/build-client/models/pipeline_environments_inner.cr
 src/build-client/models/pipeline_team.cr
 src/build-client/models/process.cr
 src/build-client/models/team.cr
+src/build-client/models/update_domain_request.cr
 src/build-client/models/validation_errors.cr
