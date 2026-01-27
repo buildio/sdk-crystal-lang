@@ -14,31 +14,73 @@ require "yaml"
 require "time"
 
 module Build
-  class CreateNamespaceRequest
+  class Addon
     include JSON::Serializable
     include YAML::Serializable
 
     # Required properties
-    @[JSON::Field(key: "name", type: String, nillable: false, emit_null: false)]
-    property name : String
+    @[JSON::Field(key: "id", type: String, nillable: false, emit_null: false)]
+    property id : String
 
-    # Zone ID (required - namespaces are zone-scoped)
-    @[JSON::Field(key: "zone_id", type: String, nillable: false, emit_null: false)]
-    property zone_id : String
+    @[JSON::Field(key: "addon_service", type: AddonService, nillable: false, emit_null: false)]
+    property addon_service : AddonService
+
+    @[JSON::Field(key: "plan", type: AddonPlan, nillable: false, emit_null: false)]
+    property plan : AddonPlan
+
+    @[JSON::Field(key: "app", type: AddonApp, nillable: false, emit_null: false)]
+    property app : AddonApp
+
+    @[JSON::Field(key: "state", type: String, nillable: false, emit_null: false)]
+    property state : String
 
     # Optional properties
-    @[JSON::Field(key: "team_id", type: String?, nillable: true, emit_null: false)]
-    property team_id : String?
+    # Globally unique addon name
+    @[JSON::Field(key: "name", type: String?, nillable: true, emit_null: false)]
+    property name : String?
 
-    @[JSON::Field(key: "description", type: String?, nillable: true, emit_null: false)]
-    property description : String?
+    # Config var names provided by this addon
+    @[JSON::Field(key: "config_vars", type: Array(String)?, nillable: true, emit_null: false)]
+    property config_vars : Array(String)?
 
-    @[JSON::Field(key: "region", type: String?, nillable: true, emit_null: false)]
-    property region : String?
+    @[JSON::Field(key: "billed_price", type: AddonBilledPrice?, nillable: true, emit_null: false)]
+    property billed_price : AddonBilledPrice?
+
+    @[JSON::Field(key: "web_url", type: String?, nillable: true, emit_null: false)]
+    property web_url : String?
+
+    @[JSON::Field(key: "created_at", type: String?, nillable: true, emit_null: false)]
+    property created_at : String?
+
+    @[JSON::Field(key: "updated_at", type: String?, nillable: true, emit_null: false)]
+    property updated_at : String?
+
+    class EnumAttributeValidator
+      getter datatype : String
+      getter allowable_values : Array(String)
+
+      def initialize(datatype, allowable_values)
+        @datatype = datatype
+        @allowable_values = allowable_values.map do |value|
+          case datatype.to_s
+          when /Integer/i
+            value.to_i
+          when /Float/i
+            value.to_f
+          else
+            value
+          end
+        end
+      end
+
+      def valid?(value)
+        !value || allowable_values.includes?(value)
+      end
+    end
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@name : String, @zone_id : String, @team_id : String?, @description : String?, @region : String?)
+    def initialize(@id : String, @addon_service : AddonService, @plan : AddonPlan, @app : AddonApp, @state : String, @name : String?, @config_vars : Array(String)?, @billed_price : AddonBilledPrice?, @web_url : String?, @created_at : String?, @updated_at : String?)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -51,7 +93,19 @@ module Build
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
+      state_validator = EnumAttributeValidator.new("String", ["pending", "requested", "provisioned", "deprovisioning", "deprovisioned"])
+      return false unless state_validator.valid?(@state)
       true
+    end
+
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] state Object to be assigned
+    def state=(state)
+      validator = EnumAttributeValidator.new("String", ["pending", "requested", "provisioned", "deprovisioning", "deprovisioned"])
+      unless validator.valid?(state)
+        raise ArgumentError.new("invalid value for \"state\", must be one of #{validator.allowable_values}.")
+      end
+      @state = state
     end
 
     # Checks equality by comparing each attribute.
@@ -59,11 +113,17 @@ module Build
     def ==(other)
       return true if self.same?(other)
       self.class == other.class &&
+          id == other.id &&
           name == other.name &&
-          zone_id == other.zone_id &&
-          team_id == other.team_id &&
-          description == other.description &&
-          region == other.region
+          addon_service == other.addon_service &&
+          plan == other.plan &&
+          app == other.app &&
+          state == other.state &&
+          config_vars == other.config_vars &&
+          billed_price == other.billed_price &&
+          web_url == other.web_url &&
+          created_at == other.created_at &&
+          updated_at == other.updated_at
     end
 
     # @see the `==` method
@@ -75,7 +135,7 @@ module Build
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [name, zone_id, team_id, description, region].hash
+      [id, name, addon_service, plan, app, state, config_vars, billed_price, web_url, created_at, updated_at].hash
     end
 
     # Builds the object from hash

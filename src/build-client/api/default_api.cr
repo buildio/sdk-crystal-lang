@@ -505,16 +505,16 @@ module Build
     end
 
     # create a namespace
-    # Create a namespace
-    # @return [Namespace]
+    # Create a namespace (deprecated - namespaces are now managed by Kubernetes)
+    # @return [nil]
     def create_namespace(create_namespace_request : CreateNamespaceRequest? = nil)
-      data, _status_code, _headers = create_namespace_with_http_info(create_namespace_request)
-      data
+      create_namespace_with_http_info(create_namespace_request)
+      nil
     end
 
     # create a namespace
-    # Create a namespace
-    # @return [Array<(Namespace, Integer, Hash)>] Namespace data, response status code and response headers
+    # Create a namespace (deprecated - namespaces are now managed by Kubernetes)
+    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
     def create_namespace_with_http_info(create_namespace_request : CreateNamespaceRequest? = nil)
       if @api_client.config.debugging
         Log.debug {"Calling API: DefaultApi.create_namespace ..."}
@@ -542,7 +542,7 @@ module Build
       post_body = create_namespace_request.to_json
 
       # return_type
-      return_type = "Namespace"
+      return_type = nil
 
       # auth_names
       auth_names = ["bearer", "oauth2"]
@@ -560,7 +560,7 @@ module Build
       if @api_client.config.debugging
         Log.debug {"API called: DefaultApi#create_namespace\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
       end
-      return Namespace.from_json(data), status_code, headers
+      return nil, status_code, headers
     end
 
     # delete config-var

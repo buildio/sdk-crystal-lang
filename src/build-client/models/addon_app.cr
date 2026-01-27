@@ -14,31 +14,20 @@ require "yaml"
 require "time"
 
 module Build
-  class CreateNamespaceRequest
+  class AddonApp
     include JSON::Serializable
     include YAML::Serializable
 
     # Required properties
+    @[JSON::Field(key: "id", type: String, nillable: false, emit_null: false)]
+    property id : String
+
     @[JSON::Field(key: "name", type: String, nillable: false, emit_null: false)]
     property name : String
 
-    # Zone ID (required - namespaces are zone-scoped)
-    @[JSON::Field(key: "zone_id", type: String, nillable: false, emit_null: false)]
-    property zone_id : String
-
-    # Optional properties
-    @[JSON::Field(key: "team_id", type: String?, nillable: true, emit_null: false)]
-    property team_id : String?
-
-    @[JSON::Field(key: "description", type: String?, nillable: true, emit_null: false)]
-    property description : String?
-
-    @[JSON::Field(key: "region", type: String?, nillable: true, emit_null: false)]
-    property region : String?
-
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@name : String, @zone_id : String, @team_id : String?, @description : String?, @region : String?)
+    def initialize(@id : String, @name : String)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -59,11 +48,8 @@ module Build
     def ==(other)
       return true if self.same?(other)
       self.class == other.class &&
-          name == other.name &&
-          zone_id == other.zone_id &&
-          team_id == other.team_id &&
-          description == other.description &&
-          region == other.region
+          id == other.id &&
+          name == other.name
     end
 
     # @see the `==` method
@@ -75,7 +61,7 @@ module Build
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [name, zone_id, team_id, description, region].hash
+      [id, name].hash
     end
 
     # Builds the object from hash

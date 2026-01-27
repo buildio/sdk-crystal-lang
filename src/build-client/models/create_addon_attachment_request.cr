@@ -14,31 +14,31 @@ require "yaml"
 require "time"
 
 module Build
-  class CreateNamespaceRequest
+  class CreateAddonAttachmentRequest
     include JSON::Serializable
     include YAML::Serializable
 
     # Required properties
-    @[JSON::Field(key: "name", type: String, nillable: false, emit_null: false)]
-    property name : String
+    # Addon name or ID to attach
+    @[JSON::Field(key: "addon", type: String, nillable: false, emit_null: false)]
+    property addon : String
 
-    # Zone ID (required - namespaces are zone-scoped)
-    @[JSON::Field(key: "zone_id", type: String, nillable: false, emit_null: false)]
-    property zone_id : String
+    # App name or ID to attach the addon to
+    @[JSON::Field(key: "app", type: String, nillable: false, emit_null: false)]
+    property app : String
 
     # Optional properties
-    @[JSON::Field(key: "team_id", type: String?, nillable: true, emit_null: false)]
-    property team_id : String?
+    # Attachment name (e.g., DATABASE_RED)
+    @[JSON::Field(key: "name", type: String?, nillable: true, emit_null: false)]
+    property name : String?
 
-    @[JSON::Field(key: "description", type: String?, nillable: true, emit_null: false)]
-    property description : String?
-
-    @[JSON::Field(key: "region", type: String?, nillable: true, emit_null: false)]
-    property region : String?
+    # Owning app name for confirmation
+    @[JSON::Field(key: "confirm", type: String?, nillable: true, emit_null: false)]
+    property confirm : String?
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@name : String, @zone_id : String, @team_id : String?, @description : String?, @region : String?)
+    def initialize(@addon : String, @app : String, @name : String?, @confirm : String?)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -59,11 +59,10 @@ module Build
     def ==(other)
       return true if self.same?(other)
       self.class == other.class &&
+          addon == other.addon &&
+          app == other.app &&
           name == other.name &&
-          zone_id == other.zone_id &&
-          team_id == other.team_id &&
-          description == other.description &&
-          region == other.region
+          confirm == other.confirm
     end
 
     # @see the `==` method
@@ -75,7 +74,7 @@ module Build
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [name, zone_id, team_id, description, region].hash
+      [addon, app, name, confirm].hash
     end
 
     # Builds the object from hash

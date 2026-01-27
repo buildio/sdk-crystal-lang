@@ -115,10 +115,10 @@ Spectator.describe "DefaultApi" do
 
   # unit tests for create_namespace
   # create a namespace
-  # Create a namespace
+  # Create a namespace (deprecated - namespaces are now managed by Kubernetes)
   # @param [Hash] opts the optional parameters
   # @option opts [CreateNamespaceRequest] :create_namespace_request 
-  # @return [Namespace]
+  # @return [nil]
   describe "create_namespace test" do
     skip "should work" do
       # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html

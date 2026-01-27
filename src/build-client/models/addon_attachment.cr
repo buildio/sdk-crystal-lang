@@ -14,31 +14,60 @@ require "yaml"
 require "time"
 
 module Build
-  class CreateNamespaceRequest
+  class AddonAttachment
     include JSON::Serializable
     include YAML::Serializable
 
     # Required properties
+    @[JSON::Field(key: "id", type: String, nillable: false, emit_null: false)]
+    property id : String
+
+    # Attachment name (e.g., DATABASE, DATABASE_RED)
     @[JSON::Field(key: "name", type: String, nillable: false, emit_null: false)]
     property name : String
 
-    # Zone ID (required - namespaces are zone-scoped)
-    @[JSON::Field(key: "zone_id", type: String, nillable: false, emit_null: false)]
-    property zone_id : String
+    @[JSON::Field(key: "addon", type: AttachmentAddon, nillable: false, emit_null: false)]
+    property addon : AttachmentAddon
+
+    @[JSON::Field(key: "app", type: AddonApp, nillable: false, emit_null: false)]
+    property app : AddonApp
+
+    @[JSON::Field(key: "state", type: String, nillable: false, emit_null: false)]
+    property state : String
 
     # Optional properties
-    @[JSON::Field(key: "team_id", type: String?, nillable: true, emit_null: false)]
-    property team_id : String?
+    @[JSON::Field(key: "created_at", type: String?, nillable: true, emit_null: false)]
+    property created_at : String?
 
-    @[JSON::Field(key: "description", type: String?, nillable: true, emit_null: false)]
-    property description : String?
+    @[JSON::Field(key: "updated_at", type: String?, nillable: true, emit_null: false)]
+    property updated_at : String?
 
-    @[JSON::Field(key: "region", type: String?, nillable: true, emit_null: false)]
-    property region : String?
+    class EnumAttributeValidator
+      getter datatype : String
+      getter allowable_values : Array(String)
+
+      def initialize(datatype, allowable_values)
+        @datatype = datatype
+        @allowable_values = allowable_values.map do |value|
+          case datatype.to_s
+          when /Integer/i
+            value.to_i
+          when /Float/i
+            value.to_f
+          else
+            value
+          end
+        end
+      end
+
+      def valid?(value)
+        !value || allowable_values.includes?(value)
+      end
+    end
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@name : String, @zone_id : String, @team_id : String?, @description : String?, @region : String?)
+    def initialize(@id : String, @name : String, @addon : AttachmentAddon, @app : AddonApp, @state : String, @created_at : String?, @updated_at : String?)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -51,7 +80,19 @@ module Build
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
+      state_validator = EnumAttributeValidator.new("String", ["pending", "attached", "detached"])
+      return false unless state_validator.valid?(@state)
       true
+    end
+
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] state Object to be assigned
+    def state=(state)
+      validator = EnumAttributeValidator.new("String", ["pending", "attached", "detached"])
+      unless validator.valid?(state)
+        raise ArgumentError.new("invalid value for \"state\", must be one of #{validator.allowable_values}.")
+      end
+      @state = state
     end
 
     # Checks equality by comparing each attribute.
@@ -59,11 +100,13 @@ module Build
     def ==(other)
       return true if self.same?(other)
       self.class == other.class &&
+          id == other.id &&
           name == other.name &&
-          zone_id == other.zone_id &&
-          team_id == other.team_id &&
-          description == other.description &&
-          region == other.region
+          addon == other.addon &&
+          app == other.app &&
+          state == other.state &&
+          created_at == other.created_at &&
+          updated_at == other.updated_at
     end
 
     # @see the `==` method
@@ -75,7 +118,7 @@ module Build
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [name, zone_id, team_id, description, region].hash
+      [id, name, addon, app, state, created_at, updated_at].hash
     end
 
     # Builds the object from hash
