@@ -10,6 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.RELEASE_PAT }}
 
       - name: Fetch latest swagger.yaml
         run: |
@@ -30,7 +33,28 @@ jobs:
             -g crystal \
             -o .
 
-      - name: Commit and push
+      - name: Determine next version
+        id: version
+        run: |
+          LATEST=$(git tag -l 'v*' | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -1)
+          LATEST="${LATEST:-v0.0.0}"
+          MAJOR=$(echo "$LATEST" | sed 's/v//' | cut -d. -f1)
+          MINOR=$(echo "$LATEST" | sed 's/v//' | cut -d. -f2)
+          PATCH=$(echo "$LATEST" | sed 's/v//' | cut -d. -f3)
+          NEXT_VER="${MAJOR}.${MINOR}.$((PATCH + 1))"
+          echo "bare=${NEXT_VER}" >> $GITHUB_OUTPUT
+          echo "tag=v${NEXT_VER}" >> $GITHUB_OUTPUT
+          echo "Next SDK version: v${NEXT_VER}"
+
+      - name: Patch shard.yml with correct name and version
+        run: |
+          VER="${{ steps.version.outputs.bare }}"
+          sed -i "s/^name: .*/name: build-client/" shard.yml
+          sed -i "s/^version: .*/version: ${VER}/" shard.yml
+          echo "Patched shard.yml:"
+          head -5 shard.yml
+
+      - name: Commit, tag, and push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -39,8 +63,9 @@ jobs:
             echo "No changes to commit"
           else
             git commit -m "Regenerate SDK from latest swagger.yaml"
-            git push
           fi
+          git tag "${{ steps.version.outputs.tag }}"
+          git push origin main --tags
 
       - name: Dispatch to CLI
         if: success()
