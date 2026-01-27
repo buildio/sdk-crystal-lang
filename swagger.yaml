@@ -1,0 +1,1788 @@
+---
+openapi: 3.0.3
+info:
+  title: Build.io API V1
+  version: v1
+paths:
+  "/api/v1/addon-attachments":
+    get:
+      summary: list addon attachments
+      tags:
+      - Addon Attachments
+      security:
+      - bearer: []
+        oauth2: []
+      description: List all addon attachments
+      operationId: listAddonAttachments
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/addon_attachment"
+    post:
+      summary: create addon attachment
+      tags:
+      - Addon Attachments
+      security:
+      - bearer: []
+        oauth2: []
+      description: Attach an addon to an app
+      operationId: createAddonAttachment
+      parameters: []
+      responses:
+        '201':
+          description: attachment created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/addon_attachment"
+        '404':
+          description: app not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error_response"
+        '422':
+          description: addon not provisioned
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error_response"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: CreateAddonAttachmentRequest
+              type: object
+              properties:
+                addon:
+                  type: string
+                  description: Addon name or ID to attach
+                app:
+                  type: string
+                  description: App name or ID to attach the addon to
+                name:
+                  type: string
+                  description: Attachment name (e.g., DATABASE_RED)
+                  nullable: true
+                confirm:
+                  type: string
+                  description: Owning app name for confirmation
+                  nullable: true
+              required:
+              - addon
+              - app
+  "/api/v1/addon-attachments/{addon_attachment_id}":
+    parameters:
+    - name: addon_attachment_id
+      in: path
+      description: Addon attachment ID
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show addon attachment
+      tags:
+      - Addon Attachments
+      security:
+      - bearer: []
+        oauth2: []
+      description: Get info about an addon attachment
+      operationId: getAddonAttachment
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/addon_attachment"
+        '404':
+          description: attachment not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error_response"
+    delete:
+      summary: delete addon attachment
+      tags:
+      - Addon Attachments
+      security:
+      - bearer: []
+        oauth2: []
+      description: Detach an addon from an app
+      operationId: deleteAddonAttachment
+      responses:
+        '200':
+          description: attachment deleted
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/addon_attachment"
+        '403':
+          description: cannot delete last attachment
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error_response"
+        '404':
+          description: attachment not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error_response"
+  "/api/v1/apps/{app_id_or_name}/addons":
+    parameters:
+    - name: app_id_or_name
+      in: path
+      description: App ID or name
+      required: true
+      schema:
+        type: string
+    get:
+      summary: list addons
+      tags:
+      - Addons
+      security:
+      - bearer: []
+        oauth2: []
+      description: List all addons for an app
+      operationId: listAppAddons
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/addon"
+        '404':
+          description: app not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error_response"
+    post:
+      summary: create addon
+      tags:
+      - Addons
+      security:
+      - bearer: []
+        oauth2: []
+      description: Create and provision a new addon for an app
+      operationId: createAddon
+      parameters: []
+      responses:
+        '201':
+          description: addon created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/addon"
+        '422':
+          description: plan required
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error_response"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: CreateAddonRequest
+              type: object
+              properties:
+                plan:
+                  type: string
+                  description: Addon service and plan in format "service:plan"
+                  example: schematgo:free
+                name:
+                  type: string
+                  description: Globally unique addon name (optional)
+                  nullable: true
+                config:
+                  type: object
+                  description: Addon-specific configuration options (use list-addon-fields
+                    to discover available options for each service)
+                  additionalProperties: true
+                  example:
+                    region: us-east-1
+                    company-name: my-app
+              required:
+              - plan
+  "/api/v1/apps/{app_id_or_name}/addons/{addon_id_or_name}":
+    parameters:
+    - name: app_id_or_name
+      in: path
+      description: App ID or name
+      required: true
+      schema:
+        type: string
+    - name: addon_id_or_name
+      in: path
+      description: Addon ID or name
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show addon
+      tags:
+      - Addons
+      security:
+      - bearer: []
+        oauth2: []
+      description: Get info about an addon
+      operationId: getAddon
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/addon"
+        '404':
+          description: addon not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error_response"
+    delete:
+      summary: destroy addon
+      tags:
+      - Addons
+      security:
+      - bearer: []
+        oauth2: []
+      description: Destroy an addon (deprovisions and removes from all attached apps)
+      operationId: destroyAddon
+      responses:
+        '200':
+          description: addon destroyed
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/addon"
+        '404':
+          description: addon not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error_response"
+  "/api/v1/addons/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: Addon ID or name
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show addon info
+      tags:
+      - Addons
+      security:
+      - bearer: []
+        oauth2: []
+      description: Get detailed addon info including attachments
+      operationId: getAddonInfo
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/addon_with_attachments"
+        '404':
+          description: addon not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error_response"
+  "/api/v1/teams/{team_id}/addons":
+    parameters:
+    - name: team_id
+      in: path
+      description: Team ID or name
+      required: true
+      schema:
+        type: string
+    get:
+      summary: list team addons
+      tags:
+      - Addons
+      security:
+      - bearer: []
+        oauth2: []
+      description: List all addons for a team (across all apps)
+      operationId: listTeamAddons
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/addon"
+        '404':
+          description: team not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error_response"
+  "/api/v1/apps":
+    get:
+      summary: list apps
+      security:
+      - bearer: []
+        oauth2: []
+      description: List all apps
+      parameters:
+      - name: team_id
+        in: query
+        description: team id or name
+        schema:
+          type: string
+      operationId: apps
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                title: AppsResponse
+                type: array
+                items:
+                  "$ref": "#/components/schemas/app"
+    post:
+      summary: create app
+      security:
+      - bearer: []
+        oauth2: []
+      operationId: CreateApp
+      parameters: []
+      responses:
+        '201':
+          description: created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/app"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: CreateAppRequest
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                  nullable: true
+                team_id:
+                  type: string
+                  format: uuid
+                  nullable: true
+                region:
+                  type: string
+                  nullable: true
+              required:
+              - name
+  "/api/v1/apps/{app_id_or_name}":
+    parameters:
+    - name: app_id_or_name
+      in: path
+      description: app id or name
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show app
+      security:
+      - bearer: []
+        oauth2: []
+      operationId: app
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/app"
+  "/api/v1/apps/{app_id_or_name}/builds":
+    parameters:
+    - name: app_id_or_name
+      in: path
+      description: app id or name
+      required: true
+      schema:
+        type: string
+    post:
+      summary: create build
+      operationId: create_build
+      parameters: []
+      security:
+      - bearer: []
+        oauth2: []
+      responses:
+        '201':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: CreateBuildRequest
+              type: object
+              properties:
+                branch:
+                  type: string
+                commitish:
+                  type: string
+                description:
+                  type: string
+              required: []
+  "/api/v1/apps/{app_id_or_name}/config-vars":
+    parameters:
+    - name: app_id_or_name
+      in: path
+      description: app id or name
+      required: true
+      schema:
+        type: string
+    get:
+      summary: list all config-vars
+      security:
+      - bearer: []
+        oauth2: []
+      operationId: config_vars
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                title: ConfigVarsResponse
+                type: object
+                additionalProperties:
+                  type: string
+    patch:
+      summary: set or update config-vars
+      security:
+      - bearer: []
+        oauth2: []
+      parameters: []
+      operationId: set_config_vars
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties:
+                type: string
+              example:
+                KEY1: value1
+                KEY2: value2
+              description: Dynamic key-value pairs for configuration variables
+  "/api/v1/apps/{app_id_or_name}/config-vars/{key}":
+    parameters:
+    - name: app_id_or_name
+      in: path
+      description: app id or name
+      required: true
+      schema:
+        type: string
+    - name: key
+      in: path
+      description: config var key
+      required: true
+      schema:
+        type: string
+    delete:
+      summary: delete config-var
+      description: Delete a config-var
+      security:
+      - bearer: []
+        oauth2: []
+      operationId: delete_config_var
+      responses:
+        '204':
+          description: successful
+  "/api/v1/apps/{app_id_or_name}/domains":
+    parameters:
+    - name: app_id_or_name
+      in: path
+      description: app id or name
+      required: true
+      schema:
+        type: string
+    get:
+      summary: list domains
+      tags:
+      - Domains
+      security:
+      - bearer: []
+        oauth2: []
+      operationId: listDomains
+      description: List all domains for an app (platform domain + custom domains)
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/domain"
+    post:
+      summary: create domain
+      tags:
+      - Domains
+      security:
+      - bearer: []
+        oauth2: []
+      operationId: createDomain
+      description: Add a domain to an app
+      parameters: []
+      responses:
+        '201':
+          description: created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/domain"
+        '422':
+          description: invalid hostname
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error_response"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                hostname:
+                  type: string
+                  description: The domain to add
+                cert:
+                  type: string
+                  nullable: true
+                  description: Certificate name (optional)
+              required:
+              - hostname
+    delete:
+      summary: clear all domains
+      tags:
+      - Domains
+      security:
+      - bearer: []
+        oauth2: []
+      operationId: clearDomains
+      description: Clear all custom domains from an app
+      responses:
+        '204':
+          description: no content
+  "/api/v1/apps/{app_id_or_name}/domains/{domain_id}":
+    parameters:
+    - name: app_id_or_name
+      in: path
+      description: app id or name
+      required: true
+      schema:
+        type: string
+    - name: domain_id
+      in: path
+      description: domain id or hostname
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show domain
+      tags:
+      - Domains
+      security:
+      - bearer: []
+        oauth2: []
+      operationId: showDomain
+      description: Get detailed information about a specific domain
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/domain"
+        '404':
+          description: not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error_response"
+    patch:
+      summary: update domain
+      tags:
+      - Domains
+      security:
+      - bearer: []
+        oauth2: []
+      operationId: updateDomain
+      description: Update a domain (e.g., change SSL certificate)
+      parameters: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/domain"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cert:
+                  type: string
+                  description: New certificate name
+    delete:
+      summary: remove domain
+      tags:
+      - Domains
+      security:
+      - bearer: []
+        oauth2: []
+      operationId: removeDomain
+      description: Remove a domain from an app
+      responses:
+        '204':
+          description: no content
+        '422':
+          description: cannot delete platform domain
+  "/api/v1/apps/{app_id_or_name}/dynos/list":
+    parameters:
+    - name: app_id_or_name
+      in: path
+      description: app id or name
+      required: true
+      schema:
+        type: string
+    get:
+      summary: list dynos
+      security:
+      - bearer: []
+        oauth2: []
+      operationId: list_dynos
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                title: DynosResponse
+                type: array
+                items:
+                  "$ref": "#/components/schemas/dyno"
+  "/api/v1/apps/{app_id_or_name}/dynos":
+    parameters:
+    - name: app_id_or_name
+      in: path
+      description: app id or name
+      required: true
+      schema:
+        type: string
+    delete:
+      summary: restart all dynos
+      security:
+      - bearer: []
+        oauth2: []
+      operationId: restart_all_dynos
+      responses:
+        '204':
+          description: successful
+  "/api/v1/apps/{app_id_or_name}/dynos/{dyno}":
+    parameters:
+    - name: app_id_or_name
+      in: path
+      description: app id or name
+      required: true
+      schema:
+        type: string
+    - name: dyno
+      in: path
+      description: dyno name
+      required: true
+      schema:
+        type: string
+    delete:
+      summary: restart specific dyno
+      security:
+      - bearer: []
+        oauth2: []
+      operationId: restart_dynos
+      responses:
+        '204':
+          description: successful
+  "/api/v1/apps/{app_id_or_name}/dynos/{dyno}/exec":
+    parameters:
+    - name: app_id_or_name
+      in: path
+      description: app id or name
+      required: true
+      schema:
+        type: string
+    - name: dyno
+      in: path
+      description: dyno name
+      required: true
+      schema:
+        type: string
+    post:
+      summary: exec into dyno
+      security:
+      - bearer: []
+        oauth2: []
+      operationId: exec_dyno
+      parameters: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                title: DynoExecResponse
+                type: object
+                properties:
+                  output:
+                    type: string
+                required:
+                - output
+        '422':
+          description: missing parameters
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: DynoExecRequest
+              type: object
+              properties:
+                command:
+                  title: DynoExecRequestCommand
+                  type: array
+                  items:
+                    type: string
+                  description: Command to execute in the dyno. Must be an array of
+                    strings (e.g. ["/bin/sh", "-c", "echo hello"]).
+              required:
+              - command
+        required: true
+  "/api/v1/me":
+    get:
+      summary: identity
+      operationId: me
+      security:
+      - bearer: []
+        oauth2: []
+      responses:
+        '200':
+          description: properly authenticated request
+          content:
+            application/json:
+              schema:
+                title: MeResponse
+                type: object
+                properties:
+                  email:
+                    type: string
+                required:
+                - email
+        '401':
+          description: no authentication
+  "/api/v1/namespaces":
+    get:
+      summary: list all namespaces
+      description: List all namespaces
+      security:
+      - bearer: []
+        oauth2: []
+      operationId: namespaces
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/namespace"
+    post:
+      summary: create a namespace
+      description: Create a namespace (deprecated - namespaces are now managed by
+        Kubernetes)
+      security:
+      - bearer: []
+        oauth2: []
+      parameters: []
+      operationId: create_namespace
+      responses:
+        '410':
+          description: gone
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              title: CreateNamespaceRequest
+              properties:
+                name:
+                  type: string
+                zone_id:
+                  type: string
+                  format: uuid
+                  description: Zone ID (required - namespaces are zone-scoped)
+                team_id:
+                  type: string
+                  nullable: true
+                description:
+                  type: string
+                  nullable: true
+                region:
+                  type: string
+                  nullable: true
+              required:
+              - name
+              - zone_id
+  "/api/v1/namespaces/{namespace_id_or_name}":
+    parameters:
+    - name: namespace_id_or_name
+      in: path
+      required: true
+      description: Namespace name or ID
+      schema:
+        type: string
+    get:
+      summary: show namespace
+      description: Show a namespace
+      security:
+      - bearer: []
+        oauth2: []
+      operationId: namespace
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/namespace"
+    delete:
+      summary: delete a namespace
+      description: Delete a namespace
+      security:
+      - bearer: []
+        oauth2: []
+      operationId: delete_namespace
+      responses:
+        '204':
+          description: successful
+  "/api/v1/oidc-login":
+    get:
+      summary: kubernetes oidc-login
+      operationId: oidc_login
+      security:
+      - bearer: []
+        oauth2: []
+        api_key: []
+        openIdConnect: []
+      parameters:
+      - name: region
+        in: query
+        schema:
+          type: string
+          example: us-test-1
+          description: Region for the cluster
+          required:
+          - region
+      responses:
+        '200':
+          description: properly authenticated request
+          content:
+            application/json:
+              examples:
+                oidc_body:
+                  value:
+                    kind: ExecCredential
+                    apiVersion: client.authentication.k8s.io/v1beta1
+                    spec:
+                      interactive: false
+                    status:
+                      expirationTimestamp: '2024-05-23T14:20:59Z'
+                      token: eyXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+              schema:
+                title: OidcLoginResponse
+                type: object
+                properties:
+                  kind:
+                    type: string
+                  apiVersion:
+                    type: string
+                  spec:
+                    type: object
+                    title: OidcLoginResponseSpec
+                    properties:
+                      interactive:
+                        type: boolean
+                  status:
+                    type: object
+                    title: OidcLoginResponseStatus
+                    properties:
+                      expirationTimestamp:
+                        type: string
+                      token:
+                        type: string
+                required:
+                - kind
+                - apiVersion
+                - spec
+                - status
+        '401':
+          description: no authentication
+  "/api/v1/pipelines/{pipeline_id_or_name}":
+    parameters:
+    - name: pipeline_id_or_name
+      in: path
+      description: Pipeline ID or Name
+      required: true
+      schema:
+        type: string
+    get:
+      summary: get a specific pipeline
+      tags:
+      - Pipelines
+      security:
+      - bearer: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/pipeline"
+        '404':
+          description: pipeline not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error_response"
+      description: Retrieves details for a specific pipeline
+      operationId: get_pipeline
+  "/api/v1/environments/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: Environment ID
+      required: true
+      schema:
+        type: string
+    get:
+      summary: get environment config-vars (e.g. pipeline RA env)
+      tags:
+      - - Environments
+      security:
+      - bearer: []
+        oauth2: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+        '404':
+          description: 'not found - security: cannot access environments from other
+            teams'
+    patch:
+      summary: set or update environment config-vars (e.g. pipeline RA env)
+      tags:
+      - - Environments
+      security:
+      - bearer: []
+        oauth2: []
+      parameters: []
+      responses:
+        '200':
+          description: successful
+        '404':
+          description: 'not found - security: cannot update environments from other
+            teams'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties:
+                type: string
+              example:
+                KEY1: value1
+                KEY2: value2
+                KEY_TO_DELETE:
+              description: Key-value pairs; set string values, use null to delete
+  "/api/v1/environments/{id}/{key}":
+    parameters:
+    - name: id
+      in: path
+      description: Environment ID
+      required: true
+      schema:
+        type: string
+    - name: key
+      in: path
+      description: config var key
+      required: true
+      schema:
+        type: string
+    delete:
+      summary: delete environment config-var
+      tags:
+      - - Environments
+      security:
+      - bearer: []
+        oauth2: []
+      responses:
+        '204':
+          description: successful
+  "/api/v1/pipelines":
+    get:
+      summary: list pipelines
+      tags:
+      - Pipelines
+      security:
+      - bearer: []
+      description: Lists all pipelines accessible to the current user
+      operationId: list_pipelines
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/pipeline"
+  "/api/v1/pipelines/{pipeline_id_or_name}/apps":
+    parameters:
+    - name: pipeline_id_or_name
+      in: path
+      description: Pipeline ID or Name
+      required: true
+      schema:
+        type: string
+    get:
+      summary: list apps in a pipeline
+      tags:
+      - Pipelines
+      security:
+      - bearer: []
+      description: A list of applications in the pipeline.
+      operationId: list_pipeline_apps
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/app"
+        '404':
+          description: pipeline not found for apps list
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error_response"
+  "/api/v1/teams":
+    get:
+      summary: list all teams
+      security:
+      - bearer: []
+        oauth2: []
+      description: List all teams
+      operationId: teams
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                title: TeamsResponse
+                type: array
+                items:
+                  "$ref": "#/components/schemas/team"
+  "/api/v1/teams/{id}":
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: Team name or ID
+      schema:
+        type: string
+    get:
+      summary: show team
+      description: Show a team
+      security:
+      - bearer: []
+        oauth2: []
+      operationId: team
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/team"
+servers:
+- url: https://{defaultHost}
+  variables:
+    defaultHost:
+      default: app.build.io
+components:
+  schemas:
+    error_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Machine-readable error code
+        message:
+          type: string
+          description: Human-readable error message
+        details:
+          type: object
+          description: Additional error details (optional)
+          additionalProperties: true
+      required:
+      - code
+      example:
+        code: not_found
+        message: The requested resource was not found
+        details:
+          available_options:
+          - option1
+          - option2
+    validation_errors:
+      type: object
+      properties:
+        error:
+          type: string
+          example: validation_failed
+        error_description:
+          type: string
+          example: Validation failed
+        details:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+          example:
+            name:
+            - is required
+            email:
+            - is invalid
+      required:
+      - error
+    attachment_addon:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          nullable: true
+        app:
+          "$ref": "#/components/schemas/addon_app"
+      required:
+      - id
+      - name
+      - app
+    addon_attachment:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          description: Attachment name (e.g., DATABASE, DATABASE_RED)
+        addon:
+          "$ref": "#/components/schemas/attachment_addon"
+        app:
+          "$ref": "#/components/schemas/addon_app"
+        state:
+          type: string
+          enum:
+          - pending
+          - attached
+          - detached
+        created_at:
+          type: string
+          format: date_time
+        updated_at:
+          type: string
+          format: date_time
+      required:
+      - id
+      - name
+      - addon
+      - app
+      - state
+    addon_service:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+      required:
+      - id
+      - name
+    addon_plan:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+      required:
+      - id
+      - name
+    addon_app:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+      required:
+      - id
+      - name
+    addon_billed_price:
+      type: object
+      properties:
+        cents:
+          type: integer
+        unit:
+          type: string
+        contract:
+          type: boolean
+      required:
+      - cents
+      - unit
+    addon:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          nullable: true
+          description: Globally unique addon name
+        addon_service:
+          "$ref": "#/components/schemas/addon_service"
+        plan:
+          "$ref": "#/components/schemas/addon_plan"
+        app:
+          "$ref": "#/components/schemas/addon_app"
+        state:
+          type: string
+          enum:
+          - pending
+          - requested
+          - provisioned
+          - deprovisioning
+          - deprovisioned
+        config_vars:
+          type: array
+          items:
+            type: string
+          description: Config var names provided by this addon
+        billed_price:
+          "$ref": "#/components/schemas/addon_billed_price"
+        web_url:
+          type: string
+          nullable: true
+        created_at:
+          type: string
+          format: date_time
+        updated_at:
+          type: string
+          format: date_time
+      required:
+      - id
+      - addon_service
+      - plan
+      - app
+      - state
+    addon_info_attachment:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          description: Attachment name (e.g., DATABASE)
+        app:
+          "$ref": "#/components/schemas/addon_app"
+        state:
+          type: string
+          enum:
+          - pending
+          - attached
+          - detached
+      required:
+      - id
+      - name
+      - app
+      - state
+    addon_with_attachments:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          nullable: true
+          description: Globally unique addon name
+        addon_service:
+          "$ref": "#/components/schemas/addon_service"
+        plan:
+          "$ref": "#/components/schemas/addon_plan"
+        app:
+          "$ref": "#/components/schemas/addon_app"
+        state:
+          type: string
+          enum:
+          - pending
+          - requested
+          - provisioned
+          - deprovisioning
+          - deprovisioned
+        config_vars:
+          type: array
+          items:
+            type: string
+        billed_price:
+          "$ref": "#/components/schemas/addon_billed_price"
+        web_url:
+          type: string
+          nullable: true
+        attachments:
+          type: array
+          items:
+            "$ref": "#/components/schemas/addon_info_attachment"
+        created_at:
+          type: string
+          format: date_time
+        updated_at:
+          type: string
+          format: date_time
+      required:
+      - id
+      - addon_service
+      - plan
+      - app
+      - state
+    app:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        team:
+          type: object
+          title: AppTeam
+          properties:
+            id:
+              type: string
+              format: uuid
+            name:
+              type: string
+        pipeline:
+          type: object
+          title: AppPipeline
+          properties:
+            id:
+              type: string
+              format: uuid
+              nullable: true
+            name:
+              type: string
+              nullable: true
+          nullable: true
+        dns_refreshed_at:
+          type: string
+          format: date_time
+          nullable: true
+        builds_count:
+          type: integer
+        deployments_count:
+          type: integer
+        slugs_count:
+          type: integer
+        current_build_id:
+          type: string
+          format: uuid
+          nullable: true
+        current_image_id:
+          type: string
+          format: uuid
+          nullable: true
+        current_deployment_id:
+          type: string
+          format: uuid
+          nullable: true
+        formation:
+          type: object
+          additionalProperties:
+            type: object
+            title: AppFormationValue
+            properties:
+              size:
+                type: string
+              display:
+                type: string
+              quantity:
+                type: integer
+            example:
+              web:
+                size: basic
+                display: server start
+                quantity: 1
+            description: Dyno formation
+        stack:
+          type: string
+        region:
+          type: string
+        buildpacks:
+          type: array
+          items:
+            type: object
+            title: AppBuildpack
+            properties:
+              url:
+                type: string
+        description:
+          type: string
+          nullable: true
+        pipeline_stage:
+          type: string
+          nullable: true
+        policy_allow_websockets:
+          type: boolean
+        policy_response_timeout:
+          type: integer
+        policy_max_connections:
+          type: integer
+        policy_erosion_resistance_seconds:
+          type: integer
+        policy_share_process_namespace:
+          type: boolean
+        policy_temporary_self_signed:
+          type: boolean
+        created_at:
+          type: string
+          format: date_time
+        updated_at:
+          type: string
+          format: date_time
+        deleted_at:
+          type: string
+          format: date_time
+          nullable: true
+        web_url:
+          type: string
+          description: Full HTTPS URL for the application
+        branch:
+          type: string
+          nullable: true
+          description: GitHub branch for the application
+        environment_id:
+          type: string
+          format: uuid
+      required:
+      - id
+      - name
+      - team
+      - stack
+      - region
+    process:
+      type: object
+      properties:
+        index:
+          type: integer
+        status:
+          type: string
+        started_at:
+          type: string
+          format: date_time
+        restarts:
+          type: integer
+          nullable: true
+        restarted_at:
+          type: string
+          format: date_time
+          nullable: true
+      required:
+      - index
+      - status
+      - started_at
+    dyno:
+      type: object
+      properties:
+        type:
+          type: string
+        quantity:
+          type: integer
+        size:
+          type: string
+        display:
+          type: string
+        processes:
+          type: array
+          items:
+            "$ref": "#/components/schemas/process"
+      required:
+      - type
+      - quantity
+      - size
+      - display
+      - processes
+    domain:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        hostname:
+          type: string
+          description: The domain name
+        kind:
+          type: string
+          enum:
+          - platform
+          - custom
+          description: Type of domain
+        cname:
+          type: string
+          nullable: true
+          description: CNAME target for DNS configuration
+        status:
+          type: string
+          enum:
+          - pending
+          - deployed
+          - succeeded
+          - failed
+          description: Domain status
+        acm_status:
+          type: string
+          nullable: true
+          description: SSL certificate status
+        acm_status_reason:
+          type: string
+          nullable: true
+          description: Reason for certificate status
+        created_at:
+          type: string
+          format: date_time
+        updated_at:
+          type: string
+          format: date_time
+        sni_endpoint:
+          type: object
+          nullable: true
+          properties:
+            id:
+              type: string
+              format: uuid
+            name:
+              type: string
+          description: SSL endpoint information
+        app:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+            name:
+              type: string
+          required:
+          - id
+          - name
+          description: Associated app
+      required:
+      - id
+      - hostname
+      - kind
+      - status
+      - app
+    exec_output:
+      type: object
+      properties:
+        output:
+          type: string
+      required:
+      - output
+    namespace:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        team:
+          type: object
+          title: NamespaceTeam
+          properties:
+            id:
+              type: string
+              format: uuid
+            name:
+              type: string
+        description:
+          type: string
+          nullable: true
+        state:
+          type: string
+        region:
+          type: string
+        actor:
+          type: object
+          title: NamespaceActor
+          properties:
+            id:
+              type: string
+              format: uuid
+            email:
+              type: string
+        created_at:
+          type: string
+          format: date_time
+        updated_at:
+          type: string
+          format: date_time
+      required: []
+    pipeline:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        team:
+          type: object
+          title: PipelineTeam
+          properties:
+            id:
+              type: string
+              format: uuid
+            name:
+              type: string
+        environments:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              kind:
+                type: string
+                enum:
+                - ra
+                - ci
+                - ai
+        created_at:
+          type: string
+          format: date_time
+        updated_at:
+          type: string
+          format: date_time
+      required:
+      - id
+      - name
+      - team
+    team:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+          nullable: true
+        personal:
+          type: boolean
+        created_at:
+          type: string
+          format: date_time
+        updated_at:
+          type: string
+          format: date_time
+      required: []
+  securitySchemes:
+    bearer:
+      type: http
+      name: Bearer
+      in: header
+      description: Your Bearer token
+      scheme: bearer
+    api_key:
+      type: apiKey
+      name: Authorization
+      in: header
+      description: Your API key
+    oauth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://app.build.io/oauth/authorize
+          tokenUrl: https://app.build.io/oauth/token
+          scopes:
+            read: {}
+            write: {}
+    open_id_connect:
+      type: openIdConnect
+      openIdConnectUrl: https://app.build.io/.well-known/openid-configuration
+      description: OpenID Connect
