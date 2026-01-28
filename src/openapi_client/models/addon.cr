@@ -39,6 +39,10 @@ module OpenAPIClient
     @[JSON::Field(key: "name", type: String?, nillable: true, emit_null: false)]
     property name : String?
 
+    # User-provided description of the addon
+    @[JSON::Field(key: "description", type: String?, nillable: true, emit_null: false)]
+    property description : String?
+
     # Config var names provided by this addon
     @[JSON::Field(key: "config_vars", type: Array(String)?, nillable: true, emit_null: false)]
     property config_vars : Array(String)?
@@ -80,7 +84,7 @@ module OpenAPIClient
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@id : String, @addon_service : AddonService, @plan : AddonPlan, @app : AddonApp, @state : String, @name : String?, @config_vars : Array(String)?, @billed_price : AddonBilledPrice?, @web_url : String?, @created_at : String?, @updated_at : String?)
+    def initialize(@id : String, @addon_service : AddonService, @plan : AddonPlan, @app : AddonApp, @state : String, @name : String?, @description : String?, @config_vars : Array(String)?, @billed_price : AddonBilledPrice?, @web_url : String?, @created_at : String?, @updated_at : String?)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -115,6 +119,7 @@ module OpenAPIClient
       self.class == other.class &&
           id == other.id &&
           name == other.name &&
+          description == other.description &&
           addon_service == other.addon_service &&
           plan == other.plan &&
           app == other.app &&
@@ -135,7 +140,7 @@ module OpenAPIClient
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, name, addon_service, plan, app, state, config_vars, billed_price, web_url, created_at, updated_at].hash
+      [id, name, description, addon_service, plan, app, state, config_vars, billed_price, web_url, created_at, updated_at].hash
     end
 
     # Builds the object from hash

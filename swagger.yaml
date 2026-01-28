@@ -204,6 +204,10 @@ paths:
                   type: string
                   description: Globally unique addon name (optional)
                   nullable: true
+                description:
+                  type: string
+                  description: User-provided description of the addon (optional)
+                  nullable: true
                 config:
                   type: object
                   description: Addon-specific configuration options (use list-addon-fields
@@ -1209,6 +1213,17 @@ components:
             - is invalid
       required:
       - error
+    addon_app:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+      required:
+      - id
+      - name
     attachment_addon:
       type: object
       properties:
@@ -1277,17 +1292,6 @@ components:
       required:
       - id
       - name
-    addon_app:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-      required:
-      - id
-      - name
     addon_billed_price:
       type: object
       properties:
@@ -1310,6 +1314,10 @@ components:
           type: string
           nullable: true
           description: Globally unique addon name
+        description:
+          type: string
+          nullable: true
+          description: User-provided description of the addon
         addon_service:
           "$ref": "#/components/schemas/addon_service"
         plan:
@@ -1378,6 +1386,10 @@ components:
           type: string
           nullable: true
           description: Globally unique addon name
+        description:
+          type: string
+          nullable: true
+          description: User-provided description of the addon
         addon_service:
           "$ref": "#/components/schemas/addon_service"
         plan:
@@ -1536,6 +1548,12 @@ components:
         environment_id:
           type: string
           format: uuid
+        ssh_host:
+          type: string
+          description: SSH host for running one-off dynos
+        ssh_port:
+          type: integer
+          description: SSH port for running one-off dynos
       required:
       - id
       - name

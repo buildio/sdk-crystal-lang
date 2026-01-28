@@ -3,8 +3,6 @@
 README.md
 git_push.sh
 shard.yml
-spec/models/addon_info_attachment_spec.cr
-spec/models/addon_with_attachments_spec.cr
 spec/spec_helper.cr
 src/openapi_client.cr
 src/openapi_client/api/addon_attachments_api.cr

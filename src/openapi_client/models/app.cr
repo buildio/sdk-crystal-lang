@@ -109,9 +109,17 @@ module OpenAPIClient
     @[JSON::Field(key: "environment_id", type: String?, nillable: true, emit_null: false)]
     property environment_id : String?
 
+    # SSH host for running one-off dynos
+    @[JSON::Field(key: "ssh_host", type: String?, nillable: true, emit_null: false)]
+    property ssh_host : String?
+
+    # SSH port for running one-off dynos
+    @[JSON::Field(key: "ssh_port", type: Int32?, nillable: true, emit_null: false)]
+    property ssh_port : Int32?
+
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@id : String, @name : String, @team : AppTeam, @stack : String, @region : String, @pipeline : AppPipeline?, @dns_refreshed_at : String?, @builds_count : Int32?, @deployments_count : Int32?, @slugs_count : Int32?, @current_build_id : String?, @current_image_id : String?, @current_deployment_id : String?, @formation : Hash(String, AppFormationValue)?, @buildpacks : Array(AppBuildpack)?, @description : String?, @pipeline_stage : String?, @policy_allow_websockets : Bool?, @policy_response_timeout : Int32?, @policy_max_connections : Int32?, @policy_erosion_resistance_seconds : Int32?, @policy_share_process_namespace : Bool?, @policy_temporary_self_signed : Bool?, @created_at : String?, @updated_at : String?, @deleted_at : String?, @web_url : String?, @branch : String?, @environment_id : String?)
+    def initialize(@id : String, @name : String, @team : AppTeam, @stack : String, @region : String, @pipeline : AppPipeline?, @dns_refreshed_at : String?, @builds_count : Int32?, @deployments_count : Int32?, @slugs_count : Int32?, @current_build_id : String?, @current_image_id : String?, @current_deployment_id : String?, @formation : Hash(String, AppFormationValue)?, @buildpacks : Array(AppBuildpack)?, @description : String?, @pipeline_stage : String?, @policy_allow_websockets : Bool?, @policy_response_timeout : Int32?, @policy_max_connections : Int32?, @policy_erosion_resistance_seconds : Int32?, @policy_share_process_namespace : Bool?, @policy_temporary_self_signed : Bool?, @created_at : String?, @updated_at : String?, @deleted_at : String?, @web_url : String?, @branch : String?, @environment_id : String?, @ssh_host : String?, @ssh_port : Int32?)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -160,7 +168,9 @@ module OpenAPIClient
           deleted_at == other.deleted_at &&
           web_url == other.web_url &&
           branch == other.branch &&
-          environment_id == other.environment_id
+          environment_id == other.environment_id &&
+          ssh_host == other.ssh_host &&
+          ssh_port == other.ssh_port
     end
 
     # @see the `==` method
@@ -172,7 +182,7 @@ module OpenAPIClient
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, name, team, pipeline, dns_refreshed_at, builds_count, deployments_count, slugs_count, current_build_id, current_image_id, current_deployment_id, formation, stack, region, buildpacks, description, pipeline_stage, policy_allow_websockets, policy_response_timeout, policy_max_connections, policy_erosion_resistance_seconds, policy_share_process_namespace, policy_temporary_self_signed, created_at, updated_at, deleted_at, web_url, branch, environment_id].hash
+      [id, name, team, pipeline, dns_refreshed_at, builds_count, deployments_count, slugs_count, current_build_id, current_image_id, current_deployment_id, formation, stack, region, buildpacks, description, pipeline_stage, policy_allow_websockets, policy_response_timeout, policy_max_connections, policy_erosion_resistance_seconds, policy_share_process_namespace, policy_temporary_self_signed, created_at, updated_at, deleted_at, web_url, branch, environment_id, ssh_host, ssh_port].hash
     end
 
     # Builds the object from hash
