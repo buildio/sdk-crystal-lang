@@ -31,8 +31,8 @@ jobs:
 
       - name: Clean generated files
         run: |
-          # Remove generated models to force full regeneration
-          rm -rf src/build-client/models src/build-client/api
+          # Remove all generated code to force full regeneration
+          rm -rf src/build-client src/openapi_client
           rm -f src/build-client.cr src/openapi_client.cr
           echo "Cleaned generated files"
 
@@ -42,6 +42,20 @@ jobs:
             -i swagger.yaml \
             -g crystal \
             -o .
+
+      - name: Rename to build-client
+        run: |
+          # Rename generated openapi_client to build-client
+          mv src/openapi_client src/build-client
+          mv src/openapi_client.cr src/build-client.cr
+
+          # Update module references from OpenApiClient to Build
+          find src/build-client -name "*.cr" -exec sed -i 's/module OpenApiClient/module Build/g' {} \;
+          find src/build-client -name "*.cr" -exec sed -i 's/OpenApiClient::/Build::/g' {} \;
+          sed -i 's/module OpenApiClient/module Build/g' src/build-client.cr
+          sed -i 's/require "\.\/openapi_client/require ".\/build-client/g' src/build-client.cr
+
+          echo "Renamed and patched module references"
 
       - name: Determine next version
         id: version
