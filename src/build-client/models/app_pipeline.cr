@@ -13,7 +13,7 @@ require "json"
 require "yaml"
 require "time"
 
-module OpenAPIClient
+module Build
   class AppPipeline
     include JSON::Serializable
     include YAML::Serializable

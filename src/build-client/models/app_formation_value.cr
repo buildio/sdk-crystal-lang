@@ -13,7 +13,7 @@ require "json"
 require "yaml"
 require "time"
 
-module OpenAPIClient
+module Build
   # Dyno formation
   class AppFormationValue
     include JSON::Serializable

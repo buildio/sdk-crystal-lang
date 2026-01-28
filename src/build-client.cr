@@ -12,7 +12,7 @@
 require "crest"
 require "log"
 
-module OpenAPIClient
+module Build
   Log = ::Log.for("OpenAPIClient") # => Log for OpenAPIClient source
 
   VERSION = {{ `shards version #{__DIR__}`.chomp.stringify }}

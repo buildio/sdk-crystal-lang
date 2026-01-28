@@ -10,7 +10,7 @@
 
 require "uri"
 
-module OpenAPIClient
+module Build
   class PipelinesApi
     property api_client : ApiClient
 

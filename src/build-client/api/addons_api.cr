@@ -10,7 +10,7 @@
 
 require "uri"
 
-module OpenAPIClient
+module Build
   class AddonsApi
     property api_client : ApiClient
 

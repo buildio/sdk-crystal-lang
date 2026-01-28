@@ -13,7 +13,7 @@ require "json"
 require "yaml"
 require "time"
 
-module OpenAPIClient
+module Build
   # SSL endpoint information
   class DomainSniEndpoint
     include JSON::Serializable

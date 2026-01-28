@@ -13,7 +13,7 @@ require "json"
 require "yaml"
 require "time"
 
-module OpenAPIClient
+module Build
   # Associated app
   class DomainApp
     include JSON::Serializable
