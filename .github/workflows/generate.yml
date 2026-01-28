@@ -29,6 +29,13 @@ jobs:
           distribution: temurin
           java-version: '17'
 
+      - name: Clean generated files
+        run: |
+          # Remove generated models to force full regeneration
+          rm -rf src/build-client/models src/build-client/api
+          rm -f src/build-client.cr src/openapi_client.cr
+          echo "Cleaned generated files"
+
       - name: Generate SDK
         run: |
           npx @openapitools/openapi-generator-cli generate \
