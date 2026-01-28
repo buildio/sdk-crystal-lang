@@ -34,6 +34,14 @@ module Build
     @[JSON::Field(key: "region", type: String, nillable: false, emit_null: false)]
     property region : String
 
+    # SSH host for running one-off dynos
+    @[JSON::Field(key: "ssh_host", type: String, nillable: false, emit_null: false)]
+    property ssh_host : String
+
+    # SSH port for running one-off dynos
+    @[JSON::Field(key: "ssh_port", type: Int32, nillable: false, emit_null: false)]
+    property ssh_port : Int32
+
     # Optional properties
     @[JSON::Field(key: "pipeline", type: AppPipeline?, nillable: true, emit_null: false)]
     property pipeline : AppPipeline?
@@ -109,17 +117,9 @@ module Build
     @[JSON::Field(key: "environment_id", type: String?, nillable: true, emit_null: false)]
     property environment_id : String?
 
-    # SSH host for running one-off dynos
-    @[JSON::Field(key: "ssh_host", type: String?, nillable: true, emit_null: false)]
-    property ssh_host : String?
-
-    # SSH port for running one-off dynos
-    @[JSON::Field(key: "ssh_port", type: Int32?, nillable: true, emit_null: false)]
-    property ssh_port : Int32?
-
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@id : String, @name : String, @team : AppTeam, @stack : String, @region : String, @pipeline : AppPipeline?, @dns_refreshed_at : String?, @builds_count : Int32?, @deployments_count : Int32?, @slugs_count : Int32?, @current_build_id : String?, @current_image_id : String?, @current_deployment_id : String?, @formation : Hash(String, AppFormationValue)?, @buildpacks : Array(AppBuildpack)?, @description : String?, @pipeline_stage : String?, @policy_allow_websockets : Bool?, @policy_response_timeout : Int32?, @policy_max_connections : Int32?, @policy_erosion_resistance_seconds : Int32?, @policy_share_process_namespace : Bool?, @policy_temporary_self_signed : Bool?, @created_at : String?, @updated_at : String?, @deleted_at : String?, @web_url : String?, @branch : String?, @environment_id : String?, @ssh_host : String?, @ssh_port : Int32?)
+    def initialize(@id : String, @name : String, @team : AppTeam, @stack : String, @region : String, @ssh_host : String, @ssh_port : Int32, @pipeline : AppPipeline?, @dns_refreshed_at : String?, @builds_count : Int32?, @deployments_count : Int32?, @slugs_count : Int32?, @current_build_id : String?, @current_image_id : String?, @current_deployment_id : String?, @formation : Hash(String, AppFormationValue)?, @buildpacks : Array(AppBuildpack)?, @description : String?, @pipeline_stage : String?, @policy_allow_websockets : Bool?, @policy_response_timeout : Int32?, @policy_max_connections : Int32?, @policy_erosion_resistance_seconds : Int32?, @policy_share_process_namespace : Bool?, @policy_temporary_self_signed : Bool?, @created_at : String?, @updated_at : String?, @deleted_at : String?, @web_url : String?, @branch : String?, @environment_id : String?)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -252,7 +252,7 @@ module Build
         end
       else # model
         # models (e.g. Pet) or oneOf
-        klass = OpenAPIClient.const_get(type)
+        klass = Build.const_get(type)
         klass.respond_to?(:openapi_one_of) ? klass.build(value) : klass.build_from_hash(value)
       end
     end

@@ -1551,15 +1551,19 @@ components:
         ssh_host:
           type: string
           description: SSH host for running one-off dynos
+          nullable: false
         ssh_port:
           type: integer
           description: SSH port for running one-off dynos
+          nullable: false
       required:
       - id
       - name
       - team
       - stack
       - region
+      - ssh_host
+      - ssh_port
     process:
       type: object
       properties:

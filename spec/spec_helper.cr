@@ -12,7 +12,7 @@
 require "spectator"
 require "json"
 require "time"
-require "../src/openapi_client"
+require "../src/build-client"
 
 def assert_compilation_error(path : String, message : String) : Nil
   buffer = IO::Memory.new

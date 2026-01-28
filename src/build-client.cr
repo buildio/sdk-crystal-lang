@@ -13,7 +13,7 @@ require "crest"
 require "log"
 
 module Build
-  Log = ::Log.for("OpenAPIClient") # => Log for OpenAPIClient source
+  Log = ::Log.for("Build") # => Log for Build source
 
   VERSION = {{ `shards version #{__DIR__}`.chomp.stringify }}
 
@@ -25,7 +25,7 @@ module Build
   # Customize default settings for the SDK using block.
   #
   # ```
-  # OpenAPIClient.configure do |config|
+  # Build.configure do |config|
   #   config.username = "xxx"
   #   config.password = "xxx"
   # end
