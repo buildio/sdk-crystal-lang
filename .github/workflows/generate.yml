@@ -15,10 +15,13 @@ jobs:
           token: ${{ secrets.RELEASE_PAT }}
 
       - name: Fetch latest swagger.yaml
+        env:
+          GH_TOKEN: ${{ secrets.RELEASE_PAT }}
         run: |
-          curl -sL -H "Authorization: token ${{ secrets.RELEASE_PAT }}" \
-            "https://raw.githubusercontent.com/buildio/antimony/main/swagger/v1/swagger.yaml" \
-            -o swagger.yaml
+          # Use GitHub API to bypass CDN caching
+          gh api repos/buildio/antimony/contents/swagger/v1/swagger.yaml \
+            --jq '.content' | base64 -d > swagger.yaml
+          echo "Fetched swagger.yaml ($(wc -l < swagger.yaml) lines)"
 
       - name: Set up Java
         uses: actions/setup-java@v4
