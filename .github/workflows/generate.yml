@@ -49,10 +49,10 @@ jobs:
           mv src/openapi_client src/build-client
           mv src/openapi_client.cr src/build-client.cr
 
-          # Update module references from OpenApiClient to Build
-          find src/build-client -name "*.cr" -exec sed -i 's/module OpenApiClient/module Build/g' {} \;
-          find src/build-client -name "*.cr" -exec sed -i 's/OpenApiClient::/Build::/g' {} \;
-          sed -i 's/module OpenApiClient/module Build/g' src/build-client.cr
+          # Update module references from OpenAPIClient to Build
+          find src/build-client -name "*.cr" -exec sed -i 's/module OpenAPIClient/module Build/g' {} \;
+          find src/build-client -name "*.cr" -exec sed -i 's/OpenAPIClient::/Build::/g' {} \;
+          sed -i 's/module OpenAPIClient/module Build/g' src/build-client.cr
           sed -i 's/require "\.\/openapi_client/require ".\/build-client/g' src/build-client.cr
 
           echo "Renamed and patched module references"
