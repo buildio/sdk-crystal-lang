@@ -8,7 +8,7 @@
 #Generator version: 7.14.0
 #
 
-module Build
+module OpenAPIClient
   class ApiError < Exception
     getter code : Int32?
     getter response_headers : Hash(String, Array(String) | String)?

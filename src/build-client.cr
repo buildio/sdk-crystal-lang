@@ -35,4 +35,4 @@ module OpenAPIClient
   end
 end
 
-require "./openapi_client/**"
+require "./build-client/**"

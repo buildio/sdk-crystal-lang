@@ -11,7 +11,7 @@
 require "json"
 require "time"
 
-module Build
+module OpenAPIClient
   class ApiClient
     # The Configuration object holding settings to be used in the API client.
     property config : Configuration

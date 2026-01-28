@@ -10,7 +10,7 @@
 
 require "log"
 
-module Build
+module OpenAPIClient
   class Configuration
     # Defines url scheme
     property scheme : String
