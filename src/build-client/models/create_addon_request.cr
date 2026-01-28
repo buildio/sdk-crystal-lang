@@ -33,12 +33,12 @@ module Build
     property description : String?
 
     # Addon-specific configuration options (use list-addon-fields to discover available options for each service)
-    @[JSON::Field(key: "config", type: Hash(String, Object)?, nillable: true, emit_null: false)]
-    property config : Hash(String, Object)?
+    @[JSON::Field(key: "config", type: Hash(String, String)?, nillable: true, emit_null: false)]
+    property config : Hash(String, String)?
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@plan : String, @name : String?, @description : String?, @config : Hash(String, Object)?)
+    def initialize(@plan : String, @name : String?, @description : String?, @config : Hash(String, String)?)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?

@@ -212,7 +212,8 @@ paths:
                   type: object
                   description: Addon-specific configuration options (use list-addon-fields
                     to discover available options for each service)
-                  additionalProperties: true
+                  additionalProperties:
+                    type: string
                   example:
                     region: us-east-1
                     company-name: my-app
