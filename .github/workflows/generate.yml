@@ -31,35 +31,16 @@ jobs:
 
       - name: Clean generated files
         run: |
-          # Remove all generated code to force full regeneration
+          # Remove generated directories to ensure full regeneration
           rm -rf src/build-client src/openapi_client
           rm -f src/build-client.cr src/openapi_client.cr
           echo "Cleaned generated files"
 
-      - name: Generate SDK
-        run: |
-          npx @openapitools/openapi-generator-cli generate \
-            -i swagger.yaml \
-            -g crystal \
-            -o .
-
-      - name: Rename to build-client
-        run: |
-          # Rename generated openapi_client to build-client
-          mv src/openapi_client src/build-client
-          mv src/openapi_client.cr src/build-client.cr
-
-          # Update module references from OpenAPIClient to Build
-          find src/build-client -name "*.cr" -exec sed -i 's/module OpenAPIClient/module Build/g' {} \;
-          find src/build-client -name "*.cr" -exec sed -i 's/OpenAPIClient::/Build::/g' {} \;
-          sed -i 's/module OpenAPIClient/module Build/g' src/build-client.cr
-          sed -i 's/require "\.\/openapi_client/require ".\/build-client/g' src/build-client.cr
-
-          echo "Renamed and patched module references"
-
       - name: Determine next version
         id: version
         run: |
+          # Pull latest and re-fetch tags to get accurate version
+          git fetch --tags
           LATEST=$(git tag -l 'v*' | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -1)
           LATEST="${LATEST:-v0.0.0}"
           MAJOR=$(echo "$LATEST" | sed 's/v//' | cut -d. -f1)
@@ -70,13 +51,20 @@ jobs:
           echo "tag=v${NEXT_VER}" >> $GITHUB_OUTPUT
           echo "Next SDK version: v${NEXT_VER}"
 
-      - name: Patch shard.yml with correct name and version
+      - name: Generate SDK
+        env:
+          SDK_VERSION: ${{ steps.version.outputs.bare }}
         run: |
-          VER="${{ steps.version.outputs.bare }}"
-          sed -i "s/^name: .*/name: build-client/" shard.yml
-          sed -i "s/^version: .*/version: ${VER}/" shard.yml
-          echo "Patched shard.yml:"
-          head -5 shard.yml
+          npx @openapitools/openapi-generator-cli generate \
+            -i swagger.yaml \
+            -g crystal \
+            -o . \
+            --skip-validate-spec \
+            --git-host github.com \
+            --git-user-id buildio \
+            --git-repo-id sdk-crystal-lang \
+            --additional-properties "shardName=build-client,moduleName=Build,shardVersion=${SDK_VERSION}"
+          echo "SDK generated with shardName=build-client, moduleName=Build, version=${SDK_VERSION}"
 
       - name: Commit, tag, and push
         run: |
