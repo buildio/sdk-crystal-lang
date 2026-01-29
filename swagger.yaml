@@ -204,6 +204,10 @@ paths:
                   type: string
                   description: Globally unique addon name (optional)
                   nullable: true
+                human_name:
+                  type: string
+                  description: User-provided display name for the addon (optional)
+                  nullable: true
                 description:
                   type: string
                   description: User-provided description of the addon (optional)
@@ -470,6 +474,7 @@ paths:
           description: successful
           content:
             application/json:
+              example: {}
               schema:
                 title: ConfigVarsResponse
                 type: object
@@ -485,6 +490,11 @@ paths:
       responses:
         '200':
           description: successful
+          content:
+            application/json:
+              example:
+                KEY1: value1
+                KEY2: value2
       requestBody:
         content:
           application/json:
@@ -987,6 +997,39 @@ paths:
           description: successful
           content:
             application/json:
+              example:
+                id: 226e761d-0d3c-4159-a258-3ed971fa9430
+                ai_enabled: false
+                ci_enabled:
+                created_at: '2026-01-29T00:21:11.307Z'
+                github_credential_id:
+                github_repo: testorg/testrepo
+                name: pipeline-1
+                provider_data:
+                review_apps_auto_create: true
+                review_apps_destroy_stale_days: 3
+                review_apps_enabled: true
+                review_apps_predictable_identifier:
+                review_apps_region: us-east-1
+                review_apps_wait_for_ci: false
+                team_id: 928648f7-1a71-4cb8-90d4-5ca33f5d0322
+                updated_at: '2026-01-29T00:21:11.307Z'
+                team:
+                  id: 928648f7-1a71-4cb8-90d4-5ca33f5d0322
+                  created_at: '2026-01-29T00:21:11.289Z'
+                  description:
+                  github_access_key:
+                  name: personal-geralt-1769646071-84652-build-io
+                  personal: true
+                  provider_data: {}
+                  updated_at: '2026-01-29T00:21:11.289Z'
+                environments:
+                - id: 5baec9ee-7605-47a1-a510-7d8e787f6882
+                  kind: ra
+                - id: 7bec1d71-53c1-4d68-8083-c913f5191677
+                  kind: ci
+                - id: bd4926bf-55a1-4cd5-863b-2748a1bce199
+                  kind: ai
               schema:
                 "$ref": "#/components/schemas/pipeline"
         '404':
@@ -1017,6 +1060,9 @@ paths:
           description: successful
           content:
             application/json:
+              example:
+                ANOTHER_KEY: another_value
+                TEST_KEY: test_value
               schema:
                 type: object
                 additionalProperties:
@@ -1035,6 +1081,11 @@ paths:
       responses:
         '200':
           description: successful
+          content:
+            application/json:
+              example:
+                KEY1: value1
+                KEY2: value2
         '404':
           description: 'not found - security: cannot update environments from other
             teams'
@@ -1315,6 +1366,10 @@ components:
           type: string
           nullable: true
           description: Globally unique addon name
+        human_name:
+          type: string
+          nullable: true
+          description: User-provided display name for the addon
         description:
           type: string
           nullable: true
@@ -1387,6 +1442,10 @@ components:
           type: string
           nullable: true
           description: Globally unique addon name
+        human_name:
+          type: string
+          nullable: true
+          description: User-provided display name for the addon
         description:
           type: string
           nullable: true

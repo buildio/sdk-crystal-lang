@@ -28,6 +28,10 @@ module Build
     @[JSON::Field(key: "name", type: String?, nillable: true, emit_null: false)]
     property name : String?
 
+    # User-provided display name for the addon (optional)
+    @[JSON::Field(key: "human_name", type: String?, nillable: true, emit_null: false)]
+    property human_name : String?
+
     # User-provided description of the addon (optional)
     @[JSON::Field(key: "description", type: String?, nillable: true, emit_null: false)]
     property description : String?
@@ -38,7 +42,7 @@ module Build
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@plan : String, @name : String?, @description : String?, @config : Hash(String, String)?)
+    def initialize(@plan : String, @name : String?, @human_name : String?, @description : String?, @config : Hash(String, String)?)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -61,6 +65,7 @@ module Build
       self.class == other.class &&
           plan == other.plan &&
           name == other.name &&
+          human_name == other.human_name &&
           description == other.description &&
           config == other.config
     end
@@ -74,7 +79,7 @@ module Build
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [plan, name, description, config].hash
+      [plan, name, human_name, description, config].hash
     end
 
     # Builds the object from hash

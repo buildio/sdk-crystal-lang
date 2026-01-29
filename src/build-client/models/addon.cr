@@ -39,6 +39,10 @@ module Build
     @[JSON::Field(key: "name", type: String?, nillable: true, emit_null: false)]
     property name : String?
 
+    # User-provided display name for the addon
+    @[JSON::Field(key: "human_name", type: String?, nillable: true, emit_null: false)]
+    property human_name : String?
+
     # User-provided description of the addon
     @[JSON::Field(key: "description", type: String?, nillable: true, emit_null: false)]
     property description : String?
@@ -84,7 +88,7 @@ module Build
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@id : String, @addon_service : AddonService, @plan : AddonPlan, @app : AddonApp, @state : String, @name : String?, @description : String?, @config_vars : Array(String)?, @billed_price : AddonBilledPrice?, @web_url : String?, @created_at : String?, @updated_at : String?)
+    def initialize(@id : String, @addon_service : AddonService, @plan : AddonPlan, @app : AddonApp, @state : String, @name : String?, @human_name : String?, @description : String?, @config_vars : Array(String)?, @billed_price : AddonBilledPrice?, @web_url : String?, @created_at : String?, @updated_at : String?)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -119,6 +123,7 @@ module Build
       self.class == other.class &&
           id == other.id &&
           name == other.name &&
+          human_name == other.human_name &&
           description == other.description &&
           addon_service == other.addon_service &&
           plan == other.plan &&
@@ -140,7 +145,7 @@ module Build
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, name, description, addon_service, plan, app, state, config_vars, billed_price, web_url, created_at, updated_at].hash
+      [id, name, human_name, description, addon_service, plan, app, state, config_vars, billed_price, web_url, created_at, updated_at].hash
     end
 
     # Builds the object from hash
