@@ -173,8 +173,6 @@ module Build
 
       # header parameters
       header_params = Hash(String, String).new
-      # HTTP header "Accept" (if needed)
-      header_params["Accept"] = @api_client.select_header_accept(["application/json"])
       # HTTP header "Content-Type"
       header_params["Content-Type"] = @api_client.select_header_content_type(["application/json"])
 
@@ -1212,8 +1210,6 @@ module Build
 
       # header parameters
       header_params = Hash(String, String).new
-      # HTTP header "Accept" (if needed)
-      header_params["Accept"] = @api_client.select_header_accept(["application/json"])
       # HTTP header "Content-Type"
       header_params["Content-Type"] = @api_client.select_header_content_type(["application/json"])
 
@@ -1363,6 +1359,71 @@ module Build
         Log.debug {"API called: DefaultApi#teams\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
       end
       return Array(Team).from_json(data), status_code, headers
+    end
+
+    # update app
+    # Update app attributes. Use build_stack to change the stack for the next build.
+    # @param app_id_or_name [String] app id or name
+    # @return [App]
+    def update_app(app_id_or_name : String, update_app_request : UpdateAppRequest? = nil)
+      data, _status_code, _headers = update_app_with_http_info(app_id_or_name, update_app_request)
+      data
+    end
+
+    # update app
+    # Update app attributes. Use build_stack to change the stack for the next build.
+    # @param app_id_or_name [String] app id or name
+    # @return [Array<(App, Integer, Hash)>] App data, response status code and response headers
+    def update_app_with_http_info(app_id_or_name : String, update_app_request : UpdateAppRequest? = nil)
+      if @api_client.config.debugging
+        Log.debug {"Calling API: DefaultApi.update_app ..."}
+      end
+      # verify the required parameter "app_id_or_name" is set
+      if @api_client.config.client_side_validation && app_id_or_name.nil?
+        raise ArgumentError.new("Missing the required parameter 'app_id_or_name' when calling DefaultApi.update_app")
+      end
+      # resource path
+      local_var_path = "/api/v1/apps/{app_id_or_name}".sub("{" + "app_id_or_name" + "}", URI.encode_path(app_id_or_name.to_s))
+
+      # cookie parameters
+      cookie_params = Hash(String, String).new
+
+      # query parameters
+      query_params = Hash(String, String).new
+
+      # header parameters
+      header_params = Hash(String, String).new
+      # HTTP header "Accept" (if needed)
+      header_params["Accept"] = @api_client.select_header_accept(["application/json"])
+      # HTTP header "Content-Type"
+      header_params["Content-Type"] = @api_client.select_header_content_type(["application/json"])
+
+      # form parameters
+      form_params = Hash(Symbol, (String | ::File)).new
+
+      # http body (model)
+      post_body = update_app_request.to_json
+
+      # return_type
+      return_type = "App"
+
+      # auth_names
+      auth_names = ["bearer", "oauth2"]
+
+      data, status_code, headers = @api_client.call_api(:PATCH,
+                                                        local_var_path,
+                                                        :"DefaultApi.update_app",
+                                                        return_type,
+                                                        post_body,
+                                                        auth_names,
+                                                        header_params,
+                                                        query_params,
+                                                        cookie_params,
+                                                        form_params)
+      if @api_client.config.debugging
+        Log.debug {"API called: DefaultApi#update_app\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
+      end
+      return App.from_json(data), status_code, headers
     end
   end
 end
