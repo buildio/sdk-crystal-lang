@@ -3,11 +3,6 @@
 README.md
 git_push.sh
 shard.yml
-spec/api/collaborators_api_spec.cr
-spec/models/collaborator_app_spec.cr
-spec/models/collaborator_spec.cr
-spec/models/collaborator_user_spec.cr
-spec/models/update_app_request_spec.cr
 spec/spec_helper.cr
 src/build-client.cr
 src/build-client/api/addon_attachments_api.cr

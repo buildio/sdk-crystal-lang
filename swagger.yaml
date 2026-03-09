@@ -355,7 +355,6 @@ paths:
       parameters:
       - name: app_id
         in: path
-        format: uuid
         required: true
         schema:
           type: string
@@ -1225,10 +1224,7 @@ paths:
               schema:
                 "$ref": "#/components/schemas/team"
 servers:
-- url: https://{defaultHost}
-  variables:
-    defaultHost:
-      default: app.build.io
+- url: "/"
 components:
   schemas:
     error_response:
@@ -1919,12 +1915,12 @@ components:
       type: oauth2
       flows:
         authorizationCode:
-          authorizationUrl: https://app.build.io/oauth/authorize
-          tokenUrl: https://app.build.io/oauth/token
+          authorizationUrl: "/oauth/authorize"
+          tokenUrl: "/oauth/token"
           scopes:
             read: {}
             write: {}
     open_id_connect:
       type: openIdConnect
-      openIdConnectUrl: https://app.build.io/.well-known/openid-configuration
+      openIdConnectUrl: "/.well-known/openid-configuration"
       description: OpenID Connect
