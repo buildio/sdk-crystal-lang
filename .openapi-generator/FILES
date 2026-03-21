@@ -3,14 +3,6 @@
 README.md
 git_push.sh
 shard.yml
-spec/api/addon_services_api_spec.cr
-spec/api/formation_api_spec.cr
-spec/models/addon_plan_catalog_item_spec.cr
-spec/models/addon_plan_price_spec.cr
-spec/models/addon_service_catalog_item_spec.cr
-spec/models/addon_service_category_spec.cr
-spec/models/formation_batch_update_request_spec.cr
-spec/models/formation_update_spec.cr
 spec/spec_helper.cr
 src/build-client.cr
 src/build-client/api/addon_attachments_api.cr

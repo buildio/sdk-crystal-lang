@@ -41,15 +41,12 @@ module Build
     @[JSON::Field(key: "supports_multiple_installations", type: Bool?, nillable: true, emit_null: false)]
     property supports_multiple_installations : Bool?
 
-    @[JSON::Field(key: "is_visible", type: Bool?, nillable: true, emit_null: false)]
-    property is_visible : Bool?
-
     @[JSON::Field(key: "category", type: AddonServiceCategory?, nillable: true, emit_null: false)]
     property category : AddonServiceCategory?
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@id : String, @name : String, @human_name : String, @state : String, @supports_log_drains : Bool?, @supports_sharing : Bool?, @supports_multiple_installations : Bool?, @is_visible : Bool?, @category : AddonServiceCategory?)
+    def initialize(@id : String, @name : String, @human_name : String, @state : String, @supports_log_drains : Bool?, @supports_sharing : Bool?, @supports_multiple_installations : Bool?, @category : AddonServiceCategory?)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -77,7 +74,6 @@ module Build
           supports_log_drains == other.supports_log_drains &&
           supports_sharing == other.supports_sharing &&
           supports_multiple_installations == other.supports_multiple_installations &&
-          is_visible == other.is_visible &&
           category == other.category
     end
 
@@ -90,7 +86,7 @@ module Build
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, name, human_name, state, supports_log_drains, supports_sharing, supports_multiple_installations, is_visible, category].hash
+      [id, name, human_name, state, supports_log_drains, supports_sharing, supports_multiple_installations, category].hash
     end
 
     # Builds the object from hash

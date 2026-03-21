@@ -35,9 +35,6 @@ module Build
     @[JSON::Field(key: "description", type: String?, nillable: true, emit_null: false)]
     property description : String?
 
-    @[JSON::Field(key: "is_visible", type: Bool?, nillable: true, emit_null: false)]
-    property is_visible : Bool?
-
     @[JSON::Field(key: "monthly_price", type: AddonPlanPrice?, nillable: true, emit_null: false)]
     property monthly_price : AddonPlanPrice?
 
@@ -46,7 +43,7 @@ module Build
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@id : String, @name : String, @human_name : String, @state : String, @description : String?, @is_visible : Bool?, @monthly_price : AddonPlanPrice?, @yearly_price : AddonPlanPrice?)
+    def initialize(@id : String, @name : String, @human_name : String, @state : String, @description : String?, @monthly_price : AddonPlanPrice?, @yearly_price : AddonPlanPrice?)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -72,7 +69,6 @@ module Build
           human_name == other.human_name &&
           description == other.description &&
           state == other.state &&
-          is_visible == other.is_visible &&
           monthly_price == other.monthly_price &&
           yearly_price == other.yearly_price
     end
@@ -86,7 +82,7 @@ module Build
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, name, human_name, description, state, is_visible, monthly_price, yearly_price].hash
+      [id, name, human_name, description, state, monthly_price, yearly_price].hash
     end
 
     # Builds the object from hash
