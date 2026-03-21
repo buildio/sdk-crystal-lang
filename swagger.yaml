@@ -135,6 +135,57 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/error_response"
+  "/api/v1/addon-services":
+    get:
+      summary: list addon services
+      tags:
+      - Addon Services
+      security:
+      - bearer: []
+        oauth2: []
+      description: List all visible addon services from the catalog
+      operationId: listAddonServices
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/addon_service_catalog_item"
+  "/api/v1/addon-services/{name}/plans":
+    parameters:
+    - name: name
+      in: path
+      description: Addon service name
+      required: true
+      schema:
+        type: string
+    get:
+      summary: list plans for addon service
+      tags:
+      - Addon Services
+      security:
+      - bearer: []
+        oauth2: []
+      description: List all visible plans for an addon service
+      operationId: listAddonServicePlans
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/addon_plan_catalog_item"
+        '404':
+          description: service not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error_response"
   "/api/v1/apps/{app_id_or_name}/addons":
     parameters:
     - name: app_id_or_name
@@ -849,6 +900,58 @@ paths:
               required:
               - command
         required: true
+  "/api/v1/apps/{app_id_or_name}/formation":
+    parameters:
+    - name: app_id_or_name
+      in: path
+      description: App ID or name
+      required: true
+      schema:
+        type: string
+    patch:
+      summary: batch update formation
+      tags:
+      - Formation
+      security:
+      - bearer: []
+        oauth2: []
+      description: Batch update process formation (Heroku-compatible)
+      operationId: updateFormation
+      parameters: []
+      responses:
+        '200':
+          description: update size only
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '422':
+          description: unknown process type
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error_response"
+        '404':
+          description: app not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error_response"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: FormationBatchUpdateRequest
+              type: object
+              properties:
+                updates:
+                  type: array
+                  items:
+                    "$ref": "#/components/schemas/formation_update"
+                  description: Array of process updates
+              required:
+              - updates
   "/api/v1/me":
     get:
       summary: identity
@@ -1328,6 +1431,87 @@ components:
       - addon
       - app
       - state
+    addon_service_category:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        human_name:
+          type: string
+      required:
+      - id
+      - name
+      - human_name
+    addon_service_catalog_item:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        human_name:
+          type: string
+        state:
+          type: string
+        supports_log_drains:
+          type: boolean
+        supports_sharing:
+          type: boolean
+        supports_multiple_installations:
+          type: boolean
+        is_visible:
+          type: boolean
+        category:
+          "$ref": "#/components/schemas/addon_service_category"
+      required:
+      - id
+      - name
+      - human_name
+      - state
+    addon_plan_price:
+      type: object
+      properties:
+        cents:
+          type: integer
+        unit:
+          type: string
+        contract:
+          type: boolean
+        currency:
+          type: string
+      required:
+      - cents
+      - unit
+    addon_plan_catalog_item:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        human_name:
+          type: string
+        description:
+          type: string
+          nullable: true
+        state:
+          type: string
+        is_visible:
+          type: boolean
+        monthly_price:
+          "$ref": "#/components/schemas/addon_plan_price"
+        yearly_price:
+          "$ref": "#/components/schemas/addon_plan_price"
+      required:
+      - id
+      - name
+      - human_name
+      - state
     addon_service:
       type: object
       properties:
@@ -1798,6 +1982,20 @@ components:
           type: string
       required:
       - output
+    formation_update:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Process type (e.g. web, worker)
+        quantity:
+          type: integer
+          nullable: true
+        size:
+          type: string
+          nullable: true
+      required:
+      - type
     namespace:
       type: object
       properties:
