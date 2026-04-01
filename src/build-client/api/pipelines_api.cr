@@ -80,6 +80,76 @@ module Build
       return Pipeline.from_json(data), status_code, headers
     end
 
+    # compare source app commits to downstream apps
+    # Compares the source app current commit to each downstream app via GitHub compare API.
+    # @param pipeline_id_or_name [String] Pipeline ID or Name
+    # @param source_app [String] Source app ID or name
+    # @return [GetPipelineDiff200Response]
+    def get_pipeline_diff(pipeline_id_or_name : String, source_app : String)
+      data, _status_code, _headers = get_pipeline_diff_with_http_info(pipeline_id_or_name, source_app)
+      data
+    end
+
+    # compare source app commits to downstream apps
+    # Compares the source app current commit to each downstream app via GitHub compare API.
+    # @param pipeline_id_or_name [String] Pipeline ID or Name
+    # @param source_app [String] Source app ID or name
+    # @return [Array<(GetPipelineDiff200Response, Integer, Hash)>] GetPipelineDiff200Response data, response status code and response headers
+    def get_pipeline_diff_with_http_info(pipeline_id_or_name : String, source_app : String)
+      if @api_client.config.debugging
+        Log.debug {"Calling API: PipelinesApi.get_pipeline_diff ..."}
+      end
+      # verify the required parameter "pipeline_id_or_name" is set
+      if @api_client.config.client_side_validation && pipeline_id_or_name.nil?
+        raise ArgumentError.new("Missing the required parameter 'pipeline_id_or_name' when calling PipelinesApi.get_pipeline_diff")
+      end
+      # verify the required parameter "source_app" is set
+      if @api_client.config.client_side_validation && source_app.nil?
+        raise ArgumentError.new("Missing the required parameter 'source_app' when calling PipelinesApi.get_pipeline_diff")
+      end
+      # resource path
+      local_var_path = "/api/v1/pipelines/{pipeline_id_or_name}/diff".sub("{" + "pipeline_id_or_name" + "}", URI.encode_path(pipeline_id_or_name.to_s))
+
+      # cookie parameters
+      cookie_params = Hash(String, String).new
+
+      # query parameters
+      query_params = Hash(String, String).new
+      query_params["source_app"] = source_app.to_s unless source_app.nil?
+
+      # header parameters
+      header_params = Hash(String, String).new
+      # HTTP header "Accept" (if needed)
+      header_params["Accept"] = @api_client.select_header_accept(["application/json"])
+
+      # form parameters
+      form_params = Hash(Symbol, (String | ::File)).new
+
+      # http body (model)
+      post_body = nil
+
+      # return_type
+      return_type = "GetPipelineDiff200Response"
+
+      # auth_names
+      auth_names = ["bearer"]
+
+      data, status_code, headers = @api_client.call_api(:GET,
+                                                        local_var_path,
+                                                        :"PipelinesApi.get_pipeline_diff",
+                                                        return_type,
+                                                        post_body,
+                                                        auth_names,
+                                                        header_params,
+                                                        query_params,
+                                                        cookie_params,
+                                                        form_params)
+      if @api_client.config.debugging
+        Log.debug {"API called: PipelinesApi#get_pipeline_diff\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
+      end
+      return GetPipelineDiff200Response.from_json(data), status_code, headers
+    end
+
     # list apps in a pipeline
     # A list of applications in the pipeline.
     # @param pipeline_id_or_name [String] Pipeline ID or Name

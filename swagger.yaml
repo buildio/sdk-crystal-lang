@@ -1286,6 +1286,90 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/error_response"
+  "/api/v1/pipelines/{pipeline_id_or_name}/diff":
+    parameters:
+    - name: pipeline_id_or_name
+      in: path
+      description: Pipeline ID or Name
+      required: true
+      schema:
+        type: string
+    - name: source_app
+      in: query
+      description: Source app ID or name
+      required: true
+      schema:
+        type: string
+    get:
+      summary: compare source app commits to downstream apps
+      tags:
+      - Pipelines
+      security:
+      - bearer: []
+      description: Compares the source app current commit to each downstream app via
+        GitHub compare API.
+      operationId: get_pipeline_diff
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  source:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      name:
+                        type: string
+                  diffs:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        app:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                            name:
+                              type: string
+                        status:
+                          type: string
+                          enum:
+                          - ahead
+                          - behind
+                          - identical
+                          - diverged
+                          - error
+                          - unavailable
+                        ahead_by:
+                          type: integer
+                        behind_by:
+                          type: integer
+                        error_message:
+                          type: string
+                        commits:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              sha:
+                                type: string
+                              message:
+                                type: string
+                              author:
+                                type: string
+                                nullable: true
+                              date:
+                                type: string
+                                nullable: true
+        '404':
+          description: source app not found
+        '422':
+          description: no downstream apps
   "/api/v1/pipelines/{pipeline_id}/promotions":
     parameters:
     - name: pipeline_id
