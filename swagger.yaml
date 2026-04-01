@@ -1286,6 +1286,142 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/error_response"
+  "/api/v1/pipelines/{pipeline_id}/promotions":
+    parameters:
+    - name: pipeline_id
+      in: path
+      description: Pipeline ID
+      required: true
+      schema:
+        type: string
+    post:
+      summary: create a pipeline promotion
+      tags:
+      - Pipeline Promotions
+      security:
+      - bearer: []
+      description: Creates a promotion from a source app to one or more target apps.
+        Returns immediately with pending status — clients poll GET .../promotions/:id
+        for completion.
+      operationId: create_pipeline_promotion
+      parameters: []
+      responses:
+        '201':
+          description: groups all targets under first promotion ID
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/pipeline_promotion"
+        '404':
+          description: source app not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error_response"
+        '422':
+          description: source app not in pipeline
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error_response"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                source:
+                  type: object
+                  properties:
+                    app:
+                      type: string
+                      description: Source app ID or name
+                  required:
+                  - app
+                targets:
+                  type: array
+                  description: Target apps. Omit to promote to all downstream apps.
+                  items:
+                    type: object
+                    properties:
+                      app:
+                        type: string
+                        description: Target app ID or name
+              required:
+              - source
+  "/api/v1/pipelines/{pipeline_id}/promotions/{id}":
+    parameters:
+    - name: pipeline_id
+      in: path
+      description: Pipeline ID
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      description: Promotion group ID
+      required: true
+      schema:
+        type: string
+    get:
+      summary: get promotion status
+      tags:
+      - Pipeline Promotions
+      security:
+      - bearer: []
+      description: Returns aggregate promotion status. Clients poll this until status
+        is no longer pending.
+      operationId: get_pipeline_promotion
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/pipeline_promotion"
+        '404':
+          description: promotion not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error_response"
+  "/api/v1/pipelines/{pipeline_id}/promotions/{id}/promotion-targets":
+    parameters:
+    - name: pipeline_id
+      in: path
+      description: Pipeline ID
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      description: Promotion group ID
+      required: true
+      schema:
+        type: string
+    get:
+      summary: list promotion targets
+      tags:
+      - Pipeline Promotions
+      security:
+      - bearer: []
+      description: Returns per-target status with error_message on failure.
+      operationId: get_pipeline_promotion_targets
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/promotion_target"
+        '404':
+          description: promotion not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error_response"
   "/api/v1/teams":
     get:
       summary: list all teams
@@ -2073,6 +2209,88 @@ components:
       - id
       - name
       - team
+    pipeline_promotion:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum:
+          - pending
+          - succeeded
+          - failed
+        created_at:
+          type: string
+          format: date_time
+        updated_at:
+          type: string
+          format: date_time
+        pipeline:
+          type: object
+          title: PromotionPipeline
+          properties:
+            id:
+              type: string
+              format: uuid
+            name:
+              type: string
+        source:
+          type: object
+          title: PromotionSource
+          properties:
+            app:
+              type: object
+              title: PromotionSourceApp
+              properties:
+                id:
+                  type: string
+                  format: uuid
+                name:
+                  type: string
+      required:
+      - id
+      - status
+      - pipeline
+      - source
+    promotion_target:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum:
+          - pending
+          - promoting
+          - succeeded
+          - failed
+        error_message:
+          type: string
+          nullable: true
+        app:
+          type: object
+          title: PromotionTargetApp
+          properties:
+            id:
+              type: string
+              format: uuid
+            name:
+              type: string
+        pipeline_promotion:
+          type: object
+          title: PromotionTargetPromotion
+          properties:
+            id:
+              type: string
+              format: uuid
+      required:
+      - id
+      - status
+      - app
+      - pipeline_promotion
     team:
       type: object
       properties:
