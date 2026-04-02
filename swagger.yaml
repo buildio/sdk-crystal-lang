@@ -562,6 +562,89 @@ paths:
                 description:
                   type: string
               required: []
+  "/api/v1/apps/{app_id_or_name}/buildpacks":
+    parameters:
+    - name: app_id_or_name
+      in: path
+      description: App ID or name
+      required: true
+      schema:
+        type: string
+    get:
+      summary: list buildpacks
+      tags:
+      - Buildpacks
+      security:
+      - bearer: []
+        oauth2: []
+      operationId: listBuildpacks
+      description: List an app's buildpack installations in execution order
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/buildpack_installation"
+        '404':
+          description: app not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error_response"
+    put:
+      summary: update buildpacks
+      tags:
+      - Buildpacks
+      security:
+      - bearer: []
+        oauth2: []
+      operationId: updateBuildpacks
+      description: Replace an app's buildpack list. Order determines execution order.
+      parameters: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/buildpack_installation"
+        '422':
+          description: invalid params
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error_response"
+        '404':
+          description: app not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error_response"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - updates
+              properties:
+                updates:
+                  type: array
+                  description: Ordered list of buildpacks. The order determines execution
+                    order.
+                  items:
+                    type: object
+                    required:
+                    - buildpack
+                    properties:
+                      buildpack:
+                        type: string
+                        description: Buildpack registry name or URL
   "/api/v1/apps/{app_id_or_name}/config-vars":
     parameters:
     - name: app_id_or_name
@@ -2122,6 +2205,27 @@ components:
       - size
       - display
       - processes
+    buildpack_installation:
+      type: object
+      properties:
+        ordinal:
+          type: integer
+          description: Determines the order in which the buildpacks will execute
+        buildpack:
+          type: object
+          required:
+          - url
+          - name
+          properties:
+            url:
+              type: string
+              description: Buildpack registry name or URL
+            name:
+              type: string
+              description: Buildpack registry name or URL
+      required:
+      - ordinal
+      - buildpack
     domain:
       type: object
       properties:
