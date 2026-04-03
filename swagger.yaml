@@ -2140,6 +2140,9 @@ components:
         web_url:
           type: string
           description: Full HTTPS URL for the application
+        git_url:
+          type: string
+          description: Git push URL for deploying via git push
         branch:
           type: string
           nullable: true
