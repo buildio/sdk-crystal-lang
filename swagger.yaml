@@ -3,6 +3,25 @@ openapi: 3.0.3
 info:
   title: Build.io API V1
   version: v1
+  description: |-
+    ## Authentication
+
+    All endpoints accept an OAuth Bearer token in the `Authorization` header.
+
+    Tokens come in three kinds, distinguished by their resource owner:
+
+    - **User tokens** (default) — full access to the user's apps, teams, pipelines, and namespaces.
+    - **App-scoped tokens** (prefix `bldp_`) — bound to a single app. Can only access endpoints
+      that operate on that one app (e.g. `GET /api/v1/apps/:id`, builds, dynos, config vars).
+      Endpoints that operate on user-level collections (`/api/v1/apps`, `/api/v1/teams`,
+      `/api/v1/pipelines`, `/api/v1/namespaces`, `/api/v1/addon-attachments`, `/api/v1/addons`)
+      return **403 Forbidden** for these tokens.
+    - **Addon partner tokens** (`addon:config` scope) — issued to addon vendors for partner
+      endpoints only.
+
+    The `/api/v1/me` response shape varies by token kind: user tokens return `{ email }`;
+    app-scoped tokens return `{ app, email }` where `email` belongs to the user that minted
+    the token.
 paths:
   "/api/v1/addon-attachments":
     get:
@@ -23,6 +42,12 @@ paths:
                 type: array
                 items:
                   "$ref": "#/components/schemas/addon_attachment"
+        '403':
+          description: app-scoped token forbidden
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error_response"
     post:
       summary: create addon attachment
       tags:
@@ -446,6 +471,12 @@ paths:
                 type: array
                 items:
                   "$ref": "#/components/schemas/app"
+        '403':
+          description: app-scoped token forbidden
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error_response"
     post:
       summary: create app
       security:
@@ -460,6 +491,12 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/app"
+        '403':
+          description: app-scoped token forbidden
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error_response"
       requestBody:
         content:
           application/json:
@@ -530,38 +567,6 @@ paths:
                 build_stack:
                   type: string
                   description: Stack for the next build (e.g. heroku-22, heroku-24)
-  "/api/v1/apps/{app_id_or_name}/builds":
-    parameters:
-    - name: app_id_or_name
-      in: path
-      description: app id or name
-      required: true
-      schema:
-        type: string
-    post:
-      summary: create build
-      operationId: create_build
-      parameters: []
-      security:
-      - bearer: []
-        oauth2: []
-      responses:
-        '201':
-          description: successful
-      requestBody:
-        content:
-          application/json:
-            schema:
-              title: CreateBuildRequest
-              type: object
-              properties:
-                branch:
-                  type: string
-                commitish:
-                  type: string
-                description:
-                  type: string
-              required: []
   "/api/v1/apps/{app_id_or_name}/buildpacks":
     parameters:
     - name: app_id_or_name
@@ -1042,19 +1047,37 @@ paths:
       security:
       - bearer: []
         oauth2: []
+      description: |-
+        Returns identity info for the bearer. Response shape varies by token kind:
+        user tokens return { email }; app-scoped tokens (bldp_) return { app, email }
+        where email is the minting user's email.
       responses:
         '200':
-          description: properly authenticated request
+          description: 'app-scoped token: returns the bound app and minter email'
           content:
             application/json:
               schema:
-                title: MeResponse
+                title: AppMeResponse
                 type: object
                 properties:
                   email:
                     type: string
+                    nullable: true
+                    description: Email of the user who minted the token
+                  app:
+                    type: object
+                    title: MeApp
+                    properties:
+                      id:
+                        type: string
+                        format: uuid
+                      name:
+                        type: string
+                    required:
+                    - id
+                    - name
                 required:
-                - email
+                - app
         '401':
           description: no authentication
   "/api/v1/namespaces":
@@ -1074,6 +1097,12 @@ paths:
                 type: array
                 items:
                   "$ref": "#/components/schemas/namespace"
+        '403':
+          description: app-scoped token forbidden
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error_response"
     post:
       summary: create a namespace
       description: Create a namespace (deprecated - namespaces are now managed by
@@ -1327,8 +1356,16 @@ paths:
       - Pipelines
       security:
       - bearer: []
-      description: Lists all pipelines accessible to the current user
+      description: Lists all pipelines accessible to the current user. Optionally
+        filter by team.
       operationId: list_pipelines
+      parameters:
+      - name: team_id
+        in: query
+        required: false
+        description: Filter pipelines by team ID or name
+        schema:
+          type: string
       responses:
         '200':
           description: successful
@@ -1338,6 +1375,12 @@ paths:
                 type: array
                 items:
                   "$ref": "#/components/schemas/pipeline"
+        '403':
+          description: app-scoped token forbidden
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error_response"
   "/api/v1/pipelines/{pipeline_id_or_name}/apps":
     parameters:
     - name: pipeline_id_or_name
@@ -1607,6 +1650,12 @@ paths:
                 type: array
                 items:
                   "$ref": "#/components/schemas/team"
+        '403':
+          description: app-scoped token forbidden
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error_response"
   "/api/v1/teams/{id}":
     parameters:
     - name: id
@@ -1629,6 +1678,12 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/team"
+        '403':
+          description: app-scoped token forbidden
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error_response"
 servers:
 - url: "/"
 components:

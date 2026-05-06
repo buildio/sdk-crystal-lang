@@ -3,6 +3,8 @@
 README.md
 git_push.sh
 shard.yml
+spec/models/app_me_response_spec.cr
+spec/models/me_app_spec.cr
 spec/spec_helper.cr
 src/build-client.cr
 src/build-client/api/addon_attachments_api.cr
@@ -33,6 +35,7 @@ src/build-client/models/addon_with_attachments.cr
 src/build-client/models/app.cr
 src/build-client/models/app_buildpack.cr
 src/build-client/models/app_formation_value.cr
+src/build-client/models/app_me_response.cr
 src/build-client/models/app_pipeline.cr
 src/build-client/models/app_team.cr
 src/build-client/models/attachment_addon.cr
@@ -44,7 +47,6 @@ src/build-client/models/collaborator_user.cr
 src/build-client/models/create_addon_attachment_request.cr
 src/build-client/models/create_addon_request.cr
 src/build-client/models/create_app_request.cr
-src/build-client/models/create_build_request.cr
 src/build-client/models/create_domain_request.cr
 src/build-client/models/create_namespace410_response.cr
 src/build-client/models/create_namespace_request.cr
@@ -65,7 +67,7 @@ src/build-client/models/get_pipeline_diff200_response.cr
 src/build-client/models/get_pipeline_diff200_response_diffs_inner.cr
 src/build-client/models/get_pipeline_diff200_response_diffs_inner_commits_inner.cr
 src/build-client/models/get_pipeline_diff200_response_source.cr
-src/build-client/models/me_response.cr
+src/build-client/models/me_app.cr
 src/build-client/models/namespace.cr
 src/build-client/models/namespace_actor.cr
 src/build-client/models/namespace_team.cr
