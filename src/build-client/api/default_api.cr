@@ -1121,6 +1121,75 @@ module Build
       return nil, status_code, headers
     end
 
+    # run one-off command
+    # @param app_id_or_name [String] app id or name
+    # @param dyno_run_request [DynoRunRequest] 
+    # @return [DynoRunResponse]
+    def run_dyno(app_id_or_name : String, dyno_run_request : DynoRunRequest)
+      data, _status_code, _headers = run_dyno_with_http_info(app_id_or_name, dyno_run_request)
+      data
+    end
+
+    # run one-off command
+    # @param app_id_or_name [String] app id or name
+    # @param dyno_run_request [DynoRunRequest] 
+    # @return [Array<(DynoRunResponse, Integer, Hash)>] DynoRunResponse data, response status code and response headers
+    def run_dyno_with_http_info(app_id_or_name : String, dyno_run_request : DynoRunRequest)
+      if @api_client.config.debugging
+        Log.debug {"Calling API: DefaultApi.run_dyno ..."}
+      end
+      # verify the required parameter "app_id_or_name" is set
+      if @api_client.config.client_side_validation && app_id_or_name.nil?
+        raise ArgumentError.new("Missing the required parameter 'app_id_or_name' when calling DefaultApi.run_dyno")
+      end
+      # verify the required parameter "dyno_run_request" is set
+      if @api_client.config.client_side_validation && dyno_run_request.nil?
+        raise ArgumentError.new("Missing the required parameter 'dyno_run_request' when calling DefaultApi.run_dyno")
+      end
+      # resource path
+      local_var_path = "/api/v1/apps/{app_id_or_name}/dynos/run".sub("{" + "app_id_or_name" + "}", URI.encode_path(app_id_or_name.to_s))
+
+      # cookie parameters
+      cookie_params = Hash(String, String).new
+
+      # query parameters
+      query_params = Hash(String, String).new
+
+      # header parameters
+      header_params = Hash(String, String).new
+      # HTTP header "Accept" (if needed)
+      header_params["Accept"] = @api_client.select_header_accept(["application/json"])
+      # HTTP header "Content-Type"
+      header_params["Content-Type"] = @api_client.select_header_content_type(["application/json"])
+
+      # form parameters
+      form_params = Hash(Symbol, (String | ::File)).new
+
+      # http body (model)
+      post_body = dyno_run_request.to_json
+
+      # return_type
+      return_type = "DynoRunResponse"
+
+      # auth_names
+      auth_names = ["bearer", "oauth2"]
+
+      data, status_code, headers = @api_client.call_api(:POST,
+                                                        local_var_path,
+                                                        :"DefaultApi.run_dyno",
+                                                        return_type,
+                                                        post_body,
+                                                        auth_names,
+                                                        header_params,
+                                                        query_params,
+                                                        cookie_params,
+                                                        form_params)
+      if @api_client.config.debugging
+        Log.debug {"API called: DefaultApi#run_dyno\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
+      end
+      return DynoRunResponse.from_json(data), status_code, headers
+    end
+
     # set or update config-vars
     # @param app_id_or_name [String] app id or name
     # @return [nil]

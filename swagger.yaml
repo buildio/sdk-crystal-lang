@@ -935,6 +935,61 @@ paths:
       responses:
         '204':
           description: successful
+  "/api/v1/apps/{app_id_or_name}/dynos/run":
+    parameters:
+    - name: app_id_or_name
+      in: path
+      description: app id or name
+      required: true
+      schema:
+        type: string
+    post:
+      summary: run one-off command
+      security:
+      - bearer: []
+        oauth2: []
+      operationId: run_dyno
+      parameters: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                title: DynoRunResponse
+                type: object
+                properties:
+                  output:
+                    type: string
+                  status:
+                    type: string
+                required:
+                - output
+                - status
+        '422':
+          description: missing command
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: DynoRunRequest
+              type: object
+              properties:
+                command:
+                  type: string
+                  description: Shell command to run
+                type:
+                  type: string
+                  description: 'Process type (default: worker)'
+                size:
+                  type: string
+                  description: 'Dyno size (default: from formation)'
+                timeout:
+                  type: integer
+                  description: 'Timeout in seconds (30–1800, default: 300)'
+              required:
+              - command
+        required: true
   "/api/v1/apps/{app_id_or_name}/dynos/{dyno}/exec":
     parameters:
     - name: app_id_or_name
