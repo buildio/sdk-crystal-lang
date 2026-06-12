@@ -19,17 +19,17 @@ module Build
     include YAML::Serializable
 
     # Required properties
-    @[JSON::Field(key: "app", type: MeApp, nillable: false, emit_null: false)]
-    property app : MeApp
+    # Email of the user who minted the token
+    @[JSON::Field(key: "email", type: String, nillable: false, emit_null: false)]
+    property email : String
 
     # Optional properties
-    # Email of the user who minted the token
-    @[JSON::Field(key: "email", type: String?, nillable: true, emit_null: false)]
-    property email : String?
+    @[JSON::Field(key: "app", type: MeApp?, nillable: true, emit_null: false)]
+    property app : MeApp?
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@app : MeApp, @email : String?)
+    def initialize(@email : String, @app : MeApp?)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?

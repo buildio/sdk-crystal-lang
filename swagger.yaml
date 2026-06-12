@@ -1132,7 +1132,7 @@ paths:
                     - id
                     - name
                 required:
-                - app
+                - email
         '401':
           description: no authentication
   "/api/v1/namespaces":
