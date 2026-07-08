@@ -261,7 +261,7 @@ paths:
               schema:
                 "$ref": "#/components/schemas/addon"
         '422':
-          description: plan required
+          description: unlisted service rejected
           content:
             application/json:
               schema:
