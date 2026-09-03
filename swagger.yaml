@@ -2495,6 +2495,147 @@ components:
       required:
       - ordinal
       - buildpack
+    build:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        app:
+          type: object
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+        user:
+          type: object
+          properties:
+            id:
+              type: string
+              nullable: true
+            email:
+              type: string
+              nullable: true
+        source_blob:
+          type: object
+          description: Where the source came from.
+          properties:
+            url:
+              type: string
+              nullable: true
+            version:
+              type: string
+              nullable: true
+            version_description:
+              type: string
+              nullable: true
+            checksum:
+              type: string
+              nullable: true
+        buildpacks:
+          type: array
+          nullable: true
+          items:
+            type: object
+        stack:
+          type: string
+          nullable: true
+        state:
+          type: string
+          enum:
+          - pending
+          - packing
+          - uploading
+          - succeeded
+          - failed
+          description: Build state, reported verbatim rather than collapsed.
+        output_stream_url:
+          type: string
+          nullable: true
+        slug:
+          type: object
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+      - id
+      - app
+      - stack
+      - state
+      - created_at
+      - updated_at
+    deployment:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        app:
+          type: object
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+        build:
+          type: object
+          nullable: true
+          properties:
+            id:
+              type: string
+          description: The build this deployment released, when it came from one.
+        user:
+          type: object
+          properties:
+            id:
+              type: string
+              nullable: true
+            email:
+              type: string
+              nullable: true
+        version:
+          type: integer
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        state:
+          type: string
+          enum:
+          - pending
+          - releasing
+          - failed
+          - succeeded
+          - deploying
+          - deployed
+          - testing
+          - tested
+          - vibing
+          - vibed
+          description: Deployment state, reported verbatim rather than collapsed.
+        current:
+          type: boolean
+          description: Whether this is the app's current deployment.
+        failover:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+      - id
+      - app
+      - state
+      - current
+      - created_at
+      - updated_at
     domain:
       type: object
       properties:

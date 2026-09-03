@@ -3,6 +3,11 @@
 README.md
 git_push.sh
 shard.yml
+spec/models/build_source_blob_spec.cr
+spec/models/build_spec.cr
+spec/models/build_user_spec.cr
+spec/models/deployment_build_spec.cr
+spec/models/deployment_spec.cr
 spec/spec_helper.cr
 src/build-client.cr
 src/build-client/api/addon_attachments_api.cr
@@ -37,6 +42,9 @@ src/build-client/models/app_me_response.cr
 src/build-client/models/app_pipeline.cr
 src/build-client/models/app_team.cr
 src/build-client/models/attachment_addon.cr
+src/build-client/models/build.cr
+src/build-client/models/build_source_blob.cr
+src/build-client/models/build_user.cr
 src/build-client/models/buildpack_installation.cr
 src/build-client/models/buildpack_installation_buildpack.cr
 src/build-client/models/collaborator.cr
@@ -51,6 +59,8 @@ src/build-client/models/create_namespace_request.cr
 src/build-client/models/create_pipeline_promotion_request.cr
 src/build-client/models/create_pipeline_promotion_request_source.cr
 src/build-client/models/create_pipeline_promotion_request_targets_inner.cr
+src/build-client/models/deployment.cr
+src/build-client/models/deployment_build.cr
 src/build-client/models/domain.cr
 src/build-client/models/domain_app.cr
 src/build-client/models/domain_sni_endpoint.cr
