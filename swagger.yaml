@@ -650,6 +650,85 @@ paths:
                       buildpack:
                         type: string
                         description: Buildpack registry name or URL
+  "/api/v1/apps/{app_id}/builds":
+    parameters:
+    - name: app_id
+      in: path
+      description: app id or name
+      required: true
+      schema:
+        type: string
+    - name: limit
+      in: query
+      required: false
+      description: Page size. Defaults to 25, capped at 100.
+      schema:
+        type: integer
+    - name: cursor
+      in: query
+      required: false
+      description: Opaque cursor, taken from the previous response's Link header.
+      schema:
+        type: string
+    get:
+      summary: list builds
+      security:
+      - bearer: []
+        oauth2: []
+      operationId: builds
+      description: 'Builds for an app, newest first. Keyset paginated: when more results
+        exist the response carries an RFC 8288 Link header with rel="next". Absent
+        means the last page.'
+      responses:
+        '200':
+          description: successful
+          headers:
+            Link:
+              schema:
+                type: string
+              required: false
+              description: 'RFC 8288 link to the next page: <url>; rel="next". Absent
+                on the last page.'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/build"
+  "/api/v1/apps/{app_id}/builds/{id}":
+    parameters:
+    - name: app_id
+      in: path
+      description: app id or name
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      description: build id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show build
+      security:
+      - bearer: []
+        oauth2: []
+      operationId: build
+      description: A single build. Previously routed but unimplemented, so it 404ed.
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/build"
+        '404':
+          description: not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error_response"
   "/api/v1/apps/{app_id_or_name}/config-vars":
     parameters:
     - name: app_id_or_name
@@ -719,6 +798,83 @@ paths:
       responses:
         '204':
           description: successful
+  "/api/v1/apps/{app_id}/deployments":
+    parameters:
+    - name: app_id
+      in: path
+      description: app id or name
+      required: true
+      schema:
+        type: string
+    - name: limit
+      in: query
+      required: false
+      description: Page size. Defaults to 25, capped at 100.
+      schema:
+        type: integer
+    - name: cursor
+      in: query
+      required: false
+      description: Opaque cursor, taken from the previous response's Link header.
+      schema:
+        type: string
+    get:
+      summary: list deployments
+      security:
+      - bearer: []
+        oauth2: []
+      operationId: deployments
+      description: 'Deployments for an app, newest first. Keyset paginated the same
+        way as builds: an RFC 8288 Link header when more results exist.'
+      responses:
+        '200':
+          description: successful
+          headers:
+            Link:
+              schema:
+                type: string
+              required: false
+              description: 'RFC 8288 link to the next page: <url>; rel="next". Absent
+                on the last page.'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/deployment"
+  "/api/v1/apps/{app_id}/deployments/{id}":
+    parameters:
+    - name: app_id
+      in: path
+      description: app id or name
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      description: deployment id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show deployment
+      security:
+      - bearer: []
+        oauth2: []
+      operationId: deployment
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/deployment"
+        '404':
+          description: not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error_response"
   "/api/v1/apps/{app_id_or_name}/domains":
     parameters:
     - name: app_id_or_name
@@ -2626,7 +2782,9 @@ components:
       description: Your API key
     oauth2:
       type: oauth2
-      description: Authorization-code clients support PKCE. Public clients should pass code_challenge/code_challenge_method=S256 to /oauth/authorize and code_verifier to /oauth/token; existing confidential clients may continue using client_secret.
+      description: Authorization-code clients support PKCE. Public clients should
+        pass code_challenge/code_challenge_method=S256 to /oauth/authorize and code_verifier
+        to /oauth/token; existing confidential clients may continue using client_secret.
       flows:
         authorizationCode:
           authorizationUrl: "/oauth/authorize"

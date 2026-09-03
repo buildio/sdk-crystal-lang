@@ -323,6 +323,140 @@ module Build
       return Array(App).from_json(data), status_code, headers
     end
 
+    # show build
+    # A single build. Previously routed but unimplemented, so it 404ed.
+    # @param app_id [String] app id or name
+    # @param id [String] build id
+    # @return [Build]
+    def build(app_id : String, id : String)
+      data, _status_code, _headers = build_with_http_info(app_id, id)
+      data
+    end
+
+    # show build
+    # A single build. Previously routed but unimplemented, so it 404ed.
+    # @param app_id [String] app id or name
+    # @param id [String] build id
+    # @return [Array<(Build, Integer, Hash)>] Build data, response status code and response headers
+    def build_with_http_info(app_id : String, id : String)
+      if @api_client.config.debugging
+        Log.debug {"Calling API: DefaultApi.build ..."}
+      end
+      # verify the required parameter "app_id" is set
+      if @api_client.config.client_side_validation && app_id.nil?
+        raise ArgumentError.new("Missing the required parameter 'app_id' when calling DefaultApi.build")
+      end
+      # verify the required parameter "id" is set
+      if @api_client.config.client_side_validation && id.nil?
+        raise ArgumentError.new("Missing the required parameter 'id' when calling DefaultApi.build")
+      end
+      # resource path
+      local_var_path = "/api/v1/apps/{app_id}/builds/{id}".sub("{" + "app_id" + "}", URI.encode_path(app_id.to_s)).sub("{" + "id" + "}", URI.encode_path(id.to_s))
+
+      # cookie parameters
+      cookie_params = Hash(String, String).new
+
+      # query parameters
+      query_params = Hash(String, String).new
+
+      # header parameters
+      header_params = Hash(String, String).new
+      # HTTP header "Accept" (if needed)
+      header_params["Accept"] = @api_client.select_header_accept(["application/json"])
+
+      # form parameters
+      form_params = Hash(Symbol, (String | ::File)).new
+
+      # http body (model)
+      post_body = nil
+
+      # return_type
+      return_type = "Build"
+
+      # auth_names
+      auth_names = ["bearer", "oauth2"]
+
+      data, status_code, headers = @api_client.call_api(:GET,
+                                                        local_var_path,
+                                                        :"DefaultApi.build",
+                                                        return_type,
+                                                        post_body,
+                                                        auth_names,
+                                                        header_params,
+                                                        query_params,
+                                                        cookie_params,
+                                                        form_params)
+      if @api_client.config.debugging
+        Log.debug {"API called: DefaultApi#build\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
+      end
+      return Build.from_json(data), status_code, headers
+    end
+
+    # list builds
+    # Builds for an app, newest first. Keyset paginated: when more results exist the response carries an RFC 8288 Link header with rel=\"next\". Absent means the last page.
+    # @param app_id [String] app id or name
+    # @return [Array(Build)]
+    def builds(app_id : String, limit : Int32? = nil, cursor : String? = nil)
+      data, _status_code, _headers = builds_with_http_info(app_id, limit, cursor)
+      data
+    end
+
+    # list builds
+    # Builds for an app, newest first. Keyset paginated: when more results exist the response carries an RFC 8288 Link header with rel&#x3D;\&quot;next\&quot;. Absent means the last page.
+    # @param app_id [String] app id or name
+    # @return [Array<(Array(Build), Integer, Hash)>] Array(Build) data, response status code and response headers
+    def builds_with_http_info(app_id : String, limit : Int32? = nil, cursor : String? = nil)
+      if @api_client.config.debugging
+        Log.debug {"Calling API: DefaultApi.builds ..."}
+      end
+      # verify the required parameter "app_id" is set
+      if @api_client.config.client_side_validation && app_id.nil?
+        raise ArgumentError.new("Missing the required parameter 'app_id' when calling DefaultApi.builds")
+      end
+      # resource path
+      local_var_path = "/api/v1/apps/{app_id}/builds".sub("{" + "app_id" + "}", URI.encode_path(app_id.to_s))
+
+      # cookie parameters
+      cookie_params = Hash(String, String).new
+
+      # query parameters
+      query_params = Hash(String, String).new
+      query_params["limit"] = limit.to_s unless limit.nil?
+      query_params["cursor"] = cursor.to_s unless cursor.nil?
+
+      # header parameters
+      header_params = Hash(String, String).new
+      # HTTP header "Accept" (if needed)
+      header_params["Accept"] = @api_client.select_header_accept(["application/json"])
+
+      # form parameters
+      form_params = Hash(Symbol, (String | ::File)).new
+
+      # http body (model)
+      post_body = nil
+
+      # return_type
+      return_type = "Array(Build)"
+
+      # auth_names
+      auth_names = ["bearer", "oauth2"]
+
+      data, status_code, headers = @api_client.call_api(:GET,
+                                                        local_var_path,
+                                                        :"DefaultApi.builds",
+                                                        return_type,
+                                                        post_body,
+                                                        auth_names,
+                                                        header_params,
+                                                        query_params,
+                                                        cookie_params,
+                                                        form_params)
+      if @api_client.config.debugging
+        Log.debug {"API called: DefaultApi#builds\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
+      end
+      return Array(Build).from_json(data), status_code, headers
+    end
+
     # list all config-vars
     # @param app_id_or_name [String] app id or name
     # @return [Hash(String, String)]
@@ -626,6 +760,138 @@ module Build
         Log.debug {"API called: DefaultApi#delete_namespace\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
       end
       return nil, status_code, headers
+    end
+
+    # show deployment
+    # @param app_id [String] app id or name
+    # @param id [String] deployment id
+    # @return [Deployment]
+    def deployment(app_id : String, id : String)
+      data, _status_code, _headers = deployment_with_http_info(app_id, id)
+      data
+    end
+
+    # show deployment
+    # @param app_id [String] app id or name
+    # @param id [String] deployment id
+    # @return [Array<(Deployment, Integer, Hash)>] Deployment data, response status code and response headers
+    def deployment_with_http_info(app_id : String, id : String)
+      if @api_client.config.debugging
+        Log.debug {"Calling API: DefaultApi.deployment ..."}
+      end
+      # verify the required parameter "app_id" is set
+      if @api_client.config.client_side_validation && app_id.nil?
+        raise ArgumentError.new("Missing the required parameter 'app_id' when calling DefaultApi.deployment")
+      end
+      # verify the required parameter "id" is set
+      if @api_client.config.client_side_validation && id.nil?
+        raise ArgumentError.new("Missing the required parameter 'id' when calling DefaultApi.deployment")
+      end
+      # resource path
+      local_var_path = "/api/v1/apps/{app_id}/deployments/{id}".sub("{" + "app_id" + "}", URI.encode_path(app_id.to_s)).sub("{" + "id" + "}", URI.encode_path(id.to_s))
+
+      # cookie parameters
+      cookie_params = Hash(String, String).new
+
+      # query parameters
+      query_params = Hash(String, String).new
+
+      # header parameters
+      header_params = Hash(String, String).new
+      # HTTP header "Accept" (if needed)
+      header_params["Accept"] = @api_client.select_header_accept(["application/json"])
+
+      # form parameters
+      form_params = Hash(Symbol, (String | ::File)).new
+
+      # http body (model)
+      post_body = nil
+
+      # return_type
+      return_type = "Deployment"
+
+      # auth_names
+      auth_names = ["bearer", "oauth2"]
+
+      data, status_code, headers = @api_client.call_api(:GET,
+                                                        local_var_path,
+                                                        :"DefaultApi.deployment",
+                                                        return_type,
+                                                        post_body,
+                                                        auth_names,
+                                                        header_params,
+                                                        query_params,
+                                                        cookie_params,
+                                                        form_params)
+      if @api_client.config.debugging
+        Log.debug {"API called: DefaultApi#deployment\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
+      end
+      return Deployment.from_json(data), status_code, headers
+    end
+
+    # list deployments
+    # Deployments for an app, newest first. Keyset paginated the same way as builds: an RFC 8288 Link header when more results exist.
+    # @param app_id [String] app id or name
+    # @return [Array(Deployment)]
+    def deployments(app_id : String, limit : Int32? = nil, cursor : String? = nil)
+      data, _status_code, _headers = deployments_with_http_info(app_id, limit, cursor)
+      data
+    end
+
+    # list deployments
+    # Deployments for an app, newest first. Keyset paginated the same way as builds: an RFC 8288 Link header when more results exist.
+    # @param app_id [String] app id or name
+    # @return [Array<(Array(Deployment), Integer, Hash)>] Array(Deployment) data, response status code and response headers
+    def deployments_with_http_info(app_id : String, limit : Int32? = nil, cursor : String? = nil)
+      if @api_client.config.debugging
+        Log.debug {"Calling API: DefaultApi.deployments ..."}
+      end
+      # verify the required parameter "app_id" is set
+      if @api_client.config.client_side_validation && app_id.nil?
+        raise ArgumentError.new("Missing the required parameter 'app_id' when calling DefaultApi.deployments")
+      end
+      # resource path
+      local_var_path = "/api/v1/apps/{app_id}/deployments".sub("{" + "app_id" + "}", URI.encode_path(app_id.to_s))
+
+      # cookie parameters
+      cookie_params = Hash(String, String).new
+
+      # query parameters
+      query_params = Hash(String, String).new
+      query_params["limit"] = limit.to_s unless limit.nil?
+      query_params["cursor"] = cursor.to_s unless cursor.nil?
+
+      # header parameters
+      header_params = Hash(String, String).new
+      # HTTP header "Accept" (if needed)
+      header_params["Accept"] = @api_client.select_header_accept(["application/json"])
+
+      # form parameters
+      form_params = Hash(Symbol, (String | ::File)).new
+
+      # http body (model)
+      post_body = nil
+
+      # return_type
+      return_type = "Array(Deployment)"
+
+      # auth_names
+      auth_names = ["bearer", "oauth2"]
+
+      data, status_code, headers = @api_client.call_api(:GET,
+                                                        local_var_path,
+                                                        :"DefaultApi.deployments",
+                                                        return_type,
+                                                        post_body,
+                                                        auth_names,
+                                                        header_params,
+                                                        query_params,
+                                                        cookie_params,
+                                                        form_params)
+      if @api_client.config.debugging
+        Log.debug {"API called: DefaultApi#deployments\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
+      end
+      return Array(Deployment).from_json(data), status_code, headers
     end
 
     # exec into dyno
