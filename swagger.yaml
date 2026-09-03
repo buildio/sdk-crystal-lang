@@ -2626,6 +2626,7 @@ components:
       description: Your API key
     oauth2:
       type: oauth2
+      description: Authorization-code clients support PKCE. Public clients should pass code_challenge/code_challenge_method=S256 to /oauth/authorize and code_verifier to /oauth/token; existing confidential clients may continue using client_secret.
       flows:
         authorizationCode:
           authorizationUrl: "/oauth/authorize"
