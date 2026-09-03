@@ -3,11 +3,8 @@
 README.md
 git_push.sh
 shard.yml
-spec/models/build_source_blob_spec.cr
-spec/models/build_spec.cr
-spec/models/build_user_spec.cr
-spec/models/deployment_build_spec.cr
-spec/models/deployment_spec.cr
+spec/models/build_buildpacks_inner_spec.cr
+spec/models/build_slug_spec.cr
 spec/spec_helper.cr
 src/build-client.cr
 src/build-client/api/addon_attachments_api.cr
@@ -43,6 +40,8 @@ src/build-client/models/app_pipeline.cr
 src/build-client/models/app_team.cr
 src/build-client/models/attachment_addon.cr
 src/build-client/models/build.cr
+src/build-client/models/build_buildpacks_inner.cr
+src/build-client/models/build_slug.cr
 src/build-client/models/build_source_blob.cr
 src/build-client/models/build_user.cr
 src/build-client/models/buildpack_installation.cr

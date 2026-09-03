@@ -14,72 +14,20 @@ require "yaml"
 require "time"
 
 module Build
-  class Build
+  class BuildBuildpacksInner
     include JSON::Serializable
     include YAML::Serializable
 
-    # Required properties
-    @[JSON::Field(key: "id", type: String, nillable: false, emit_null: false)]
-    property id : String
-
-    @[JSON::Field(key: "app", type: GetPipelineDiff200ResponseSource, nillable: false, emit_null: false)]
-    property app : GetPipelineDiff200ResponseSource
-
-    @[JSON::Field(key: "stack", type: String, nillable: false, emit_null: false)]
-    property stack : String
-
-    # Build state, reported verbatim rather than collapsed.
-    @[JSON::Field(key: "state", type: String, nillable: false, emit_null: false)]
-    property state : String
-
-    @[JSON::Field(key: "created_at", type: Time, nillable: false, emit_null: false)]
-    property created_at : Time
-
-    @[JSON::Field(key: "updated_at", type: Time, nillable: false, emit_null: false)]
-    property updated_at : Time
-
     # Optional properties
-    @[JSON::Field(key: "user", type: BuildUser?, nillable: true, emit_null: false)]
-    property user : BuildUser?
+    @[JSON::Field(key: "url", type: String?, nillable: true, emit_null: false)]
+    property url : String?
 
-    @[JSON::Field(key: "source_blob", type: BuildSourceBlob?, nillable: true, emit_null: false)]
-    property source_blob : BuildSourceBlob?
-
-    @[JSON::Field(key: "buildpacks", type: Array(BuildBuildpacksInner)?, nillable: true, emit_null: false)]
-    property buildpacks : Array(BuildBuildpacksInner)?
-
-    @[JSON::Field(key: "output_stream_url", type: String?, nillable: true, emit_null: false)]
-    property output_stream_url : String?
-
-    @[JSON::Field(key: "slug", type: BuildSlug?, nillable: true, emit_null: false)]
-    property slug : BuildSlug?
-
-    class EnumAttributeValidator
-      getter datatype : String
-      getter allowable_values : Array(String)
-
-      def initialize(datatype, allowable_values)
-        @datatype = datatype
-        @allowable_values = allowable_values.map do |value|
-          case datatype.to_s
-          when /Integer/i
-            value.to_i
-          when /Float/i
-            value.to_f
-          else
-            value
-          end
-        end
-      end
-
-      def valid?(value)
-        !value || allowable_values.includes?(value)
-      end
-    end
+    @[JSON::Field(key: "name", type: String?, nillable: true, emit_null: false)]
+    property name : String?
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@id : String, @app : GetPipelineDiff200ResponseSource, @stack : String, @state : String, @created_at : Time, @updated_at : Time, @user : BuildUser?, @source_blob : BuildSourceBlob?, @buildpacks : Array(BuildBuildpacksInner)?, @output_stream_url : String?, @slug : BuildSlug?)
+    def initialize(@url : String?, @name : String?)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -92,19 +40,7 @@ module Build
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      state_validator = EnumAttributeValidator.new("String", ["pending", "packing", "uploading", "succeeded", "failed"])
-      return false unless state_validator.valid?(@state)
       true
-    end
-
-    # Custom attribute writer method checking allowed values (enum).
-    # @param [Object] state Object to be assigned
-    def state=(state)
-      validator = EnumAttributeValidator.new("String", ["pending", "packing", "uploading", "succeeded", "failed"])
-      unless validator.valid?(state)
-        raise ArgumentError.new("invalid value for \"state\", must be one of #{validator.allowable_values}.")
-      end
-      @state = state
     end
 
     # Checks equality by comparing each attribute.
@@ -112,17 +48,8 @@ module Build
     def ==(other)
       return true if self.same?(other)
       self.class == other.class &&
-          id == other.id &&
-          app == other.app &&
-          user == other.user &&
-          source_blob == other.source_blob &&
-          buildpacks == other.buildpacks &&
-          stack == other.stack &&
-          state == other.state &&
-          output_stream_url == other.output_stream_url &&
-          slug == other.slug &&
-          created_at == other.created_at &&
-          updated_at == other.updated_at
+          url == other.url &&
+          name == other.name
     end
 
     # @see the `==` method
@@ -134,7 +61,7 @@ module Build
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, app, user, source_blob, buildpacks, stack, state, output_stream_url, slug, created_at, updated_at].hash
+      [url, name].hash
     end
 
     # Builds the object from hash

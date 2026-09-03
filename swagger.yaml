@@ -2538,6 +2538,12 @@ components:
           nullable: true
           items:
             type: object
+            properties:
+              url:
+                type: string
+              name:
+                type: string
+                nullable: true
         stack:
           type: string
           nullable: true
@@ -2556,6 +2562,10 @@ components:
         slug:
           type: object
           nullable: true
+          properties:
+            id:
+              type: string
+              nullable: true
         created_at:
           type: string
           format: date-time
