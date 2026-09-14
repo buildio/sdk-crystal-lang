@@ -1567,14 +1567,14 @@ paths:
       - Pipelines
       security:
       - bearer: []
-      description: Lists all pipelines accessible to the current user. Optionally
-        filter by team.
+      description: Lists pipelines for the current user. Defaults to personal team;
+        pass team_id to select a different team.
       operationId: list_pipelines
       parameters:
       - name: team_id
         in: query
         required: false
-        description: Filter pipelines by team ID or name
+        description: Team ID or name. Defaults to personal team (matching apps#index).
         schema:
           type: string
       responses:
