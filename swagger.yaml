@@ -384,6 +384,59 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/error_response"
+    patch:
+      summary: transfer addon billing
+      tags:
+      - Addons
+      security:
+      - bearer: []
+        oauth2: []
+      description: Move which app owns and pays for the addon. The target app must
+        already have the addon attached and must belong to the same team.
+      operationId: transferAddonBilling
+      parameters: []
+      responses:
+        '200':
+          description: billing transferred
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/addon_with_attachments"
+        '403':
+          description: addon tokens cannot transfer billing
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error_response"
+        '404':
+          description: target app not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error_response"
+        '422':
+          description: target app is not eligible
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error_response"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - billing_entity
+              properties:
+                billing_entity:
+                  type: object
+                  required:
+                  - app
+                  properties:
+                    app:
+                      type: string
+                      description: Target app name or ID
+        required: true
   "/api/v1/teams/{team_id}/addons":
     parameters:
     - name: team_id

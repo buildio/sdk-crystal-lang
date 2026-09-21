@@ -408,5 +408,76 @@ module Build
       end
       return Array(Addon).from_json(data), status_code, headers
     end
+
+    # transfer addon billing
+    # Move which app owns and pays for the addon. The target app must already have the addon attached and must belong to the same team.
+    # @param id [String] Addon ID or name
+    # @param transfer_addon_billing_request [TransferAddonBillingRequest] 
+    # @return [AddonWithAttachments]
+    def transfer_addon_billing(id : String, transfer_addon_billing_request : TransferAddonBillingRequest)
+      data, _status_code, _headers = transfer_addon_billing_with_http_info(id, transfer_addon_billing_request)
+      data
+    end
+
+    # transfer addon billing
+    # Move which app owns and pays for the addon. The target app must already have the addon attached and must belong to the same team.
+    # @param id [String] Addon ID or name
+    # @param transfer_addon_billing_request [TransferAddonBillingRequest] 
+    # @return [Array<(AddonWithAttachments, Integer, Hash)>] AddonWithAttachments data, response status code and response headers
+    def transfer_addon_billing_with_http_info(id : String, transfer_addon_billing_request : TransferAddonBillingRequest)
+      if @api_client.config.debugging
+        Log.debug {"Calling API: AddonsApi.transfer_addon_billing ..."}
+      end
+      # verify the required parameter "id" is set
+      if @api_client.config.client_side_validation && id.nil?
+        raise ArgumentError.new("Missing the required parameter 'id' when calling AddonsApi.transfer_addon_billing")
+      end
+      # verify the required parameter "transfer_addon_billing_request" is set
+      if @api_client.config.client_side_validation && transfer_addon_billing_request.nil?
+        raise ArgumentError.new("Missing the required parameter 'transfer_addon_billing_request' when calling AddonsApi.transfer_addon_billing")
+      end
+      # resource path
+      local_var_path = "/api/v1/addons/{id}".sub("{" + "id" + "}", URI.encode_path(id.to_s))
+
+      # cookie parameters
+      cookie_params = Hash(String, String).new
+
+      # query parameters
+      query_params = Hash(String, String).new
+
+      # header parameters
+      header_params = Hash(String, String).new
+      # HTTP header "Accept" (if needed)
+      header_params["Accept"] = @api_client.select_header_accept(["application/json"])
+      # HTTP header "Content-Type"
+      header_params["Content-Type"] = @api_client.select_header_content_type(["application/json"])
+
+      # form parameters
+      form_params = Hash(Symbol, (String | ::File)).new
+
+      # http body (model)
+      post_body = transfer_addon_billing_request.to_json
+
+      # return_type
+      return_type = "AddonWithAttachments"
+
+      # auth_names
+      auth_names = ["bearer", "oauth2"]
+
+      data, status_code, headers = @api_client.call_api(:PATCH,
+                                                        local_var_path,
+                                                        :"AddonsApi.transfer_addon_billing",
+                                                        return_type,
+                                                        post_body,
+                                                        auth_names,
+                                                        header_params,
+                                                        query_params,
+                                                        cookie_params,
+                                                        form_params)
+      if @api_client.config.debugging
+        Log.debug {"API called: AddonsApi#transfer_addon_billing\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
+      end
+      return AddonWithAttachments.from_json(data), status_code, headers
+    end
   end
 end
