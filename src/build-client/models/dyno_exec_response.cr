@@ -22,9 +22,15 @@ module Build
     @[JSON::Field(key: "output", type: String, nillable: false, emit_null: false)]
     property output : String
 
+    @[JSON::Field(key: "stderr", type: String, nillable: false, emit_null: false)]
+    property stderr : String
+
+    @[JSON::Field(key: "exit_code", type: Int32, nillable: false, emit_null: false)]
+    property exit_code : Int32
+
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@output : String)
+    def initialize(@output : String, @stderr : String, @exit_code : Int32)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -45,7 +51,9 @@ module Build
     def ==(other)
       return true if self.same?(other)
       self.class == other.class &&
-          output == other.output
+          output == other.output &&
+          stderr == other.stderr &&
+          exit_code == other.exit_code
     end
 
     # @see the `==` method
@@ -57,7 +65,7 @@ module Build
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [output].hash
+      [output, stderr, exit_code].hash
     end
 
     # Builds the object from hash

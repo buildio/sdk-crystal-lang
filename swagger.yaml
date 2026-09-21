@@ -1174,8 +1174,14 @@ paths:
                 properties:
                   output:
                     type: string
+                  stderr:
+                    type: string
+                  exit_code:
+                    type: integer
                 required:
                 - output
+                - stderr
+                - exit_code
         '422':
           description: missing parameters
       requestBody:
@@ -2716,8 +2722,14 @@ components:
       properties:
         output:
           type: string
+        stderr:
+          type: string
+        exit_code:
+          type: integer
       required:
       - output
+      - stderr
+      - exit_code
     formation_update:
       type: object
       properties:
