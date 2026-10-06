@@ -18,17 +18,16 @@ module Build
     include JSON::Serializable
     include YAML::Serializable
 
-    # Required properties
-    # Shell command to run
-    @[JSON::Field(key: "command", type: String, nillable: false, emit_null: false)]
-    property command : String
-
     # Optional properties
+    # Shell command to run (required unless attach is true)
+    @[JSON::Field(key: "command", type: String?, nillable: true, emit_null: false)]
+    property command : String?
+
     # Process type (default: worker)
     @[JSON::Field(key: "type", type: String?, nillable: true, emit_null: false)]
     property _type : String?
 
-    # Dyno size (default: from formation)
+    # Dyno size (default: from formation; with attach, like a Heroku one-off dyno)
     @[JSON::Field(key: "size", type: String?, nillable: true, emit_null: false)]
     property size : String?
 
@@ -36,9 +35,13 @@ module Build
     @[JSON::Field(key: "timeout", type: Int32?, nillable: true, emit_null: false)]
     property timeout : Int32?
 
+    # Run no Job; return a short-lived ticket to use as the SSH password (bld run)
+    @[JSON::Field(key: "attach", type: Bool?, nillable: true, emit_null: false)]
+    property attach : Bool?
+
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@command : String, @_type : String?, @size : String?, @timeout : Int32?)
+    def initialize(@command : String?, @_type : String?, @size : String?, @timeout : Int32?, @attach : Bool?)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -62,7 +65,8 @@ module Build
           command == other.command &&
           _type == other._type &&
           size == other.size &&
-          timeout == other.timeout
+          timeout == other.timeout &&
+          attach == other.attach
     end
 
     # @see the `==` method
@@ -74,7 +78,7 @@ module Build
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [command, _type, size, timeout].hash
+      [command, _type, size, timeout, attach].hash
     end
 
     # Builds the object from hash

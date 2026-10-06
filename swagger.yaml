@@ -1171,8 +1171,31 @@ paths:
                 required:
                 - output
                 - status
+        '201':
+          description: 'attach: a ticket for an SSH session'
+          content:
+            application/json:
+              schema:
+                title: DynoRunTicketResponse
+                type: object
+                properties:
+                  ticket:
+                    type: string
+                    description: SSH password, valid for expires_in seconds
+                  expires_in:
+                    type: integer
+                  size:
+                    type: string
+                required:
+                - ticket
+                - expires_in
+                - size
+        '403':
+          description: attach with an app-scoped token
+        '404':
+          description: app not found
         '422':
-          description: missing command
+          description: missing command, or invalid size
       requestBody:
         content:
           application/json:
@@ -1182,18 +1205,21 @@ paths:
               properties:
                 command:
                   type: string
-                  description: Shell command to run
+                  description: Shell command to run (required unless attach is true)
                 type:
                   type: string
                   description: 'Process type (default: worker)'
                 size:
                   type: string
-                  description: 'Dyno size (default: from formation)'
+                  description: 'Dyno size (default: from formation; with attach, like
+                    a Heroku one-off dyno)'
                 timeout:
                   type: integer
                   description: 'Timeout in seconds (30–1800, default: 300)'
-              required:
-              - command
+                attach:
+                  type: boolean
+                  description: Run no Job; return a short-lived ticket to use as the
+                    SSH password (bld run)
         required: true
   "/api/v1/apps/{app_id_or_name}/dynos/{dyno}/exec":
     parameters:
