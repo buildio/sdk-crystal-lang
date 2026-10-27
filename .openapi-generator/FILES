@@ -3,7 +3,6 @@
 README.md
 git_push.sh
 shard.yml
-spec/models/dyno_run_ticket_response_spec.cr
 spec/spec_helper.cr
 src/build-client.cr
 src/build-client/api/addon_attachments_api.cr

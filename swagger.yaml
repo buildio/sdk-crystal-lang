@@ -276,7 +276,7 @@ paths:
                 plan:
                   type: string
                   description: Addon service and plan in format "service:plan"
-                  example: schematgo:free
+                  example: schema-to-go:basic
                 human_name:
                   type: string
                   description: User-provided display name for the addon (optional)
