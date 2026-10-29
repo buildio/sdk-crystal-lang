@@ -3,6 +3,7 @@
 README.md
 git_push.sh
 shard.yml
+spec/models/me_team_spec.cr
 spec/spec_helper.cr
 src/build-client.cr
 src/build-client/api/addon_attachments_api.cr
@@ -76,6 +77,7 @@ src/build-client/models/get_pipeline_diff200_response_diffs_inner.cr
 src/build-client/models/get_pipeline_diff200_response_diffs_inner_commits_inner.cr
 src/build-client/models/get_pipeline_diff200_response_source.cr
 src/build-client/models/me_app.cr
+src/build-client/models/me_team.cr
 src/build-client/models/namespace.cr
 src/build-client/models/namespace_actor.cr
 src/build-client/models/namespace_team.cr

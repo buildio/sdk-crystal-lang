@@ -8,7 +8,7 @@ info:
 
     All endpoints accept an OAuth Bearer token in the `Authorization` header.
 
-    Tokens come in three kinds, distinguished by their resource owner:
+    Tokens come in four kinds, distinguished by their resource owner:
 
     - **User tokens** (default) — full access to the user's apps, teams, pipelines, and namespaces.
     - **App-scoped tokens** (prefix `bldp_`) — bound to a single app. Can only access endpoints
@@ -16,12 +16,15 @@ info:
       Endpoints that operate on user-level collections (`/api/v1/apps`, `/api/v1/teams`,
       `/api/v1/pipelines`, `/api/v1/namespaces`, `/api/v1/addon-attachments`, `/api/v1/addons`)
       return **403 Forbidden** for these tokens.
+    - **Team-scoped tokens** (prefix `bldp_`) — bound to a single team. Can access that team's
+      apps, pipelines, and namespaces and all per-app endpoints for those apps; cannot create
+      apps or transfer addon billing. `/api/v1/me` returns `{ team, email }` for these tokens.
     - **Addon partner tokens** (`addon:config` scope) — issued to addon vendors for partner
       endpoints only.
 
     The `/api/v1/me` response shape varies by token kind: user tokens return `{ email }`;
-    app-scoped tokens return `{ app, email }` where `email` belongs to the user that minted
-    the token.
+    app-scoped tokens return `{ app, email }`; team-scoped tokens return `{ team, email }`
+    where `email` belongs to the user that minted the token.
 paths:
   "/api/v1/addon-attachments":
     get:
@@ -1345,7 +1348,7 @@ paths:
         where email is the minting user's email.
       responses:
         '200':
-          description: 'app-scoped token: returns the bound app and minter email'
+          description: 'team-scoped token: returns the bound team and minter email'
           content:
             application/json:
               schema:
@@ -1359,6 +1362,18 @@ paths:
                   app:
                     type: object
                     title: MeApp
+                    properties:
+                      id:
+                        type: string
+                        format: uuid
+                      name:
+                        type: string
+                    required:
+                    - id
+                    - name
+                  team:
+                    type: object
+                    title: MeTeam
                     properties:
                       id:
                         type: string

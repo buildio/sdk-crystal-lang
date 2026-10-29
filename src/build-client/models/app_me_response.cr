@@ -1,6 +1,6 @@
 # #Build.io API V1
 #
-#### Authentication  All endpoints accept an OAuth Bearer token in the `Authorization` header.  Tokens come in three kinds, distinguished by their resource owner:  - **User tokens** (default) — full access to the user's apps, teams, pipelines, and namespaces. - **App-scoped tokens** (prefix `bldp_`) — bound to a single app. Can only access endpoints   that operate on that one app (e.g. `GET /api/v1/apps/:id`, builds, dynos, config vars).   Endpoints that operate on user-level collections (`/api/v1/apps`, `/api/v1/teams`,   `/api/v1/pipelines`, `/api/v1/namespaces`, `/api/v1/addon-attachments`, `/api/v1/addons`)   return **403 Forbidden** for these tokens. - **Addon partner tokens** (`addon:config` scope) — issued to addon vendors for partner   endpoints only.  The `/api/v1/me` response shape varies by token kind: user tokens return `{ email }`; app-scoped tokens return `{ app, email }` where `email` belongs to the user that minted the token.
+#### Authentication  All endpoints accept an OAuth Bearer token in the `Authorization` header.  Tokens come in four kinds, distinguished by their resource owner:  - **User tokens** (default) — full access to the user's apps, teams, pipelines, and namespaces. - **App-scoped tokens** (prefix `bldp_`) — bound to a single app. Can only access endpoints   that operate on that one app (e.g. `GET /api/v1/apps/:id`, builds, dynos, config vars).   Endpoints that operate on user-level collections (`/api/v1/apps`, `/api/v1/teams`,   `/api/v1/pipelines`, `/api/v1/namespaces`, `/api/v1/addon-attachments`, `/api/v1/addons`)   return **403 Forbidden** for these tokens. - **Team-scoped tokens** (prefix `bldp_`) — bound to a single team. Can access that team's   apps, pipelines, and namespaces and all per-app endpoints for those apps; cannot create   apps or transfer addon billing. `/api/v1/me` returns `{ team, email }` for these tokens. - **Addon partner tokens** (`addon:config` scope) — issued to addon vendors for partner   endpoints only.  The `/api/v1/me` response shape varies by token kind: user tokens return `{ email }`; app-scoped tokens return `{ app, email }`; team-scoped tokens return `{ team, email }` where `email` belongs to the user that minted the token.
 #
 #The version of the OpenAPI document: v1
 #
@@ -27,9 +27,12 @@ module Build
     @[JSON::Field(key: "app", type: MeApp?, nillable: true, emit_null: false)]
     property app : MeApp?
 
+    @[JSON::Field(key: "team", type: MeTeam?, nillable: true, emit_null: false)]
+    property team : MeTeam?
+
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@email : String, @app : MeApp?)
+    def initialize(@email : String, @app : MeApp?, @team : MeTeam?)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -51,7 +54,8 @@ module Build
       return true if self.same?(other)
       self.class == other.class &&
           email == other.email &&
-          app == other.app
+          app == other.app &&
+          team == other.team
     end
 
     # @see the `==` method
@@ -63,7 +67,7 @@ module Build
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [email, app].hash
+      [email, app, team].hash
     end
 
     # Builds the object from hash
